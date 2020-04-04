@@ -40,7 +40,6 @@ ApplicationWindow {
         objectName: "workspace"
 
 
-
         transform: Scale { id: scaleRect }
     }
 

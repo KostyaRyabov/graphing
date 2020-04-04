@@ -2,26 +2,9 @@
 
 #include <QQuickItem>
 
-NodeManager::NodeManager(QObject *parent) : QObject(parent)
+NodeManager::NodeManager(QObject *parent) : QAbstractListModel(parent)
 {
-    auto rootContext = engine.rootContext();
 
-    rootContext->setContextProperty("manager", this);
-
-    //default properties
-    rootContext->setContextProperty("nodeRadius", 8);
-    rootContext->setContextProperty("wsHeight", 512);
-    rootContext->setContextProperty("wsWidth", 512);
-
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
-    if (engine.rootObjects().isEmpty()) return;
-
-    root = engine.rootObjects()[0];
-    workspace = root->findChild<QObject*>("workspace");
-
-    nodeComponent = new QQmlComponent(&engine, QUrl(QStringLiteral("qrc:/Node.qml")));
-    arrayComponent = new QQmlComponent(&engine, QUrl(QStringLiteral("qrc:/Arror.qml")));
 }
 
 NodeManager::~NodeManager(){
@@ -31,10 +14,10 @@ NodeManager::~NodeManager(){
 
 void NodeManager::newFile(){
     //clear all data
-    model.matrix.clear();
+    matrix.clear();
     filePath.clear();
 
-    emit dataChanged();
+    //emit dataChanged();
 }
 
 void NodeManager::openFile(){
@@ -81,45 +64,28 @@ bool NodeManager::filePathExists(){
 }
 
 void NodeManager::addNode(int x, int y){
-    auto obj = nodeComponent->create();
-    obj->setProperty("parent", QVariant::fromValue(workspace));
-    obj->setProperty("xc", x);
-    obj->setProperty("yc", y);
-    obj->setProperty("index", nodeList.size());
-
-    nodeList.append(obj);
-
-    for (auto &row : model.matrix){ row.append(0); }
-
-    QVector<int> newRow;
-    newRow.reserve(nodeList.size());
-    newRow.fill(0,nodeList.size());
-
-    model.matrix.append(newRow);
+    int i = nodeList.size();
+    beginInsertRows(QModelIndex(),i,i);
+    nodeList.append({x,y,i});
+    endInsertRows();
 }
 
 void NodeManager::updateMatrix(int NodeA, int NodeB, bool related){
-    model.matrix[NodeA][NodeB] = related;
+    matrix[NodeA][NodeB] = related;
 }
 
 void NodeManager::removeNode(int i){
+    beginRemoveRows(QModelIndex(), i,i);
     nodeList.remove(i);
+    endRemoveRows();
 
     for (auto j = i; j < nodeList.size(); j++){
-        nodeList[j]->setProperty("identifier", i++);
+        setData(index(j), i++, maRoles::Index);
     }
-    /*
-    matrix.remove(i);
-    for (auto &row : matrix){
-        row.remove(i);
-    }
-    */
-
-
 }
 
 void NodeManager::read(const QJsonObject &json){
-    model.matrix.clear();
+    matrix.clear();
     QJsonArray mxArray = json["Nodes"].toArray();
 
     for (int mxIndex = 0; mxIndex < mxArray.size(); ++mxIndex) {
@@ -128,13 +94,13 @@ void NodeManager::read(const QJsonObject &json){
         for (auto mxitem : mxRow){
             newRow.append(mxitem.toInt());
         }
-        model.matrix.append(newRow);
+        matrix.append(newRow);
     }
 }
 
 void NodeManager::write(QJsonObject &json) const{
     QJsonArray mxArray;
-    for (auto &row : model.matrix) {
+    for (auto &row : matrix) {
         QJsonArray mxRow;
         for (auto &item : row){
             mxRow.append(item);
@@ -142,4 +108,60 @@ void NodeManager::write(QJsonObject &json) const{
         mxArray.append(mxRow);
     }
     json["Nodes"] = mxArray;
+}
+
+
+
+
+
+
+// model
+
+
+QHash<int, QByteArray> NodeManager::roleNames() const{
+    QHash<int, QByteArray> roles;
+    roles[PosX] = "node_x";
+    roles[PosY] = "node_y";
+    roles[Index] = "node_id";
+    return roles;
+}
+
+int NodeManager::rowCount(const QModelIndex &parent) const{
+    Q_UNUSED(parent)
+    return nodeList.size();
+}
+
+QVariant NodeManager::data(const QModelIndex &index, int role) const{
+    if (!index.isValid()){
+        return QVariant();
+    }
+
+    switch (role) {
+    case PosX:
+        return QVariant(nodeList[index.row()].x);
+    case PosY:
+        return QVariant(nodeList[index.row()].y);
+    case Index:
+        return QVariant(index.row());
+    default:
+        return QVariant();
+    }
+}
+
+bool NodeManager::setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole){
+    if (!index.isValid()){
+        return false;
+    }
+
+    switch (role) {
+    case PosX:
+        nodeList[index.row()].x = value.toInt();
+    case PosY:
+        nodeList[index.row()].y = value.toInt();
+    default:
+        break;
+    }
+
+    emit dataChanged(index, index);
+    return true;
 }

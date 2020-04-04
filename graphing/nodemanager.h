@@ -16,46 +16,53 @@
 #include <QFile>
 #include <QDebug>
 
-#include <namodel.h>
-
 #include <QQmlComponent>
-class NodeManager : public QObject
+
+#include <QAbstractItemModel>
+#include <QAbstractListModel>
+
+struct Node{
+    int x,y,index;
+};
+
+
+class NodeManager : public QAbstractListModel
 {
     Q_OBJECT
 public:
     NodeManager(QObject *parent = nullptr);
     ~NodeManager();
 
-    Q_PROPERTY(NOTIFY dataChanged)
     Q_INVOKABLE void newFile();
     Q_INVOKABLE void openFile();
     Q_INVOKABLE void saveFile();
     Q_INVOKABLE void saveAsFile();
     Q_INVOKABLE bool filePathExists();
 
-    naModel model;
-signals:
-    void dataChanged();
+    enum maRoles{
+        PosX = Qt::UserRole + 1,
+        PosY = Qt::UserRole + 2,
+        Index = Qt::UserRole + 3,
+    };
+
+    QHash<int, QByteArray> roleNames() const;
+
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
 public slots:
     void addNode(int x, int y);
     void removeNode(int i);
 private:
-    QQmlComponent *nodeComponent;
-    QQmlComponent *arrayComponent;
-
-    QQmlApplicationEngine engine;
-    QObject *root;
-    QObject *workspace;
-
-    QVector<QObject*> nodeList;
-    QVector<QObject*> arrowList;
-
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
 
     void updateMatrix(int NodeA, int NodeB, bool related);
 
     QString filePath;
+    QVector<Node> nodeList;         // visual control
+    //QVector<QObject*> arrowList;
+    QVector<QVector<int>> matrix;   // nodes relations
 };
 
 #endif // NODEMANAGER_H

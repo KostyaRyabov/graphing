@@ -4,11 +4,13 @@ import QtQuick.Controls 2.14
 Rectangle {
     id: node
 
-    property int index: 0
+    property int index: -1
+    property int stored_index: -1
+
     property int xc: 0
     property int yc: 0
 
-
+    onIndexChanged: textHide.start();
 
     x: xc-nodeRadius
     y: yc-nodeRadius
@@ -28,9 +30,11 @@ Rectangle {
     }
 
     Text {
+        opacity: 0
+        id:textBox
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
-        text: node.identifier
+        text: node.stored_index
     }
 
     Drag.active: dragArea.drag.active
@@ -45,7 +49,7 @@ Rectangle {
         drag.target: parent
 
         cursorShape: Qt.OpenHandCursor
-        onPressed: {dragArea.cursorShape = Qt.CloseHandCursor}
+        onPressed: { dragArea.cursorShape = Qt.CloseHandCursor}
         onReleased: {dragArea.cursorShape = Qt.OpenHandCursor}
 
         onClicked: {
@@ -56,9 +60,42 @@ Rectangle {
         MyMenu {
             id: contextMenu
             Action { text: "copy"; }
-            Action { text: "remove"; onTriggered: { manager.removeNode(node.identifier); } }
+            Action { text: "remove"; onTriggered: destroyObj.start() }
         }
     }
 
+    PropertyAnimation {
+        id: destroyObj
+        target: node
+        properties: "scale"
+        from: 1
+        to: 0
+        easing.type: Easing.InBack
+        duration: 500
 
+        onStopped: manager.removeNode(node.index);
+    }
+
+    PropertyAnimation {
+        id: textHide
+        target: textBox
+        properties: "opacity"
+        to: 0
+        easing.type: Easing.InOutQuart
+        duration: 300
+
+        onStopped: {
+            stored_index = index;
+            textShow.start();
+        }
+
+    }
+    PropertyAnimation {
+        id: textShow
+        target: textBox
+        properties: "opacity"
+        to: 1
+        easing.type: Easing.OutInQuart
+        duration: 300
+    }
 }

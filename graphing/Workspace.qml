@@ -30,32 +30,17 @@ Rectangle{
         MyMenu {
             id: contextMenu
             Action { text: "new Node"; onTriggered: manager.addNode(dragArea.mouseX, dragArea.mouseY) }
-            Action { text: "paste"; onTriggered: nameModel.remove(0)}
-        }
-    }
-
-
-    property ListModel listsss: ListModel {
-        id: nameModel
-        ListElement { xx: 50; yy: 20 }
-        ListElement { xx: 20; yy: 50 }
-        ListElement { xx: 70; yy: 110 }
-        ListElement { xx: 100; yy: 0 }
-        ListElement { xx: 150; yy: 0 }
-        ListElement { xx: 250; yy: 0 }
-    }
-
-    Component {
-        id: nameDelegate
-        Node {
-            xc: xx;
-            yc: yy;
+            Action { text: "paste"; }
         }
     }
 
     Repeater {
         anchors.fill: parent
-        model: nameModel
-        delegate: nameDelegate
+        model: manager
+        delegate: Node {
+            xc: node_x;
+            yc: node_y;
+            index: node_id
+        }
     }
 }
