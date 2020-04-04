@@ -39,7 +39,6 @@ ApplicationWindow {
         id:workspace;
         objectName: "workspace"
 
-
         transform: Scale { id: scaleRect }
     }
 
@@ -53,7 +52,7 @@ ApplicationWindow {
             Action { text: "New..."; onTriggered: manager.newFile() }
             Action { text: "Open..."; onTriggered: manager.openFile() }
             Action { text: "Save"; onTriggered: manager.saveFile() }
-                Action { text: "Save As..."; onTriggered: manager.saveAsFile(); enabled: manager.filePathExists() }
+            Action { text: "Save As..."; onTriggered: manager.saveAsFile(); enabled: manager.filePathExists() }
             MenuSeparator { }
             Action { text: "Quit"; onTriggered: close() }
         }

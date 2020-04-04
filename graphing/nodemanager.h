@@ -25,6 +25,13 @@ struct Node{
     int x,y,index;
 };
 
+struct Arrow{
+    Node* A;
+    Node* B;
+
+    bool bidirectional = false;
+};
+
 
 class NodeManager : public QAbstractListModel
 {
@@ -61,7 +68,7 @@ private:
 
     QString filePath;
     QVector<Node> nodeList;         // visual control
-    //QVector<QObject*> arrowList;
+    QVector<Arrow> arrowList;
     QVector<QVector<int>> matrix;   // nodes relations
 };
 

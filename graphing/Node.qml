@@ -73,7 +73,7 @@ Rectangle {
         easing.type: Easing.InBack
         duration: 500
 
-        onStopped: manager.removeNode(node.index);
+        onStopped: manager.removeNode(node.stored_index);
     }
 
     PropertyAnimation {

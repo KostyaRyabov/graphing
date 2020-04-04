@@ -1,8 +1,16 @@
 import QtQuick 2.4
 
 Item {
+    id:arrow
     height: 100
-    width: 100
+    width: nodeRadius
+
+    property bool bidirectional: false
+
+    onBidirectionalChanged: {
+        canvas.clear();
+        canvas.draw();
+    }
 
     Canvas {
         id: canvas
@@ -14,16 +22,37 @@ Item {
 
         antialiasing: true
 
-        onPaint: {
-            var ctx = canvas.getContext('2d')
+        onPaint: draw()
 
-            ctx.strokeStyle = "#808080"
-            ctx.lineWidth = canvas.height * 0.05
-            ctx.beginPath()
-            ctx.moveTo(canvas.width * 0.05, canvas.height)
-            ctx.lineTo(canvas.width / 2, canvas.height * 0.1)
-            ctx.lineTo(canvas.width * 0.95, canvas.height)
-            ctx.stroke()
+        function draw(){
+            var context = canvas.getContext('2d')
+
+            context.beginPath();
+            context.strokeStyle = "black"
+            context.moveTo(width/2, nodeRadius);
+            context.lineTo(width/2, height-nodeRadius);
+            context.stroke();
+
+            context.beginPath();
+            context.fillStyle = "black"
+            context.moveTo(width/2, nodeRadius);
+            context.lineTo(0, 2*nodeRadius);
+            context.lineTo(width, 2*nodeRadius);
+            context.lineTo(width/2, nodeRadius);
+            context.fill();
+
+            context.beginPath();
+            context.fillStyle = "black"
+            context.moveTo(width/2, height-nodeRadius);
+            context.lineTo(0, height-2*nodeRadius);
+            context.lineTo(width, height-2*nodeRadius);
+            context.lineTo(width/2, height-nodeRadius);
+            context.fill();
+        }
+
+        function clear(){
+            var context = canvas.getContext('2d')
+            context.restart();
         }
     }
 }

@@ -63,27 +63,6 @@ bool NodeManager::filePathExists(){
     return !filePath.isNull();
 }
 
-void NodeManager::addNode(int x, int y){
-    int i = nodeList.size();
-    beginInsertRows(QModelIndex(),i,i);
-    nodeList.append({x,y,i});
-    endInsertRows();
-}
-
-void NodeManager::updateMatrix(int NodeA, int NodeB, bool related){
-    matrix[NodeA][NodeB] = related;
-}
-
-void NodeManager::removeNode(int i){
-    beginRemoveRows(QModelIndex(), i,i);
-    nodeList.remove(i);
-    endRemoveRows();
-
-    for (auto j = i; j < nodeList.size(); j++){
-        setData(index(j), i++, maRoles::Index);
-    }
-}
-
 void NodeManager::read(const QJsonObject &json){
     matrix.clear();
     QJsonArray mxArray = json["Nodes"].toArray();
@@ -109,6 +88,40 @@ void NodeManager::write(QJsonObject &json) const{
     }
     json["Nodes"] = mxArray;
 }
+
+
+
+
+
+
+
+void NodeManager::updateMatrix(int NodeA, int NodeB, bool related){
+    matrix[NodeA][NodeB] = related;
+}
+
+void NodeManager::addNode(int x, int y){
+    int i = nodeList.size();
+    beginInsertRows(QModelIndex(),i,i);
+    nodeList.append({x,y,i});
+    endInsertRows();
+
+    for (auto &row : matrix) row.append(0);
+    matrix.append(QVector<int>().fill(0,i+1));
+}
+
+void NodeManager::removeNode(int i){
+    matrix.remove(i);
+    for (auto &row : matrix) row.remove(i);
+
+    beginRemoveRows(QModelIndex(), i,i);
+    nodeList.remove(i);
+    endRemoveRows();
+
+    for (auto j = i; j < nodeList.size(); j++) {
+        setData(index(j), i++, maRoles::Index);
+    }
+}
+
 
 
 
@@ -148,16 +161,21 @@ QVariant NodeManager::data(const QModelIndex &index, int role) const{
     }
 }
 
-bool NodeManager::setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole){
+bool NodeManager::setData(const QModelIndex &index, const QVariant &value, int role){
     if (!index.isValid()){
         return false;
     }
 
     switch (role) {
-    case PosX:
+    case maRoles::PosX:
         nodeList[index.row()].x = value.toInt();
-    case PosY:
+        break;
+    case maRoles::PosY:
         nodeList[index.row()].y = value.toInt();
+        break;
+    case maRoles::Index:
+        nodeList[index.row()].index = value.toInt();
+        break;
     default:
         break;
     }
