@@ -4,5 +4,7 @@
         <file>Workspace.qml</file>
         <file>Node.qml</file>
         <file>PopupMessage.qml</file>
+        <file>MyMenu.qml</file>
+        <file>Arrow.qml</file>
     </qresource>
 </RCC>

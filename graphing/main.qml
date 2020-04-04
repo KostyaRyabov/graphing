@@ -3,9 +3,9 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Styles 1.4
 
-import MyTools.NodeManager 1.0
-
 ApplicationWindow {
+    id: window
+
     visible: true
     width: 640
     height: 640
@@ -15,69 +15,54 @@ ApplicationWindow {
     MouseArea {
         anchors.fill: parent
 
-        property double factor: 1.05
+        property double ratio: 0.95;
         onWheel: {
-            var zoomFactor
+            var origin = mapToItem(workspace, wheel.x, wheel.y)
 
-            if(wheel.angleDelta.y > 0 && tform.xScale < 4) zoomFactor = factor
-            else if (tform.xScale > 0.5) zoomFactor = 1/factor
-            else { zoomBox.show(); return; }
+            if(wheel.angleDelta.y > 0 && scaleRect.xScale < 4) scale = 1/ratio
+            else if (scaleRect.xScale > 0.5) scale = ratio
+            else scale = 1;
 
-            var realX = wheel.x * tform.xScale
-            var realY = wheel.y * tform.yScale
-            workspace.x += (1-zoomFactor)*realX
-            workspace.y += (1-zoomFactor)*realY
-            tform.xScale *= zoomFactor
-            tform.yScale *= zoomFactor
+
+            var realX = origin.x * scaleRect.xScale
+            var realY = origin.y * scaleRect.yScale
+            workspace.x += (1-scale)*realX
+            workspace.y += (1-scale)*realY
+            scaleRect.xScale *= scale
+            scaleRect.yScale *= scale
 
             zoomBox.show();
         }
-
-        PopupMessage { id:zoomBox; value: (tform.xScale).toFixed(2) + "%" }
     }
 
     Workspace{
         id:workspace;
-        transform: Scale {id: tform}
+        objectName: "workspace"
 
-        MouseArea{
-            anchors.fill: parent
-            acceptedButtons: "LeftButton" | "RightButton"
 
-            onClicked: {
 
-            }
-        }
-
-        NodeManager{ id:manager }
+        transform: Scale { id: scaleRect }
     }
 
+    PopupMessage { id:zoomBox; value: (scaleRect.xScale).toFixed(2) + "%" }
 
     menuBar: MenuBar {
         implicitHeight: 20
 
-        Menu {
+        MyMenu {
             title: "File"
-            Action { text: "New..."; onTriggered: manager.createFile() }
+            Action { text: "New..."; onTriggered: manager.newFile() }
             Action { text: "Open..."; onTriggered: manager.openFile() }
             Action { text: "Save"; onTriggered: manager.saveFile() }
-            Action { text: "Save As..."; onTriggered: manager.saveAsFile()() }
+                Action { text: "Save As..."; onTriggered: manager.saveAsFile(); enabled: manager.filePathExists() }
             MenuSeparator { }
             Action { text: "Quit"; onTriggered: close() }
-
-            delegate: MenuItem{
-                implicitHeight: 20
-            }
         }
-        Menu {
+        MyMenu {
             implicitHeight: 20
 
             title: "Help"
             Action { text: "About" }
-
-            delegate: MenuItem{
-                implicitHeight: 20
-            }
         }
 
         delegate: MenuBarItem {

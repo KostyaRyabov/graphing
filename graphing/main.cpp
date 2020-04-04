@@ -1,16 +1,21 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
 #include <nodemanager.h>
+
+
+#include <QApplication>
+#include <QQmlApplicationEngine>
+#include <QQmlListProperty>
+#include <QQmlProperty>
+#include <QQmlContext>
+#include <QtQml>
+
+#include <QVariant>
 
 int main(int argc, char *argv[])
 {
-    QGuiApplication app(argc, argv);
-    QQmlApplicationEngine engine;
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication app(argc, argv);
 
-    qmlRegisterType<NodeManager>("MyTools.NodeManager",1,0,"NodeManager");
-
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty()) return -1;
+    NodeManager manager;
 
     return app.exec();
 }

@@ -1,35 +1,61 @@
 #ifndef NODEMANAGER_H
 #define NODEMANAGER_H
 
+#include <QApplication>
+#include <QQmlApplicationEngine>
+#include <QQmlListProperty>
+#include <QQmlContext>
+
+#include <QQuickView>
+
 #include <QObject>
 #include <QFileDialog>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFile>
+#include <QDebug>
 
+#include <namodel.h>
+
+#include <QQmlComponent>
 class NodeManager : public QObject
 {
     Q_OBJECT
 public:
-    //Q_PROPERTY(QList<int> matrix READ matrix WRITE setMatrix NOTIFY matrixChanged)  // el1,el2,el3...
-    //Q_PROPERTY(int size READ size WRITE setSize NOTIFY sizeChanged)
-
-    NodeManager();
+    NodeManager(QObject *parent = nullptr);
     ~NodeManager();
 
-    QList<int> matrix();
-    int size();
-    void setMatrix(QList<int> newMatrix);
-    void setSize(int newSize);
+    Q_PROPERTY(NOTIFY dataChanged)
+    Q_INVOKABLE void newFile();
+    Q_INVOKABLE void openFile();
+    Q_INVOKABLE void saveFile();
+    Q_INVOKABLE void saveAsFile();
+    Q_INVOKABLE bool filePathExists();
+
+    naModel model;
 signals:
-    void matrixChanged();
-    void sizeChanged();
+    void dataChanged();
 public slots:
-    void createFile();
-    void openFile();
-    void saveFile();
-    void saveAsFile();
+    void addNode(int x, int y);
+    void removeNode(int i);
 private:
+    QQmlComponent *nodeComponent;
+    QQmlComponent *arrayComponent;
+
+    QQmlApplicationEngine engine;
+    QObject *root;
+    QObject *workspace;
+
+    QVector<QObject*> nodeList;
+    QVector<QObject*> arrowList;
+
+    void read(const QJsonObject &json);
+    void write(QJsonObject &json) const;
+
+    void updateMatrix(int NodeA, int NodeB, bool related);
+
     QString filePath;
-    QList<int> m_matrix;
-    int m_size = 0;
 };
 
 #endif // NODEMANAGER_H
