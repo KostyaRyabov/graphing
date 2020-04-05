@@ -99,7 +99,7 @@ void NodeManager::addItem(){
     matrix.append(QVector<int>().fill(0,matrix.size()));
 }
 
-void NodeManager::removeItem(int index){
+void NodeManager::removeNode(int index){
     matrix.remove(index);
     for (auto &row : matrix) row.remove(index);
 }

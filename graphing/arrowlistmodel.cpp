@@ -34,13 +34,22 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
 
     switch (role) {
     case xxx:
-        return QVariant((item.B->xc+item.B->rx+item.A->xc)/2);
+        if (item.A == item.B) return QVariant(item.B->xc+item.B->rx/2);         // new arrow
+        else return QVariant((item.B->xc+item.A->xc)/2);
     case yyy:
-        return QVariant((item.B->yc+item.B->ry+item.A->yc)/2);
+        if (item.A == item.B) return QVariant(item.B->yc+item.B->ry/2);         // new arrow
+        else return QVariant((item.B->yc+item.A->yc)/2);
     case alpha:
     {
-        int v_x = item.B->xc+item.B->rx-item.A->xc;
-        int v_y = item.B->yc+item.B->ry-item.A->yc;
+        int v_x,v_y;
+
+        if (item.A == item.B){
+            v_x = item.B->rx;
+            v_y = item.B->ry;
+        }else{
+            v_x = item.B->xc-item.A->xc;
+            v_y = item.B->yc-item.A->yc;
+        }
 
         float a = qRadiansToDegrees(qAcos(v_y/(qSqrt(qPow(v_x,2)+qPow(v_y,2)))));
 
@@ -48,7 +57,8 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
         else return QVariant(a);
     }
     case len:
-        return QVariant(qSqrt(qPow(item.B->xc+item.B->rx-item.A->xc,2)+qPow(item.B->yc+item.B->ry-item.A->yc,2)));
+        if (item.A == item.B) return QVariant(qSqrt(qPow(item.B->rx,2)+qPow(item.B->ry,2)));
+        else return QVariant(qSqrt(qPow(item.B->xc-item.A->xc,2)+qPow(item.B->yc-item.A->yc,2)));
     case bDir:
         return QVariant(item.bidirectional);
     default:
@@ -72,7 +82,6 @@ void arrowListModel::updated(Node *node){
 
 void arrowListModel::bindA(int nodeIndex){
     auto *p_node = getNode(nodeIndex);
-    //if (map.contains(p_node)) return;
 
     auto index = arrowList.size();
     beginInsertRows(QModelIndex(),index,index);
@@ -86,13 +95,23 @@ void arrowListModel::bindA(int nodeIndex){
     map[item.A].insert(index);
 
     endInsertRows();
+
+    showMap();
 }
 
 void arrowListModel::bindB(int nodeIndex){
     auto *p_node = getNode(nodeIndex);
     arrowList.last().B = p_node;
 
-    map[p_node].insert(arrowList.size()-1);
+    int arrowID = arrowList.size()-1;
+    map[p_node].insert(arrowID);
+
+    /*
+    map[arrowList[arrowID].A].remove(arrowID);
+    if (map[arrowList[arrowID].A].isEmpty()) map.remove(arrowList[arrowID].A);
+    */
+
+    showMap();
 }
 
 void arrowListModel::remove(int A, int B){
@@ -114,4 +133,22 @@ void arrowListModel::remove(int A, int B){
     arrowList.remove(index);
     (*list_it).remove(index);
     endRemoveRows();
+}
+
+void arrowListModel::showMap(){
+    QTextStream Qcout(stdout);
+
+    qDebug() << "---MAP---";
+
+    auto nodes = map.keys();
+
+    for (auto &node : nodes){
+        Qcout << node->index << " :";
+        for (auto &arrow : map[node]){
+            Qcout << "  " << arrow;
+        }
+        Qcout << "\n";
+    }
+
+    qDebug() << "---------";
 }

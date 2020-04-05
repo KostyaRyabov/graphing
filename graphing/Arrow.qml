@@ -18,7 +18,7 @@ Item {
         from: 0
         to: 1
         easing.type: Easing.InOutQuad
-        duration: 1500
+        duration: 600
     }
 
     transform: Rotation { angle: alpha }
@@ -50,13 +50,15 @@ Item {
             context.lineTo(width/2, height-nodeRadius);
             context.stroke();
 
-            context.beginPath();
-            context.fillStyle = "black"
-            context.moveTo(width/2, nodeRadius);
-            context.lineTo(0, 2*nodeRadius);
-            context.lineTo(width, 2*nodeRadius);
-            context.lineTo(width/2, nodeRadius);
-            context.fill();
+            if (bDir){
+                context.beginPath();
+                context.fillStyle = "black"
+                context.moveTo(width/2, nodeRadius);
+                context.lineTo(0, 2*nodeRadius);
+                context.lineTo(width, 2*nodeRadius);
+                context.lineTo(width/2, nodeRadius);
+                context.fill();
+            }
 
             context.beginPath();
             context.fillStyle = "black"

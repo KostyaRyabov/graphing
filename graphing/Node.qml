@@ -70,11 +70,13 @@ Item {
         Rectangle{
             id: control
 
+            property int counter: 0
+
             width: view.width
             height: view.height
             radius: width*0.5
 
-            scale: 1
+            scale: 3
 
             opacity: 0
             color: "#7777FF"
@@ -104,6 +106,7 @@ Item {
                 }
 
                 onPressed: {
+                    timer.start();
                     cursorShape = Qt.ArrowCursor;
                     arrow_model.bindA(node.index)
                 }
@@ -123,9 +126,19 @@ Item {
 
                 onClicked: {
                     if (mouse.button === Qt.RightButton)
-                        contextMenu.popup()
+                        if (control < 1){
+                            timer.stop();
+                            contextMenu.popup()
+                        }
                 }
             }
+        }
+
+        Timer {
+            id: timer
+            onTriggered: control.counter++;
+            interval: 200
+            repeat: true
         }
 
         PropertyAnimation {

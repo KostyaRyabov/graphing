@@ -44,11 +44,11 @@ private:
     void updateMatrix(int NodeA, int NodeB, bool related);
 
     QString filePath;
-    QVector<QVector<int>> matrix;   // nodes relations
+    QVector<QVector<int>> matrix;   // матрица смежности
 
 private slots:
     void addItem();
-    void removeItem(int index);
+    void removeNode(int index);
 };
 
 #endif // NODEMANAGER_H

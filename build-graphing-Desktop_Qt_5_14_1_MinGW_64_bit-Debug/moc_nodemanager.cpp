@@ -35,7 +35,7 @@ static const qt_meta_stringdata_NodeManager_t qt_meta_stringdata_NodeManager = {
 QT_MOC_LITERAL(0, 0, 11), // "NodeManager"
 QT_MOC_LITERAL(1, 12, 7), // "addItem"
 QT_MOC_LITERAL(2, 20, 0), // ""
-QT_MOC_LITERAL(3, 21, 10), // "removeItem"
+QT_MOC_LITERAL(3, 21, 10), // "removeNode"
 QT_MOC_LITERAL(4, 32, 5), // "index"
 QT_MOC_LITERAL(5, 38, 7), // "newFile"
 QT_MOC_LITERAL(6, 46, 8), // "openFile"
@@ -44,7 +44,7 @@ QT_MOC_LITERAL(8, 64, 10), // "saveAsFile"
 QT_MOC_LITERAL(9, 75, 14) // "filePathExists"
 
     },
-    "NodeManager\0addItem\0\0removeItem\0index\0"
+    "NodeManager\0addItem\0\0removeNode\0index\0"
     "newFile\0openFile\0saveFile\0saveAsFile\0"
     "filePathExists"
 };
@@ -95,7 +95,7 @@ void NodeManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->addItem(); break;
-        case 1: _t->removeItem((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 1: _t->removeNode((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 2: _t->newFile(); break;
         case 3: _t->openFile(); break;
         case 4: _t->saveFile(); break;

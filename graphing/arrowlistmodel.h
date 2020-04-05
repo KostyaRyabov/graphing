@@ -31,9 +31,11 @@ public:
     Q_INVOKABLE void bindA(int nodeIndex);
     Q_INVOKABLE void bindB(int nodeIndex);
     Q_INVOKABLE void remove(int A, int B);
+
+    Q_INVOKABLE void showMap();
 private:
     QVector<Arrow> arrowList;
-    QHash<Node*,QSet<int>> map;      //search: node -> arrows (update)           map<key-node,list<ArrowID>>
+    QHash<Node*,QSet<int>> map;      // матрица инцидентности
 
     void updateMatrix(int NodeA, int NodeB, bool related);
 private slots:
