@@ -54,8 +54,13 @@ ApplicationWindow {
             Action { text: "Save"; onTriggered: manager.saveFile() }
             Action { text: "Save As..."; onTriggered: manager.saveAsFile(); enabled: manager.filePathExists() }
             MenuSeparator { }
-            Action { text: "Quit"; onTriggered: close() }
-            Action { text: "showMap"; onTriggered: arrow_model.showMap() }
+            //Action { text: "Quit"; onTriggered: close() }
+            Action { text: "showAll"; onTriggered: {
+                    node_model.showNodeList()
+                    arrow_model.showArrowList()
+                    arrow_model.showMap()
+                }
+            }
         }
         MyMenu {
             implicitHeight: 20

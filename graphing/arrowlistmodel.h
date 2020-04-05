@@ -33,6 +33,7 @@ public:
     Q_INVOKABLE void remove(int A, int B);
 
     Q_INVOKABLE void showMap();
+    Q_INVOKABLE void showArrowList();
 private:
     QVector<Arrow> arrowList;
     QHash<Node*,QSet<int>> map;      // матрица инцидентности

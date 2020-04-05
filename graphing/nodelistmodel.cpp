@@ -118,3 +118,14 @@ void nodeListModel::update(int i, int value, int role){
 
     emit updated(&nodeList[i]);
 }
+
+void nodeListModel::showNodeList(){
+    qDebug() << "---Nodes---";
+
+    for (auto &node : nodeList){
+        qDebug() << node.index << ":    (" << node.xc << node.yc << ")" << "(" << node.rx << node.ry << ")";
+    }
+
+    qDebug() << "-----------";
+}
+

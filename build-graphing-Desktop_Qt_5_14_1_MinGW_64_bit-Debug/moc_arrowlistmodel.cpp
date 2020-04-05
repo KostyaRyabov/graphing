@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_arrowListModel_t {
-    QByteArrayData data[14];
-    char stringdata0[90];
+    QByteArrayData data[15];
+    char stringdata0[104];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,12 +45,13 @@ QT_MOC_LITERAL(9, 65, 5), // "bindB"
 QT_MOC_LITERAL(10, 71, 6), // "remove"
 QT_MOC_LITERAL(11, 78, 1), // "A"
 QT_MOC_LITERAL(12, 80, 1), // "B"
-QT_MOC_LITERAL(13, 82, 7) // "showMap"
+QT_MOC_LITERAL(13, 82, 7), // "showMap"
+QT_MOC_LITERAL(14, 90, 13) // "showArrowList"
 
     },
     "arrowListModel\0getNode\0Node*\0\0index\0"
     "updated\0node\0bindA\0nodeIndex\0bindB\0"
-    "remove\0A\0B\0showMap"
+    "remove\0A\0B\0showMap\0showArrowList"
 };
 #undef QT_MOC_LITERAL
 
@@ -60,7 +61,7 @@ static const uint qt_meta_data_arrowListModel[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       7,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -68,16 +69,17 @@ static const uint qt_meta_data_arrowListModel[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   44,    3, 0x06 /* Public */,
+       1,    1,   49,    3, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,   47,    3, 0x08 /* Private */,
+       5,    1,   52,    3, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-       7,    1,   50,    3, 0x02 /* Public */,
-       9,    1,   53,    3, 0x02 /* Public */,
-      10,    2,   56,    3, 0x02 /* Public */,
-      13,    0,   61,    3, 0x02 /* Public */,
+       7,    1,   55,    3, 0x02 /* Public */,
+       9,    1,   58,    3, 0x02 /* Public */,
+      10,    2,   61,    3, 0x02 /* Public */,
+      13,    0,   66,    3, 0x02 /* Public */,
+      14,    0,   67,    3, 0x02 /* Public */,
 
  // signals: parameters
     0x80000000 | 2, QMetaType::Int,    4,
@@ -89,6 +91,7 @@ static const uint qt_meta_data_arrowListModel[] = {
     QMetaType::Void, QMetaType::Int,    8,
     QMetaType::Void, QMetaType::Int,    8,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,   11,   12,
+    QMetaType::Void,
     QMetaType::Void,
 
        0        // eod
@@ -107,6 +110,7 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 3: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 4: _t->remove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 5: _t->showMap(); break;
+        case 6: _t->showArrowList(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -150,13 +154,13 @@ int arrowListModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 7)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 7;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 7)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 7;
     }
     return _id;
 }

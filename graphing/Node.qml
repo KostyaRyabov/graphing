@@ -120,13 +120,16 @@ Item {
                     cursorShape = Qt.OpenHandCursor;
                     if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.rx,2)))>2*nodeRadius){
                         node_model.addNode(node.xc+node.rx,node.yc+node.ry);
-                        arrow_model.bindB(node.index+1)
+                        arrow_model.bindB(node_model.rowCount()-1)
+                    }else{
+                        console.log("remove nearest");
+                        arrow_model.remove(node_model.rowCount()-1,node_model.rowCount()-1)
                     }
                 }
 
                 onClicked: {
                     if (mouse.button === Qt.RightButton)
-                        if (control < 1){
+                        if (control.counter < 1){
                             timer.stop();
                             contextMenu.popup()
                         }

@@ -95,8 +95,6 @@ void arrowListModel::bindA(int nodeIndex){
     map[item.A].insert(index);
 
     endInsertRows();
-
-    showMap();
 }
 
 void arrowListModel::bindB(int nodeIndex){
@@ -110,29 +108,33 @@ void arrowListModel::bindB(int nodeIndex){
     map[arrowList[arrowID].A].remove(arrowID);
     if (map[arrowList[arrowID].A].isEmpty()) map.remove(arrowList[arrowID].A);
     */
-
-    showMap();
 }
 
 void arrowListModel::remove(int A, int B){
+    qDebug() << "       removing:" << A << B;
     auto *pA = getNode(A);
     auto list_it = map.find(pA);
-    if (list_it != map.end()) return;
+    if (list_it == map.end()) return;
     auto *pB = getNode(B);
 
     int index = -1;
 
     for (auto &arrowID : *list_it){
+        qDebug() << "       finding:" << arrowList[arrowID].A->index << arrowList[arrowID].B->index;
         if (arrowList[arrowID].A == pA && arrowList[arrowID].B == pB){
             index = arrowID;
+            qDebug() << "       remove:" << index;
             break;
         }
     }
+
 
     beginRemoveRows(QModelIndex(),index,index);
     arrowList.remove(index);
     (*list_it).remove(index);
     endRemoveRows();
+
+    qDebug() << "       rest size:" << arrowList.size();
 }
 
 void arrowListModel::showMap(){
@@ -151,4 +153,14 @@ void arrowListModel::showMap(){
     }
 
     qDebug() << "---------";
+}
+
+void arrowListModel::showArrowList(){
+    qDebug() << "---Arrows---";
+
+    for (auto &arrow : arrowList){
+        qDebug() << arrow.A->index << arrow.B->index << arrow.bidirectional;
+    }
+
+    qDebug() << "------------";
 }
