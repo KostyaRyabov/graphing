@@ -14,6 +14,13 @@ Item {
     x: xxx
     y: yyy
 
+    NumberAnimation on opacity {
+        from: 0
+        to: 1
+        easing.type: Easing.InOutQuad
+        duration: 1500
+    }
+
     transform: Rotation { angle: alpha }
 
     onBDirChanged: {

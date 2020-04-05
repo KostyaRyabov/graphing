@@ -28,8 +28,9 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
-    Q_INVOKABLE void bind(int nodeIndex);
-    //removeNode
+    Q_INVOKABLE void bindA(int nodeIndex);
+    Q_INVOKABLE void bindB(int nodeIndex);
+    Q_INVOKABLE void remove(int A, int B);
 private:
     QVector<Arrow> arrowList;
     QHash<Node*,QSet<int>> map;      //search: node -> arrows (update)           map<key-node,list<ArrowID>>

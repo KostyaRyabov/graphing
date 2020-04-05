@@ -18,9 +18,9 @@ Rectangle{
 
         drag.target: parent
 
-        cursorShape: Qt.OpenHandCursor
-        onPressed: {dragArea.cursorShape = Qt.CloseHandCursor}
-        onReleased: {dragArea.cursorShape = Qt.OpenHandCursor}
+        cursorShape: Qt.PointingHandCursor
+        onPressed: {cursorShape = Qt.CloseHandCursor}
+        onReleased: {cursorShape = Qt.PointingHandCursor}
 
         onClicked: {
             if (mouse.button === Qt.RightButton)

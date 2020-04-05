@@ -59,6 +59,7 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
 void arrowListModel::updated(Node *node){
     if (arrowList.isEmpty()) return;
 
+
     auto it = map.find(node);
     if (it == map.end()) return;
     auto &list = *it;
@@ -69,9 +70,9 @@ void arrowListModel::updated(Node *node){
     }
 }
 
-void arrowListModel::bind(int nodeIndex){
+void arrowListModel::bindA(int nodeIndex){
     auto *p_node = getNode(nodeIndex);
-    if (map.find(p_node) != map.end()) return;
+    //if (map.contains(p_node)) return;
 
     auto index = arrowList.size();
     beginInsertRows(QModelIndex(),index,index);
@@ -83,7 +84,34 @@ void arrowListModel::bind(int nodeIndex){
     arrowList.append(item);
 
     map[item.A].insert(index);
-    //map[item.B].insert(index);
 
     endInsertRows();
+}
+
+void arrowListModel::bindB(int nodeIndex){
+    auto *p_node = getNode(nodeIndex);
+    arrowList.last().B = p_node;
+
+    map[p_node].insert(arrowList.size()-1);
+}
+
+void arrowListModel::remove(int A, int B){
+    auto *pA = getNode(A);
+    auto list_it = map.find(pA);
+    if (list_it != map.end()) return;
+    auto *pB = getNode(B);
+
+    int index = -1;
+
+    for (auto &arrowID : *list_it){
+        if (arrowList[arrowID].A == pA && arrowList[arrowID].B == pB){
+            index = arrowID;
+            break;
+        }
+    }
+
+    beginRemoveRows(QModelIndex(),index,index);
+    arrowList.remove(index);
+    (*list_it).remove(index);
+    endRemoveRows();
 }

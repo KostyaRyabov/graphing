@@ -49,16 +49,15 @@ Item {
         }
 
         MouseArea {
-            id: dragArea
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton
 
             cursorShape: Qt.OpenHandCursor
-            onPressed: { dragArea.cursorShape = Qt.CloseHandCursor}
-            onReleased: {dragArea.cursorShape = Qt.OpenHandCursor}
+            onPressed: {   cursorShape = Qt.CloseHandCursor}
+            onReleased: { cursorShape = Qt.OpenHandCursor}
             onPositionChanged: {
-                node.x += mouseX
-                node.y += mouseY
+                node.x += mouseX-nodeRadius
+                node.y += mouseY-nodeRadius
             }
 
             MyMenu {
@@ -75,8 +74,12 @@ Item {
             height: view.height
             radius: width*0.5
 
-            opacity: 0.3
-            color: "blue"
+            scale: 1
+
+            opacity: 0
+            color: "#7777FF"
+            border.color: "#2222FF"
+            border.width: 1
 
             x: rx;
             y: ry;
@@ -85,23 +88,38 @@ Item {
             onYChanged: node_model.update(node.index,control.y,260)
 
             MouseArea{
-                id: appendArea
-
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton
 
                 cursorShape: Qt.OpenHandCursor
 
-                onPressed: {
-                    appendArea.cursorShape = Qt.ArrowCursor;
-                    arrow_model.bind(node.index)
-                }
-                onPositionChanged: {
-                    control.x += mouseX
-                    control.y += mouseY
+                MouseArea{
+                    anchors.fill: parent
+                    acceptedButtons: "NoButton"
+
+                    hoverEnabled: true
+                    onEntered: selected.start();
+
+                    onExited: { unselected.start();}
                 }
 
-                onReleased: {appendArea.cursorShape = Qt.OpenHandCursor}
+                onPressed: {
+                    cursorShape = Qt.ArrowCursor;
+                    arrow_model.bindA(node.index)
+                }
+
+                onPositionChanged: {
+                    control.x += mouse.x-nodeRadius
+                    control.y += mouse.y-nodeRadius
+                }
+
+                onReleased: {
+                    cursorShape = Qt.OpenHandCursor;
+                    if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.rx,2)))>2*nodeRadius){
+                        node_model.addNode(node.xc+node.rx,node.yc+node.ry);
+                        arrow_model.bindB(node.index+1)
+                    }
+                }
 
                 onClicked: {
                     if (mouse.button === Qt.RightButton)
@@ -134,7 +152,6 @@ Item {
                 node.stored_index = node.index;
                 textShow.start();
             }
-
         }
         PropertyAnimation {
             id: textShow
@@ -143,6 +160,28 @@ Item {
             to: 1
             easing.type: Easing.OutInQuart
             duration: 300
+        }
+
+        PropertyAnimation {
+            id: selected
+            target: control
+            properties: "opacity"
+            easing.type: Easing.OutBack
+            to: 0.2
+            duration: 300
+        }
+        PropertyAnimation {
+            id: unselected
+            target: control
+            properties: "opacity"
+            easing.type: Easing.InBack
+            to: 0
+            duration: 300
+
+            onStopped: {
+                control.x = 0;
+                control.y = 0;
+            }
         }
     }
 }
