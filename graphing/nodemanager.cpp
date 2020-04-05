@@ -2,15 +2,16 @@
 
 #include <QQuickItem>
 
-NodeManager::NodeManager(QObject *parent) : QAbstractListModel(parent)
+NodeManager::NodeManager(QObject *parent) : QObject(parent)
 {
-
+    connect(&node_model, SIGNAL(addItem()), this, SLOT(addItem()));
+    connect(&arrow_model, SIGNAL(getNode(int)), &node_model, SLOT(getNode(int)));
+    connect(&node_model, SIGNAL(updated(Node*)), &arrow_model, SLOT(updated(Node*)));
 }
 
 NodeManager::~NodeManager(){
 
 }
-
 
 void NodeManager::newFile(){
     //clear all data
@@ -89,97 +90,16 @@ void NodeManager::write(QJsonObject &json) const{
     json["Nodes"] = mxArray;
 }
 
-
-
-
-
-
-
 void NodeManager::updateMatrix(int NodeA, int NodeB, bool related){
     matrix[NodeA][NodeB] = related;
 }
 
-void NodeManager::addNode(int x, int y){
-    int i = nodeList.size();
-    beginInsertRows(QModelIndex(),i,i);
-    nodeList.append({x,y,i});
-    endInsertRows();
-
+void NodeManager::addItem(){
     for (auto &row : matrix) row.append(0);
-    matrix.append(QVector<int>().fill(0,i+1));
+    matrix.append(QVector<int>().fill(0,matrix.size()));
 }
 
-void NodeManager::removeNode(int i){
-    matrix.remove(i);
-    for (auto &row : matrix) row.remove(i);
-
-    beginRemoveRows(QModelIndex(), i,i);
-    nodeList.remove(i);
-    endRemoveRows();
-
-    for (auto j = i; j < nodeList.size(); j++) {
-        setData(index(j), i++, maRoles::Index);
-    }
-}
-
-
-
-
-
-
-
-// model
-
-
-QHash<int, QByteArray> NodeManager::roleNames() const{
-    QHash<int, QByteArray> roles;
-    roles[PosX] = "node_x";
-    roles[PosY] = "node_y";
-    roles[Index] = "node_id";
-    return roles;
-}
-
-int NodeManager::rowCount(const QModelIndex &parent) const{
-    Q_UNUSED(parent)
-    return nodeList.size();
-}
-
-QVariant NodeManager::data(const QModelIndex &index, int role) const{
-    if (!index.isValid()){
-        return QVariant();
-    }
-
-    switch (role) {
-    case PosX:
-        return QVariant(nodeList[index.row()].x);
-    case PosY:
-        return QVariant(nodeList[index.row()].y);
-    case Index:
-        return QVariant(index.row());
-    default:
-        return QVariant();
-    }
-}
-
-bool NodeManager::setData(const QModelIndex &index, const QVariant &value, int role){
-    if (!index.isValid()){
-        return false;
-    }
-
-    switch (role) {
-    case maRoles::PosX:
-        nodeList[index.row()].x = value.toInt();
-        break;
-    case maRoles::PosY:
-        nodeList[index.row()].y = value.toInt();
-        break;
-    case maRoles::Index:
-        nodeList[index.row()].index = value.toInt();
-        break;
-    default:
-        break;
-    }
-
-    emit dataChanged(index, index);
-    return true;
+void NodeManager::removeItem(int index){
+    matrix.remove(index);
+    for (auto &row : matrix) row.remove(index);
 }

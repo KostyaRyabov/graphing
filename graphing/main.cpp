@@ -22,6 +22,8 @@ int main(int argc, char *argv[])
     auto rootContext = engine.rootContext();
     rootContext->setContextProperty("manager", &manager);
 
+    rootContext->setContextProperty("node_model", &manager.node_model);
+    rootContext->setContextProperty("arrow_model", &manager.arrow_model);
 
     //default properties
     rootContext->setContextProperty("nodeRadius", 8);

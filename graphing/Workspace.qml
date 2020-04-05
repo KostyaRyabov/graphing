@@ -29,18 +29,37 @@ Rectangle{
 
         MyMenu {
             id: contextMenu
-            Action { text: "new Node"; onTriggered: manager.addNode(dragArea.mouseX, dragArea.mouseY) }
+            Action { text: "new Node"; onTriggered: node_model.addNode(dragArea.mouseX, dragArea.mouseY) }
             Action { text: "paste"; }
         }
     }
 
+
+
+    Repeater {
+        id: node_conveier
+        anchors.fill: parent
+        model: node_model
+        delegate: Node {
+            xc: PosX;
+            yc: PosY;
+            rx: RelativePosX;
+            ry: RelativePosY;
+            index: node_id
+        }
+    }
+
+
+
     Repeater {
         anchors.fill: parent
-        model: manager
-        delegate: Node {
-            xc: node_x;
-            yc: node_y;
-            index: node_id
+        model: arrow_model
+        delegate: Arrow {
+            xxx: PosX;
+            yyy: PosY;
+            len: Length;
+            alpha: Angle;
+            bDir: bDirection;
         }
     }
 }

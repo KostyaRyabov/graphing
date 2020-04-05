@@ -2,12 +2,21 @@ import QtQuick 2.4
 
 Item {
     id:arrow
-    height: 100
-    width: nodeRadius
 
-    property bool bidirectional: false
+    property int xxx: 0;
+    property int yyy: 0;
 
-    onBidirectionalChanged: {
+    property int len: 0;
+
+    property double alpha: 0
+    property bool bDir: false
+
+    x: xxx
+    y: yyy
+
+    transform: Rotation { angle: alpha }
+
+    onBDirChanged: {
         canvas.clear();
         canvas.draw();
     }
@@ -15,10 +24,11 @@ Item {
     Canvas {
         id: canvas
 
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
 
-        height: parent.height / 2
-        width: parent.width
+        height: len
+        width: nodeRadius
 
         antialiasing: true
 

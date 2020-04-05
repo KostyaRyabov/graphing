@@ -18,22 +18,11 @@
 
 #include <QQmlComponent>
 
-#include <QAbstractItemModel>
 #include <QAbstractListModel>
+#include <arrowlistmodel.h>
+#include <nodelistmodel.h>
 
-struct Node{
-    int x,y,index;
-};
-
-struct Arrow{
-    Node* A;
-    Node* B;
-
-    bool bidirectional = false;
-};
-
-
-class NodeManager : public QAbstractListModel
+class NodeManager : public QObject
 {
     Q_OBJECT
 public:
@@ -46,20 +35,8 @@ public:
     Q_INVOKABLE void saveAsFile();
     Q_INVOKABLE bool filePathExists();
 
-    enum maRoles{
-        PosX = Qt::UserRole + 1,
-        PosY = Qt::UserRole + 2,
-        Index = Qt::UserRole + 3,
-    };
-
-    QHash<int, QByteArray> roleNames() const;
-
-    int rowCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
-public slots:
-    void addNode(int x, int y);
-    void removeNode(int i);
+    nodeListModel node_model;
+    arrowListModel arrow_model;
 private:
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
@@ -67,9 +44,11 @@ private:
     void updateMatrix(int NodeA, int NodeB, bool related);
 
     QString filePath;
-    QVector<Node> nodeList;         // visual control
-    QVector<Arrow> arrowList;
     QVector<QVector<int>> matrix;   // nodes relations
+
+private slots:
+    void addItem();
+    void removeItem(int index);
 };
 
 #endif // NODEMANAGER_H

@@ -22,7 +22,7 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NodeManager_t {
-    QByteArrayData data[12];
+    QByteArrayData data[10];
     char stringdata0[90];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
@@ -33,21 +33,19 @@ struct qt_meta_stringdata_NodeManager_t {
 static const qt_meta_stringdata_NodeManager_t qt_meta_stringdata_NodeManager = {
     {
 QT_MOC_LITERAL(0, 0, 11), // "NodeManager"
-QT_MOC_LITERAL(1, 12, 7), // "addNode"
+QT_MOC_LITERAL(1, 12, 7), // "addItem"
 QT_MOC_LITERAL(2, 20, 0), // ""
-QT_MOC_LITERAL(3, 21, 1), // "x"
-QT_MOC_LITERAL(4, 23, 1), // "y"
-QT_MOC_LITERAL(5, 25, 10), // "removeNode"
-QT_MOC_LITERAL(6, 36, 1), // "i"
-QT_MOC_LITERAL(7, 38, 7), // "newFile"
-QT_MOC_LITERAL(8, 46, 8), // "openFile"
-QT_MOC_LITERAL(9, 55, 8), // "saveFile"
-QT_MOC_LITERAL(10, 64, 10), // "saveAsFile"
-QT_MOC_LITERAL(11, 75, 14) // "filePathExists"
+QT_MOC_LITERAL(3, 21, 10), // "removeItem"
+QT_MOC_LITERAL(4, 32, 5), // "index"
+QT_MOC_LITERAL(5, 38, 7), // "newFile"
+QT_MOC_LITERAL(6, 46, 8), // "openFile"
+QT_MOC_LITERAL(7, 55, 8), // "saveFile"
+QT_MOC_LITERAL(8, 64, 10), // "saveAsFile"
+QT_MOC_LITERAL(9, 75, 14) // "filePathExists"
 
     },
-    "NodeManager\0addNode\0\0x\0y\0removeNode\0"
-    "i\0newFile\0openFile\0saveFile\0saveAsFile\0"
+    "NodeManager\0addItem\0\0removeItem\0index\0"
+    "newFile\0openFile\0saveFile\0saveAsFile\0"
     "filePathExists"
 };
 #undef QT_MOC_LITERAL
@@ -66,19 +64,19 @@ static const uint qt_meta_data_NodeManager[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    2,   49,    2, 0x0a /* Public */,
-       5,    1,   54,    2, 0x0a /* Public */,
+       1,    0,   49,    2, 0x08 /* Private */,
+       3,    1,   50,    2, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-       7,    0,   57,    2, 0x02 /* Public */,
-       8,    0,   58,    2, 0x02 /* Public */,
-       9,    0,   59,    2, 0x02 /* Public */,
-      10,    0,   60,    2, 0x02 /* Public */,
-      11,    0,   61,    2, 0x02 /* Public */,
+       5,    0,   53,    2, 0x02 /* Public */,
+       6,    0,   54,    2, 0x02 /* Public */,
+       7,    0,   55,    2, 0x02 /* Public */,
+       8,    0,   56,    2, 0x02 /* Public */,
+       9,    0,   57,    2, 0x02 /* Public */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    3,    4,
-    QMetaType::Void, QMetaType::Int,    6,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,    4,
 
  // methods: parameters
     QMetaType::Void,
@@ -96,8 +94,8 @@ void NodeManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         auto *_t = static_cast<NodeManager *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 1: _t->removeNode((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 0: _t->addItem(); break;
+        case 1: _t->removeItem((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 2: _t->newFile(); break;
         case 3: _t->openFile(); break;
         case 4: _t->saveFile(); break;
@@ -110,7 +108,7 @@ void NodeManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
 }
 
 QT_INIT_METAOBJECT const QMetaObject NodeManager::staticMetaObject = { {
-    QMetaObject::SuperData::link<QAbstractListModel::staticMetaObject>(),
+    QMetaObject::SuperData::link<QObject::staticMetaObject>(),
     qt_meta_stringdata_NodeManager.data,
     qt_meta_data_NodeManager,
     qt_static_metacall,
@@ -129,12 +127,12 @@ void *NodeManager::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_meta_stringdata_NodeManager.stringdata0))
         return static_cast<void*>(this);
-    return QAbstractListModel::qt_metacast(_clname);
+    return QObject::qt_metacast(_clname);
 }
 
 int NodeManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = QAbstractListModel::qt_metacall(_c, _id, _a);
+    _id = QObject::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
