@@ -59,6 +59,7 @@ ApplicationWindow {
                     node_model.showNodeList()
                     arrow_model.showArrowList()
                     arrow_model.showMap()
+                    manager.showMatrix()
                 }
             }
         }

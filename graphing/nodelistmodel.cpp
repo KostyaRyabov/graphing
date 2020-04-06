@@ -52,6 +52,7 @@ QVariant nodeListModel::data(const QModelIndex &index, int role) const{
 void nodeListModel::addNode(int x, int y){
     int i = nodeList.size();
     beginInsertRows(QModelIndex(),i,i);
+    emit addItem();
 
     auto *item = new Node();
     item->xc = x;
@@ -84,7 +85,7 @@ Node* nodeListModel::getNode(int index, bool checkExisted){     //ощущает
 
     auto item = nodeList[index];
 
-    for (auto node : nodeList){         // требуется оптимизация поиска близжайших точек - ? использовать B-tree ?
+    for (auto node : nodeList){         // требуется оптимизация поиска близжайших точек - ? использовать B-tree ? если найдется возможность уведомлять о вхождении в область другой точки - заменить на нее
         if (node == item) continue;
         if (qSqrt(qPow(node->xc-item->xc,2)+qPow(node->yc-item->yc,2)) < Selector_Radius) {
             removeNode(index);

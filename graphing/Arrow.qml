@@ -24,6 +24,7 @@ Item {
     transform: Rotation { angle: alpha }
 
     onBDirChanged: {
+        console.log("redraw");
         canvas.clear();
         canvas.draw();
     }
@@ -71,7 +72,8 @@ Item {
 
         function clear(){
             var context = canvas.getContext('2d')
-            context.restart();
+            context.reset();
+            canvas.requestPaint();
         }
     }
 }

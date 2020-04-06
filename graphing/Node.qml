@@ -76,7 +76,7 @@ Item {
             height: view.height
             radius: width*0.5
 
-            scale: 3
+            scale: SelectorRadius/view.width
 
             opacity: 0
             color: "#7777FF"
@@ -119,7 +119,7 @@ Item {
 
                 onReleased: {
                     cursorShape = Qt.OpenHandCursor;
-                    if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.rx,2)))>2*nodeRadius){
+                    if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.rx,2)))>SelectorRadius){
                         node_model.addNode(node.xc+node.rx,node.yc+node.ry);
                         arrow_model.bindB(node_model.rowCount()-1)
                     }else{

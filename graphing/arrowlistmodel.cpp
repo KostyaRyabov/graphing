@@ -95,13 +95,46 @@ void arrowListModel::bindA(int nodeIndex){              // привязка пе
 }
 
 void arrowListModel::bindB(int nodeIndex){              // привязка второго узла к ребру
-    auto *p_node = emit getNode(nodeIndex,true);             // получаем узел по его идентификатору
-    arrowList.last().B = p_node;                        // присваиваем последнему ребру (новому) второй узел
+    auto *p_node = emit getNode(nodeIndex,true);        // получаем узел по его идентификатору
 
-    int arrowID = arrowList.size()-1;                   // добавляем ребро в матрицу инцидентности для второго узла
-    map[p_node].insert(arrowID);
+    auto &currentArrow = arrowList.last();
 
+    switch (emit checkExisting(p_node->index, currentArrow.A->index)) {
+        case 0: {
+            int point_A = currentArrow.A->index;
+            emit updateMatrix(point_A,p_node->index,true);
+            remove(point_A,currentArrow.B->index);
+            int id = getArrowID(p_node->index, point_A);
+            qDebug() << "               update bDir:"<<id;
+            auto i = index(id);
+            arrowList[id].bidirectional = true;
+            emit dataChanged(i,i);
+            break;
+        } case -1: {
+            emit updateMatrix(currentArrow.A->index, p_node->index,true);
+            currentArrow.B = p_node;
+            int arrowID = arrowList.size()-1;
+            map[p_node].insert(arrowID);
+            auto i = index(arrowID);
+            emit dataChanged(i,i);
+            break;
+        }
+    }
+}
 
+int arrowListModel::getArrowID(int A, int B){
+    auto *pA = getNode(A, false);
+    auto list_it = map.find(pA);
+    if (list_it == map.end()) return -1;
+    auto *pB = getNode(B, false);
+
+    for (auto &arrowID : *list_it){
+        if (arrowList[arrowID].B == pB){
+            return arrowID;
+        }
+    }
+
+    return -1;
 }
 
 void arrowListModel::remove(int A, int B){
@@ -120,6 +153,8 @@ void arrowListModel::remove(int A, int B){
     }
 
     if (index != -1){
+        qDebug() << "               remove arrow:"<<index;
+
         beginRemoveRows(QModelIndex(),index,index);
         arrowList.remove(index);
         (*list_it).remove(index);
@@ -136,7 +171,7 @@ void arrowListModel::showMap(){
     auto nodes = map.keys();
 
     for (auto &node : nodes){
-        Qcout << node << " :";
+        Qcout << node->index << " :";
         for (auto &arrow : map[node]){
             Qcout << "  " << arrow;
         }

@@ -34,15 +34,17 @@ public:
 
     Q_INVOKABLE void showMap();
     Q_INVOKABLE void showArrowList();
+
+    int getArrowID(int A, int B);
 private:
     QVector<Arrow> arrowList;
     QHash<Node*,QSet<int>> map;      // матрица инцидентности
-
-    void updateMatrix(int NodeA, int NodeB, bool related);
 private slots:
     void updated(Node *node);
 signals:
     Node* getNode(int index, bool checkExisted);
+    int checkExisting(int A, int B);
+    void updateMatrix(int NodeA, int NodeB, bool related);
 };
 
 #endif // ARROWLISTMODEL_H

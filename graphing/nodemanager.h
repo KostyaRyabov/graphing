@@ -18,6 +18,8 @@
 
 #include <QQmlComponent>
 
+#include <QVector>
+
 #include <QAbstractListModel>
 #include <arrowlistmodel.h>
 #include <nodelistmodel.h>
@@ -35,20 +37,21 @@ public:
     Q_INVOKABLE void saveAsFile();
     Q_INVOKABLE bool filePathExists();
 
+    Q_INVOKABLE void showMatrix();
+
     nodeListModel node_model;
     arrowListModel arrow_model;
 private:
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
 
-    void updateMatrix(int NodeA, int NodeB, bool related);
-
     QString filePath;
-    QVector<QVector<int>> matrix;   // матрица смежности
-
+    QVector<QVector<bool>> matrix;   // матрица смежности
 private slots:
     void addItem();
     void removeNode(int index);
+    int checkExisting(int A, int B);
+    void updateMatrix(int NodeA, int NodeB, bool related);
 };
 
 #endif // NODEMANAGER_H

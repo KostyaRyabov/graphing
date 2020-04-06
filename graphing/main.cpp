@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 
     //default properties
     rootContext->setContextProperty("nodeRadius", Node_Radius);
+    rootContext->setContextProperty("SelectorRadius", Selector_Radius);
     rootContext->setContextProperty("wsHeight", ws_Height);
     rootContext->setContextProperty("wsWidth", ws_Width);
 
