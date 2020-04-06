@@ -36,7 +36,7 @@ public:
     Q_INVOKABLE void showArrowList();
 private:
     QVector<Arrow> arrowList;
-    QHash<Node*,QSet<int>> map;      // матрица инцидентности
+    QMap<Node*,QSet<int>> map;      // матрица инцидентности
 
     void updateMatrix(int NodeA, int NodeB, bool related);
 private slots:

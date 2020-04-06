@@ -32,7 +32,7 @@ public:
 
     Q_INVOKABLE void showNodeList();
 private:
-    QVector<Node> nodeList;
+    QVector<Node*> nodeList;
 signals:
     void updated(Node* node);
     void addItem();

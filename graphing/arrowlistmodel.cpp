@@ -66,43 +66,49 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
     }
 }
 
-void arrowListModel::updated(Node *node){
-    if (arrowList.isEmpty()) return;
+void arrowListModel::updated(Node *node){           // обновление ребер, связанных с передаваемой точкой в качестве аргумента
+    if (arrowList.isEmpty()) return;                // проверка наличия ребер
 
-
-    auto it = map.find(node);
-    if (it == map.end()) return;
-    auto &list = *it;
-
-    for(auto &ix : list) {
-        auto i = index(ix);
-        emit dataChanged(i,i);
+    auto list = map.constFind(node);                               // получаем список ребер из матрицы
+    if (list == map.constEnd()) {
+        qDebug() << "loser node:"<< node;
+        return;
     }
+    QTextStream Qcout(stdout);
+
+    Qcout << "updated arrows:";
+    for(auto &ix : *list) {
+        auto i = index(ix);                         // получаем индекс ребра и
+        Qcout << " " << ix;
+        emit dataChanged(i,i);                      // обновляем его содержимое
+    }
+    Qcout << "\n";
 }
 
-void arrowListModel::bindA(int nodeIndex){
-    auto *p_node = getNode(nodeIndex);
+void arrowListModel::bindA(int nodeIndex){              // привязка первого узла к ребру
+    auto *p_node = emit getNode(nodeIndex);             // получаем узел по его идентификатору
 
     auto index = arrowList.size();
-    beginInsertRows(QModelIndex(),index,index);
+    beginInsertRows(QModelIndex(),index,index);         // создаем новое ребро
 
-    Arrow item;
+    Arrow item;                                         // процесс инициализации ребра
     item.A = p_node;
     item.B = p_node;
     item.bidirectional = false;
-    arrowList.append(item);
-
-    map[item.A].insert(index);
+    arrowList.append(item);                             // занесение в список
+    map[item.A].insert(index);                          // занесение ребра в матрицу инцидентности
 
     endInsertRows();
 }
 
-void arrowListModel::bindB(int nodeIndex){
-    auto *p_node = getNode(nodeIndex);
-    arrowList.last().B = p_node;
+void arrowListModel::bindB(int nodeIndex){              // привязка второго узла к ребру
+    auto *p_node = emit getNode(nodeIndex);             // получаем узел по его идентификатору
+    arrowList.last().B = p_node;                        // присваиваем последнему ребру (новому) второй узел
 
-    int arrowID = arrowList.size()-1;
+    int arrowID = arrowList.size()-1;                   // добавляем ребро в матрицу инцидентности для второго узла
     map[p_node].insert(arrowID);
+
+    //updated(p_node);
 
     /*
     map[arrowList[arrowID].A].remove(arrowID);
@@ -111,7 +117,6 @@ void arrowListModel::bindB(int nodeIndex){
 }
 
 void arrowListModel::remove(int A, int B){
-    qDebug() << "       removing:" << A << B;
     auto *pA = getNode(A);
     auto list_it = map.find(pA);
     if (list_it == map.end()) return;
@@ -120,39 +125,37 @@ void arrowListModel::remove(int A, int B){
     int index = -1;
 
     for (auto &arrowID : *list_it){
-        qDebug() << "       finding:" << arrowList[arrowID].A->index << arrowList[arrowID].B->index;
         if (arrowList[arrowID].A == pA && arrowList[arrowID].B == pB){
             index = arrowID;
-            qDebug() << "       remove:" << index;
             break;
         }
     }
 
-
-    beginRemoveRows(QModelIndex(),index,index);
-    arrowList.remove(index);
-    (*list_it).remove(index);
-    endRemoveRows();
-
-    qDebug() << "       rest size:" << arrowList.size();
+    if (index != -1){
+        beginRemoveRows(QModelIndex(),index,index);
+        arrowList.remove(index);
+        (*list_it).remove(index);
+        if (list_it->isEmpty()) map.remove(pA);
+        endRemoveRows();
+    }
 }
 
 void arrowListModel::showMap(){
     QTextStream Qcout(stdout);
 
-    qDebug() << "---MAP---";
+    Qcout << "\n---MAP---\n";
 
     auto nodes = map.keys();
 
     for (auto &node : nodes){
-        Qcout << node->index << " :";
+        Qcout << node << " :";
         for (auto &arrow : map[node]){
             Qcout << "  " << arrow;
         }
         Qcout << "\n";
     }
 
-    qDebug() << "---------";
+    Qcout << "\n---------\n";
 }
 
 void arrowListModel::showArrowList(){

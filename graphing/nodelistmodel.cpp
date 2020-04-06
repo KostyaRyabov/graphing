@@ -31,17 +31,17 @@ QVariant nodeListModel::data(const QModelIndex &index, int role) const{
         return QVariant();
     }
 
-    auto &item = nodeList[index.row()];
+    auto item = nodeList[index.row()];
 
     switch (role) {
     case xc:
-        return QVariant(item.xc);
+        return QVariant(item->xc);
     case yc:
-        return QVariant(item.yc);
+        return QVariant(item->yc);
     case rx:
-        return QVariant(item.rx);
+        return QVariant(item->rx);
     case ry:
-        return QVariant(item.ry);
+        return QVariant(item->ry);
     case Index:
         return QVariant(index.row());
     default:
@@ -53,24 +53,24 @@ void nodeListModel::addNode(int x, int y){
     int i = nodeList.size();
     beginInsertRows(QModelIndex(),i,i);
 
-    Node item;
-    item.xc = x;
-    item.yc = y;
-    item.rx = 0;
-    item.ry = 0;
-    item.index = i;
+    auto *item = new Node();
+    item->xc = x;
+    item->yc = y;
+    item->rx = 0;
+    item->ry = 0;
+    item->index = i;
     nodeList.append(item);
 
     endInsertRows();
 
-    emit addItem();
+    //emit addItem();           // добавление в матрицу смежности
 }
 
 void nodeListModel::removeNode(int i){
     emit removeItem(i);
 
     beginRemoveRows(QModelIndex(), i,i);
-    nodeList.remove(i);
+    delete nodeList.takeAt(i);
     endRemoveRows();
 
     //change indexes for rest nodes
@@ -80,29 +80,29 @@ void nodeListModel::removeNode(int i){
 }
 
 Node* nodeListModel::getNode(int index){
-    return &nodeList[index];
+    return nodeList[index];
 }
 
 bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int role){
     if (!index.isValid()) return false;
 
-    auto &item = nodeList[index.row()];
+    auto item = nodeList[index.row()];
 
     switch (role) {
     case xc:
-        item.xc = value.toInt();
+        item->xc = value.toInt();
         break;
     case yc:
-        item.yc = value.toInt();
+        item->yc = value.toInt();
         break;
     case rx:
-        item.rx = value.toInt();
+        item->rx = value.toInt();
         break;
     case ry:
-        item.ry = value.toInt();
+        item->ry = value.toInt();
         break;
     case Index:
-        item.index = value.toInt();
+        item->index = value.toInt();
         break;
     default:
         return false;
@@ -116,14 +116,14 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
 void nodeListModel::update(int i, int value, int role){
     setData(index(i), value, role);
 
-    emit updated(&nodeList[i]);
+    emit updated(nodeList[i]);
 }
 
 void nodeListModel::showNodeList(){
     qDebug() << "---Nodes---";
 
-    for (auto &node : nodeList){
-        qDebug() << node.index << ":    (" << node.xc << node.yc << ")" << "(" << node.rx << node.ry << ")";
+    for (auto node : nodeList){
+        qDebug() << node << "|" << node->index << ":    (" << node->xc << node->yc << ")" << "(" << node->rx << node->ry << ")";
     }
 
     qDebug() << "-----------";

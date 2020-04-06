@@ -62,7 +62,7 @@ Item {
 
             MyMenu {
                 id: contextMenu
-                Action { text: "copy"; onTriggered: arrow_model.display() }
+                Action { text: "copy"; }
                 Action { text: "remove"; onTriggered: destroyObj.start() }
             }
         }
@@ -106,6 +106,7 @@ Item {
                 }
 
                 onPressed: {
+                    control.counter = 0;
                     timer.start();
                     cursorShape = Qt.ArrowCursor;
                     arrow_model.bindA(node.index)
@@ -122,24 +123,23 @@ Item {
                         node_model.addNode(node.xc+node.rx,node.yc+node.ry);
                         arrow_model.bindB(node_model.rowCount()-1)
                     }else{
-                        console.log("remove nearest");
                         arrow_model.remove(node_model.rowCount()-1,node_model.rowCount()-1)
                     }
-                }
 
-                onClicked: {
-                    if (mouse.button === Qt.RightButton)
+                    if (mouse.button === Qt.RightButton){
                         if (control.counter < 1){
-                            timer.stop();
                             contextMenu.popup()
                         }
+                    }
+
+                    timer.stop();
                 }
             }
         }
 
         Timer {
             id: timer
-            onTriggered: control.counter++;
+            onTriggered: control.counter++
             interval: 200
             repeat: true
         }
