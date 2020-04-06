@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_arrowListModel_t {
-    QByteArrayData data[15];
-    char stringdata0[104];
+    QByteArrayData data[16];
+    char stringdata0[117];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,21 +37,23 @@ QT_MOC_LITERAL(1, 15, 7), // "getNode"
 QT_MOC_LITERAL(2, 23, 5), // "Node*"
 QT_MOC_LITERAL(3, 29, 0), // ""
 QT_MOC_LITERAL(4, 30, 5), // "index"
-QT_MOC_LITERAL(5, 36, 7), // "updated"
-QT_MOC_LITERAL(6, 44, 4), // "node"
-QT_MOC_LITERAL(7, 49, 5), // "bindA"
-QT_MOC_LITERAL(8, 55, 9), // "nodeIndex"
-QT_MOC_LITERAL(9, 65, 5), // "bindB"
-QT_MOC_LITERAL(10, 71, 6), // "remove"
-QT_MOC_LITERAL(11, 78, 1), // "A"
-QT_MOC_LITERAL(12, 80, 1), // "B"
-QT_MOC_LITERAL(13, 82, 7), // "showMap"
-QT_MOC_LITERAL(14, 90, 13) // "showArrowList"
+QT_MOC_LITERAL(5, 36, 12), // "checkExisted"
+QT_MOC_LITERAL(6, 49, 7), // "updated"
+QT_MOC_LITERAL(7, 57, 4), // "node"
+QT_MOC_LITERAL(8, 62, 5), // "bindA"
+QT_MOC_LITERAL(9, 68, 9), // "nodeIndex"
+QT_MOC_LITERAL(10, 78, 5), // "bindB"
+QT_MOC_LITERAL(11, 84, 6), // "remove"
+QT_MOC_LITERAL(12, 91, 1), // "A"
+QT_MOC_LITERAL(13, 93, 1), // "B"
+QT_MOC_LITERAL(14, 95, 7), // "showMap"
+QT_MOC_LITERAL(15, 103, 13) // "showArrowList"
 
     },
     "arrowListModel\0getNode\0Node*\0\0index\0"
-    "updated\0node\0bindA\0nodeIndex\0bindB\0"
-    "remove\0A\0B\0showMap\0showArrowList"
+    "checkExisted\0updated\0node\0bindA\0"
+    "nodeIndex\0bindB\0remove\0A\0B\0showMap\0"
+    "showArrowList"
 };
 #undef QT_MOC_LITERAL
 
@@ -69,28 +71,28 @@ static const uint qt_meta_data_arrowListModel[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   49,    3, 0x06 /* Public */,
+       1,    2,   49,    3, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    1,   52,    3, 0x08 /* Private */,
+       6,    1,   54,    3, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-       7,    1,   55,    3, 0x02 /* Public */,
-       9,    1,   58,    3, 0x02 /* Public */,
-      10,    2,   61,    3, 0x02 /* Public */,
-      13,    0,   66,    3, 0x02 /* Public */,
-      14,    0,   67,    3, 0x02 /* Public */,
+       8,    1,   57,    3, 0x02 /* Public */,
+      10,    1,   60,    3, 0x02 /* Public */,
+      11,    2,   63,    3, 0x02 /* Public */,
+      14,    0,   68,    3, 0x02 /* Public */,
+      15,    0,   69,    3, 0x02 /* Public */,
 
  // signals: parameters
-    0x80000000 | 2, QMetaType::Int,    4,
+    0x80000000 | 2, QMetaType::Int, QMetaType::Bool,    4,    5,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 2,    6,
+    QMetaType::Void, 0x80000000 | 2,    7,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int,    8,
-    QMetaType::Void, QMetaType::Int,    8,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   11,   12,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, QMetaType::Int,    9,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   12,   13,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -103,7 +105,7 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         auto *_t = static_cast<arrowListModel *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])));
+        case 0: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Node**>(_a[0]) = std::move(_r); }  break;
         case 1: _t->updated((*reinterpret_cast< Node*(*)>(_a[1]))); break;
         case 2: _t->bindA((*reinterpret_cast< int(*)>(_a[1]))); break;
@@ -116,7 +118,7 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            using _t = Node * (arrowListModel::*)(int );
+            using _t = Node * (arrowListModel::*)(int , bool );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&arrowListModel::getNode)) {
                 *result = 0;
                 return;
@@ -166,10 +168,10 @@ int arrowListModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-Node * arrowListModel::getNode(int _t1)
+Node * arrowListModel::getNode(int _t1, bool _t2)
 {
     Node* _t0{};
-    void *_a[] = { const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t0))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    void *_a[] = { const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t0))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
     return _t0;
 }

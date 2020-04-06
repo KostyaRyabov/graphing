@@ -10,6 +10,8 @@
 
 #include <QVariant>
 
+#include <options.h>
+
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -26,9 +28,9 @@ int main(int argc, char *argv[])
     rootContext->setContextProperty("arrow_model", &manager.arrow_model);
 
     //default properties
-    rootContext->setContextProperty("nodeRadius", 8);
-    rootContext->setContextProperty("wsHeight", 512);
-    rootContext->setContextProperty("wsWidth", 512);
+    rootContext->setContextProperty("nodeRadius", Node_Radius);
+    rootContext->setContextProperty("wsHeight", ws_Height);
+    rootContext->setContextProperty("wsWidth", ws_Width);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

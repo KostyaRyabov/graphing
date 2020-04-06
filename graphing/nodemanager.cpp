@@ -5,7 +5,7 @@
 NodeManager::NodeManager(QObject *parent) : QObject(parent)
 {
     connect(&node_model, SIGNAL(addItem()), this, SLOT(addItem()));
-    connect(&arrow_model, SIGNAL(getNode(int)), &node_model, SLOT(getNode(int)));
+    connect(&arrow_model, SIGNAL(getNode(int,bool)), &node_model, SLOT(getNode(int,bool)));
     connect(&node_model, SIGNAL(updated(Node*)), &arrow_model, SLOT(updated(Node*)));
 }
 

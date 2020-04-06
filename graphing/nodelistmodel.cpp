@@ -79,8 +79,20 @@ void nodeListModel::removeNode(int i){
     }
 }
 
-Node* nodeListModel::getNode(int index){
-    return nodeList[index];
+Node* nodeListModel::getNode(int index, bool checkExisted){     //ощущается задержка
+    if (!checkExisted) return nodeList[index];
+
+    auto item = nodeList[index];
+
+    for (auto node : nodeList){         // требуется оптимизация поиска близжайших точек - ? использовать B-tree ?
+        if (node == item) continue;
+        if (qSqrt(qPow(node->xc-item->xc,2)+qPow(node->yc-item->yc,2)) < Selector_Radius) {
+            removeNode(index);
+            return node;
+        }
+    }
+
+    return item;
 }
 
 bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int role){

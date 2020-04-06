@@ -69,24 +69,17 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
 void arrowListModel::updated(Node *node){           // обновление ребер, связанных с передаваемой точкой в качестве аргумента
     if (arrowList.isEmpty()) return;                // проверка наличия ребер
 
-    auto list = map.constFind(node);                               // получаем список ребер из матрицы
-    if (list == map.constEnd()) {
-        qDebug() << "loser node:"<< node;
-        return;
-    }
-    QTextStream Qcout(stdout);
+    auto list = map.find(node);                     // получаем список ребер из матрицы
+    if (list == map.end()) return;                  // проверяем наличие
 
-    Qcout << "updated arrows:";
     for(auto &ix : *list) {
         auto i = index(ix);                         // получаем индекс ребра и
-        Qcout << " " << ix;
         emit dataChanged(i,i);                      // обновляем его содержимое
     }
-    Qcout << "\n";
 }
 
 void arrowListModel::bindA(int nodeIndex){              // привязка первого узла к ребру
-    auto *p_node = emit getNode(nodeIndex);             // получаем узел по его идентификатору
+    auto *p_node = emit getNode(nodeIndex,false);             // получаем узел по его идентификатору
 
     auto index = arrowList.size();
     beginInsertRows(QModelIndex(),index,index);         // создаем новое ребро
@@ -102,25 +95,20 @@ void arrowListModel::bindA(int nodeIndex){              // привязка пе
 }
 
 void arrowListModel::bindB(int nodeIndex){              // привязка второго узла к ребру
-    auto *p_node = emit getNode(nodeIndex);             // получаем узел по его идентификатору
+    auto *p_node = emit getNode(nodeIndex,true);             // получаем узел по его идентификатору
     arrowList.last().B = p_node;                        // присваиваем последнему ребру (новому) второй узел
 
     int arrowID = arrowList.size()-1;                   // добавляем ребро в матрицу инцидентности для второго узла
     map[p_node].insert(arrowID);
 
-    //updated(p_node);
 
-    /*
-    map[arrowList[arrowID].A].remove(arrowID);
-    if (map[arrowList[arrowID].A].isEmpty()) map.remove(arrowList[arrowID].A);
-    */
 }
 
 void arrowListModel::remove(int A, int B){
-    auto *pA = getNode(A);
+    auto *pA = getNode(A, false);
     auto list_it = map.find(pA);
     if (list_it == map.end()) return;
-    auto *pB = getNode(B);
+    auto *pB = getNode(B, false);
 
     int index = -1;
 

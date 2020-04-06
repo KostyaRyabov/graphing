@@ -36,4 +36,5 @@ HEADERS += \
     arrowlistmodel.h \
     nodelistmodel.h \
     nodemanager.h \
+    options.h \
     structures.h

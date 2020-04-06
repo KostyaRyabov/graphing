@@ -5,6 +5,9 @@
 #include <structures.h>
 #include <QDebug>
 
+#include <QtMath>
+#include <options.h>
+
 class nodeListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -38,7 +41,7 @@ signals:
     void addItem();
     void removeItem(int index);
 private slots:
-    Node* getNode(int index);
+    Node* getNode(int index, bool checkExisted);
 };
 
 #endif // NODELISTMODEL_H

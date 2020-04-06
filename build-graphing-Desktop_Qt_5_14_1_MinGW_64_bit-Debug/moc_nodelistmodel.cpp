@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_nodeListModel_t {
-    QByteArrayData data[18];
-    char stringdata0[123];
+    QByteArrayData data[19];
+    char stringdata0[136];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,21 +41,22 @@ QT_MOC_LITERAL(5, 34, 7), // "addItem"
 QT_MOC_LITERAL(6, 42, 10), // "removeItem"
 QT_MOC_LITERAL(7, 53, 5), // "index"
 QT_MOC_LITERAL(8, 59, 7), // "getNode"
-QT_MOC_LITERAL(9, 67, 7), // "addNode"
-QT_MOC_LITERAL(10, 75, 1), // "x"
-QT_MOC_LITERAL(11, 77, 1), // "y"
-QT_MOC_LITERAL(12, 79, 6), // "update"
-QT_MOC_LITERAL(13, 86, 1), // "i"
-QT_MOC_LITERAL(14, 88, 5), // "value"
-QT_MOC_LITERAL(15, 94, 4), // "role"
-QT_MOC_LITERAL(16, 99, 10), // "removeNode"
-QT_MOC_LITERAL(17, 110, 12) // "showNodeList"
+QT_MOC_LITERAL(9, 67, 12), // "checkExisted"
+QT_MOC_LITERAL(10, 80, 7), // "addNode"
+QT_MOC_LITERAL(11, 88, 1), // "x"
+QT_MOC_LITERAL(12, 90, 1), // "y"
+QT_MOC_LITERAL(13, 92, 6), // "update"
+QT_MOC_LITERAL(14, 99, 1), // "i"
+QT_MOC_LITERAL(15, 101, 5), // "value"
+QT_MOC_LITERAL(16, 107, 4), // "role"
+QT_MOC_LITERAL(17, 112, 10), // "removeNode"
+QT_MOC_LITERAL(18, 123, 12) // "showNodeList"
 
     },
     "nodeListModel\0updated\0\0Node*\0node\0"
     "addItem\0removeItem\0index\0getNode\0"
-    "addNode\0x\0y\0update\0i\0value\0role\0"
-    "removeNode\0showNodeList"
+    "checkExisted\0addNode\0x\0y\0update\0i\0"
+    "value\0role\0removeNode\0showNodeList"
 };
 #undef QT_MOC_LITERAL
 
@@ -78,13 +79,13 @@ static const uint qt_meta_data_nodeListModel[] = {
        6,    1,   58,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       8,    1,   61,    2, 0x08 /* Private */,
+       8,    2,   61,    2, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-       9,    2,   64,    2, 0x02 /* Public */,
-      12,    3,   69,    2, 0x02 /* Public */,
-      16,    1,   76,    2, 0x02 /* Public */,
-      17,    0,   79,    2, 0x02 /* Public */,
+      10,    2,   66,    2, 0x02 /* Public */,
+      13,    3,   71,    2, 0x02 /* Public */,
+      17,    1,   78,    2, 0x02 /* Public */,
+      18,    0,   81,    2, 0x02 /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
@@ -92,12 +93,12 @@ static const uint qt_meta_data_nodeListModel[] = {
     QMetaType::Void, QMetaType::Int,    7,
 
  // slots: parameters
-    0x80000000 | 3, QMetaType::Int,    7,
+    0x80000000 | 3, QMetaType::Int, QMetaType::Bool,    7,    9,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   10,   11,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   13,   14,   15,
-    QMetaType::Void, QMetaType::Int,   13,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   11,   12,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   14,   15,   16,
+    QMetaType::Void, QMetaType::Int,   14,
     QMetaType::Void,
 
        0        // eod
@@ -112,7 +113,7 @@ void nodeListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 0: _t->updated((*reinterpret_cast< Node*(*)>(_a[1]))); break;
         case 1: _t->addItem(); break;
         case 2: _t->removeItem((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 3: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])));
+        case 3: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Node**>(_a[0]) = std::move(_r); }  break;
         case 4: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 5: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
