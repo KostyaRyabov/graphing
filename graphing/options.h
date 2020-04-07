@@ -8,7 +8,7 @@
 #define ws_Width            512
 
 // animation
-#define delayCD             350
-#define changeTime          300
+#define delayCD             150
+#define changeTime          200
 
 #endif // OPTIONS_H

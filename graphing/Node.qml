@@ -125,12 +125,10 @@ Item {
                 onReleased: {
                     cursorShape = Qt.OpenHandCursor;
                     if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.ry,2)))>SelectorRadius){
-                        console.log("дальше области селектора");
                         node_model.addNode(node.xc+node.rx,node.yc+node.ry);
                         arrow_model.bindB(node_model.rowCount()-1)
-                    }else{
-                        console.log("внутри области селектора");
-                        arrow_model.remove(node_model.rowCount()-1,node_model.rowCount()-1)
+                    } else {
+                        arrow_model.removeCurrent();
                     }
 
                     if (mouse.button === Qt.RightButton){

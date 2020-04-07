@@ -579,6 +579,9 @@ moc_arrowlistmodel.cpp: ../graphing/arrowlistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QLinkedList \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlinkedlist.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qdatastream.h \
 		moc_predefs.h \
 		C:/Qt/5.14.1/mingw73_64/bin/moc.exe
 	C:\Qt\5.14.1\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/rkrtu/source/repos/Qt/graphing/build-graphing-Desktop_Qt_5_14_1_MinGW_64_bit-Debug/moc_predefs.h -IC:/Qt/5.14.1/mingw73_64/mkspecs/win32-g++ -IC:/Users/rkrtu/source/repos/Qt/graphing/graphing -IC:/Qt/5.14.1/mingw73_64/include -IC:/Qt/5.14.1/mingw73_64/include/QtQuick -IC:/Qt/5.14.1/mingw73_64/include/QtWidgets -IC:/Qt/5.14.1/mingw73_64/include/QtGui -IC:/Qt/5.14.1/mingw73_64/include/QtANGLE -IC:/Qt/5.14.1/mingw73_64/include/QtQmlModels -IC:/Qt/5.14.1/mingw73_64/include/QtQml -IC:/Qt/5.14.1/mingw73_64/include/QtNetwork -IC:/Qt/5.14.1/mingw73_64/include/QtCore -I. -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Tools/mingw730_64/x86_64-w64-mingw32/include ..\graphing\arrowlistmodel.h -o moc_arrowlistmodel.cpp
@@ -839,6 +842,7 @@ moc_nodemanager.cpp: ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/QQmlComponent \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/qqmlcomponent.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QAbstractListModel \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qabstractitemmodel.h \
 		../graphing/arrowlistmodel.h \
@@ -846,6 +850,8 @@ moc_nodemanager.cpp: ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QLinkedList \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlinkedlist.h \
 		../graphing/nodelistmodel.h \
 		../graphing/options.h \
 		moc_predefs.h \
@@ -941,7 +947,10 @@ arrowlistmodel.o: ../graphing/arrowlistmodel.cpp ../graphing/arrowlistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
-		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QLinkedList \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlinkedlist.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qdatastream.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o arrowlistmodel.o ..\graphing\arrowlistmodel.cpp
 
 main.o: ../graphing/main.cpp ../graphing/nodemanager.h \
@@ -1124,6 +1133,7 @@ main.o: ../graphing/main.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/QQmlComponent \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/qqmlcomponent.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QAbstractListModel \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qabstractitemmodel.h \
 		../graphing/arrowlistmodel.h \
@@ -1131,6 +1141,8 @@ main.o: ../graphing/main.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QLinkedList \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlinkedlist.h \
 		../graphing/nodelistmodel.h \
 		../graphing/options.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/QQmlProperty \
@@ -1193,7 +1205,6 @@ main.o: ../graphing/main.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlibrary.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlibraryinfo.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qversionnumber.h \
-		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlinkedlist.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlockfile.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qloggingcategory.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmessageauthenticationcode.h \
@@ -1277,7 +1288,6 @@ main.o: ../graphing/main.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtNetwork/qlocalserver.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtNetwork/qlocalsocket.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtNetwork/qnetworkaccessmanager.h \
-		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtNetwork/QSslConfiguration \
 		C:/Qt/5.14.1/mingw73_64/include/QtNetwork/qsslconfiguration.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtNetwork/QSslPreSharedKeyAuthenticator \
@@ -1579,6 +1589,7 @@ nodemanager.o: ../graphing/nodemanager.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/QQmlComponent \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/qqmlcomponent.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QAbstractListModel \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qabstractitemmodel.h \
 		../graphing/arrowlistmodel.h \
@@ -1586,6 +1597,8 @@ nodemanager.o: ../graphing/nodemanager.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QLinkedList \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qlinkedlist.h \
 		../graphing/nodelistmodel.h \
 		../graphing/options.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtQuick/QQuickItem \

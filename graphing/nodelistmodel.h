@@ -37,6 +37,7 @@ public:
 private:
     QVector<Node*> nodeList;
 signals:
+    void removeBindings(Node* node);
     void updated(Node* node);
     void addItem();
     void removeItem(int index);

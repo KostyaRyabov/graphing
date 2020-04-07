@@ -13,6 +13,8 @@ struct Arrow{
     bool destroy = true;
 };
 
+
+
 enum aDir{
     NotFound = -1,
     InSimplex,

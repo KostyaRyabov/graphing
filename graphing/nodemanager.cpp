@@ -11,6 +11,7 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
     connect(&arrow_model, SIGNAL(updateMatrix(int, int, Arrow*)), this, SLOT(updateMatrix(int, int, Arrow*)));
     connect(&node_model, SIGNAL(removeItem(int)), this, SLOT(removeNode(int)));
     connect(&arrow_model, SIGNAL(getArrow(int,int)), this, SLOT(getArrow(int,int)));
+    connect(&node_model, SIGNAL(removeBindings(Node*)), &arrow_model, SLOT(removeBindings(Node*)));
 }
 
 NodeManager::~NodeManager(){

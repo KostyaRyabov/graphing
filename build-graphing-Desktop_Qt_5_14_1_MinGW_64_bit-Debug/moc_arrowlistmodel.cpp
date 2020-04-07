@@ -10,7 +10,6 @@
 #include "../graphing/arrowlistmodel.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
-#include <QtCore/QVector>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'arrowlistmodel.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
@@ -23,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_arrowListModel_t {
-    QByteArrayData data[26];
-    char stringdata0[218];
+    QByteArrayData data[27];
+    char stringdata0[220];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -48,25 +47,27 @@ QT_MOC_LITERAL(11, 86, 5), // "NodeB"
 QT_MOC_LITERAL(12, 92, 6), // "Arrow*"
 QT_MOC_LITERAL(13, 99, 7), // "p_arrow"
 QT_MOC_LITERAL(14, 107, 8), // "getArrow"
-QT_MOC_LITERAL(15, 116, 7), // "updated"
-QT_MOC_LITERAL(16, 124, 4), // "node"
-QT_MOC_LITERAL(17, 129, 17), // "removeArrowsWidth"
-QT_MOC_LITERAL(18, 147, 14), // "QVector<Node*>"
-QT_MOC_LITERAL(19, 162, 4), // "list"
-QT_MOC_LITERAL(20, 167, 5), // "bindA"
-QT_MOC_LITERAL(21, 173, 9), // "nodeIndex"
-QT_MOC_LITERAL(22, 183, 5), // "bindB"
-QT_MOC_LITERAL(23, 189, 6), // "remove"
-QT_MOC_LITERAL(24, 196, 7), // "showMap"
-QT_MOC_LITERAL(25, 204, 13) // "showArrowList"
+QT_MOC_LITERAL(15, 116, 14), // "removeBindings"
+QT_MOC_LITERAL(16, 131, 4), // "node"
+QT_MOC_LITERAL(17, 136, 7), // "updated"
+QT_MOC_LITERAL(18, 144, 5), // "bindA"
+QT_MOC_LITERAL(19, 150, 9), // "nodeIndex"
+QT_MOC_LITERAL(20, 160, 5), // "bindB"
+QT_MOC_LITERAL(21, 166, 6), // "remove"
+QT_MOC_LITERAL(22, 173, 5), // "arrow"
+QT_MOC_LITERAL(23, 179, 13), // "removeCurrent"
+QT_MOC_LITERAL(24, 193, 7), // "showMap"
+QT_MOC_LITERAL(25, 201, 13), // "showArrowList"
+QT_MOC_LITERAL(26, 215, 4) // "kill"
 
     },
     "arrowListModel\0getNode\0Node*\0\0index\0"
     "checkExisted\0checkExisting\0A\0B\0"
     "updateMatrix\0NodeA\0NodeB\0Arrow*\0p_arrow\0"
-    "getArrow\0updated\0node\0removeArrowsWidth\0"
-    "QVector<Node*>\0list\0bindA\0nodeIndex\0"
-    "bindB\0remove\0showMap\0showArrowList"
+    "getArrow\0removeBindings\0node\0updated\0"
+    "bindA\0nodeIndex\0bindB\0remove\0arrow\0"
+    "removeCurrent\0showMap\0showArrowList\0"
+    "kill"
 };
 #undef QT_MOC_LITERAL
 
@@ -76,7 +77,7 @@ static const uint qt_meta_data_arrowListModel[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -84,21 +85,23 @@ static const uint qt_meta_data_arrowListModel[] = {
        4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   69,    3, 0x06 /* Public */,
-       6,    2,   74,    3, 0x06 /* Public */,
-       9,    3,   79,    3, 0x06 /* Public */,
-      14,    2,   86,    3, 0x06 /* Public */,
+       1,    2,   79,    3, 0x06 /* Public */,
+       6,    2,   84,    3, 0x06 /* Public */,
+       9,    3,   89,    3, 0x06 /* Public */,
+      14,    2,   96,    3, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      15,    1,   91,    3, 0x08 /* Private */,
-      17,    1,   94,    3, 0x08 /* Private */,
+      15,    1,  101,    3, 0x08 /* Private */,
+      17,    1,  104,    3, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-      20,    1,   97,    3, 0x02 /* Public */,
-      22,    1,  100,    3, 0x02 /* Public */,
-      23,    2,  103,    3, 0x02 /* Public */,
-      24,    0,  108,    3, 0x02 /* Public */,
-      25,    0,  109,    3, 0x02 /* Public */,
+      18,    1,  107,    3, 0x02 /* Public */,
+      20,    1,  110,    3, 0x02 /* Public */,
+      21,    1,  113,    3, 0x02 /* Public */,
+      23,    0,  116,    3, 0x02 /* Public */,
+      24,    0,  117,    3, 0x02 /* Public */,
+      25,    0,  118,    3, 0x02 /* Public */,
+      26,    0,  119,    3, 0x02 /* Public */,
 
  // signals: parameters
     0x80000000 | 2, QMetaType::Int, QMetaType::Bool,    4,    5,
@@ -108,12 +111,14 @@ static const uint qt_meta_data_arrowListModel[] = {
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 2,   16,
-    QMetaType::Void, 0x80000000 | 18,   19,
+    QMetaType::Void, 0x80000000 | 2,   16,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int,   21,
-    QMetaType::Void, QMetaType::Int,   21,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,    7,    8,
+    QMetaType::Void, QMetaType::Int,   19,
+    QMetaType::Void, QMetaType::Int,   19,
+    QMetaType::Void, 0x80000000 | 12,   22,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -133,13 +138,15 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 2: _t->updateMatrix((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< Arrow*(*)>(_a[3]))); break;
         case 3: { Arrow* _r = _t->getArrow((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Arrow**>(_a[0]) = std::move(_r); }  break;
-        case 4: _t->updated((*reinterpret_cast< Node*(*)>(_a[1]))); break;
-        case 5: _t->removeArrowsWidth((*reinterpret_cast< QVector<Node*>(*)>(_a[1]))); break;
+        case 4: _t->removeBindings((*reinterpret_cast< Node*(*)>(_a[1]))); break;
+        case 5: _t->updated((*reinterpret_cast< Node*(*)>(_a[1]))); break;
         case 6: _t->bindA((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 7: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 8: _t->remove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 9: _t->showMap(); break;
-        case 10: _t->showArrowList(); break;
+        case 8: _t->remove((*reinterpret_cast< Arrow*(*)>(_a[1]))); break;
+        case 9: _t->removeCurrent(); break;
+        case 10: _t->showMap(); break;
+        case 11: _t->showArrowList(); break;
+        case 12: _t->kill(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -204,13 +211,13 @@ int arrowListModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 11;
+        _id -= 13;
     }
     return _id;
 }

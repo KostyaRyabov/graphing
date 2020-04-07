@@ -45,7 +45,7 @@ Rectangle{
             yc: PosY;
             rx: RelativePosX;
             ry: RelativePosY;
-            index: node_id
+            index: node_id;
         }
     }
 

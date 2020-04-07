@@ -90,6 +90,6 @@ Item {
         easing.type: Easing.InBack
         duration: delayCD
 
-        onStopped: console.log("remove arrow");
+        onStopped: arrow_model.kill()
     }
 }

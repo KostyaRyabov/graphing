@@ -71,7 +71,8 @@ void nodeListModel::removeNode(int i){
     emit removeItem(i);
 
     beginRemoveRows(QModelIndex(), i,i);
-    delete nodeList.takeAt(i);
+    auto node = nodeList.takeAt(i);
+    emit removeBindings(node);
     endRemoveRows();
 
     //change indexes for rest nodes

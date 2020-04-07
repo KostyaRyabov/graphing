@@ -40,8 +40,7 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
     case yyy:
         if (item->A == item->B) return QVariant(item->B->yc+item->B->ry/2);         // new arrow
         else return QVariant((item->B->yc+item->A->yc)/2);
-    case alpha:
-    {
+    case alpha: {
         int v_x,v_y;
 
         if (item->A == item->B){
@@ -108,11 +107,10 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
             qDebug() << "(в другом направлении)";
             emit updateMatrix(currentArrow->A->index,p_node->index,getArrow(p_node->index,currentArrow->A->index));     // устанавливается в матрице другое направление
 
-            auto i = index(arrowList.indexOf(currentArrow));
-            emit dataChanged(i,i,{aRoles::detonate});
+            remove(currentArrow);
 
             int id = getArrowID(p_node->index, currentArrow->A->index);     // получаем существующее ребро
-            i = index(id);
+            auto i = index(id);
             arrowList[id]->bidirectional = true;
             emit dataChanged(i,i,{aRoles::bDir});
             break;
@@ -126,83 +124,68 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
             break;
         } case aDir::InSimplex:{
             qDebug() << "(повторяющее)";
-            remove(p_node, currentArrow->A);
+            remove(currentArrow);
         }
     }
-}
-
-void arrowListModel::removeArrowsWidth(QVector<Node*> list){
-    /*
-    for (auto &p_node : list){
-        auto list_it = map.find(p_node);
-        auto *pB = getNode(B, false);
-
-        int index = -1;
-
-        for (auto &arrowID : *list_it){
-            if (arrowList[arrowID].A == pA && arrowList[arrowID].B == pB){
-                index = arrowID;
-                break;
-            }
-        }
-
-        if (index != -1){
-            qDebug() << "               remove arrow:"<<index;
-
-            beginRemoveRows(QModelIndex(),index,index);
-            arrowList.remove(index);
-            (*list_it).remove(index);
-            if (list_it->isEmpty()) map.remove(pA);
-            endRemoveRows();
-        }
-
-    }
-    */
 }
 
 int arrowListModel::getArrowID(int A, int B){
     return arrowList.indexOf(emit getArrow(A,B));
 }
 
-void arrowListModel::remove(int A, int B){
-    qDebug() << "                   remove1";
-    auto *pA = getNode(A, false);
-    auto list_it = map.find(pA);
-    if (list_it == map.end()) return;
-    auto *pB = getNode(B, false);
+void arrowListModel::cutArrow(Arrow *arrow){
+    auto list = map.find(arrow->A);
+    list->remove(arrow);
+    if (list->isEmpty()) map.remove(arrow->A);
 
-    for (auto arrow : *list_it){
-        if (arrow->B == pB){
-            qDebug()<<"             arrow was found";
-            auto index = arrowList.indexOf(arrow);
-            beginRemoveRows(QModelIndex(),index,index);
-            arrowList.remove(index);
-            (*list_it).remove(arrow);
-            if (list_it->isEmpty()) map.remove(pA);
-            endRemoveRows();
-            return;
+    list = map.find(arrow->B);
+    list->remove(arrow);
+    if (list->isEmpty()) map.remove(arrow->B);
+}
+
+void arrowListModel::remove(Arrow* arrow){
+    qDebug() << "removing"<< arrow->A->index << arrow->B->index;
+    cutArrow(arrow);
+
+    auto i = index(arrowList.indexOf(arrow));
+    emit dataChanged(i,i,{aRoles::detonate});
+    del_list.push_front(arrow);
+}
+
+void arrowListModel::removeCurrent(){
+    auto currentArrow = arrowList.last();
+    qDebug() << "removing"<< currentArrow->A->index << currentArrow->B->index;
+
+    auto list = map.find(currentArrow->A);
+    list->remove(currentArrow);
+    if (list->isEmpty()) map.remove(currentArrow->A);
+
+    auto i = index(arrowList.size()-1);
+    emit dataChanged(i,i,{aRoles::detonate});
+    del_list.push_front(currentArrow);
+}
+
+void arrowListModel::removeBindings(Node* node){
+    auto list = map.find(node);
+    if (list != map.end()){
+        QModelIndex i;
+        for (auto arrow : *list) {
+            i = index(arrowList.indexOf(arrow));
+            emit dataChanged(i,i,{aRoles::detonate});
+            del_list.push_front(arrow);
         }
-        else qDebug()<<"             arrow was not found";
     }
 }
 
-void arrowListModel::remove(Node* pA, Node* pB){
-    qDebug() << "                   remove2";
-    auto list_it = map.find(pA);
-    if (list_it == map.end()) return;
-
-    for (auto arrow : *list_it){
-        if (arrow->B == pB){
-            qDebug()<<"             arrow was found";
-
-            auto index = arrowList.indexOf(arrow);
-            beginRemoveRows(QModelIndex(),index,index);
-            arrowList.remove(index);
-            (*list_it).remove(arrow);
-            if (list_it->isEmpty()) map.remove(pA);
-            endRemoveRows();
-            return;
-        }else qDebug()<<"             arrow was not found";
+void arrowListModel::kill(){
+    if (!del_list.isEmpty()){
+        auto arrow = del_list.takeLast();
+        cutArrow(arrow);
+        qDebug() << "kill"<< arrow->A->index << arrow->B->index;
+        auto index = arrowList.indexOf(arrow);
+        beginRemoveRows(QModelIndex(),index,index);
+        arrowList.remove(index);
+        endRemoveRows();
     }
 }
 
@@ -216,7 +199,7 @@ void arrowListModel::showMap(){
     for (auto &node : nodes){
         Qcout << node->index << " :";
         for (auto &arrow : map[node]){
-            Qcout << "  " << arrow;
+            Qcout << "  " << arrowList.indexOf(arrow);
         }
         Qcout << "\n";
     }

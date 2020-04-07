@@ -8,6 +8,8 @@
 
 #include <QHash>
 
+#include <QLinkedList>
+
 class arrowListModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -32,19 +34,24 @@ public:
     Q_INVOKABLE void bindA(int nodeIndex);
     Q_INVOKABLE void bindB(int nodeIndex);
 
-    void remove(Node* A, Node* B);
-    Q_INVOKABLE void remove(int A, int B);
+    Q_INVOKABLE void remove(Arrow* arrow);
+    Q_INVOKABLE void removeCurrent();
 
     Q_INVOKABLE void showMap();
     Q_INVOKABLE void showArrowList();
+
+    Q_INVOKABLE void kill();
 
     int getArrowID(int A, int B);
 private:
     QVector<Arrow*> arrowList;
     QHash<Node*,QSet<Arrow*>> map;      // матрица инцидентности
+
+    QLinkedList<Arrow*> del_list;
+    void cutArrow(Arrow* arrow);
 private slots:
+    void removeBindings(Node* node);
     void updated(Node *node);
-    Q_INVOKABLE void removeArrowsWidth(QVector<Node*> list);
 signals:
     Node* getNode(int index, bool checkExisted);
     int checkExisting(int A, int B);
