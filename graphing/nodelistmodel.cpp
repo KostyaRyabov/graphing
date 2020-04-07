@@ -2,7 +2,7 @@
 
 nodeListModel::nodeListModel(QObject *parent) : QAbstractListModel(parent)
 {
-
+    nodeList.reserve(10);
 }
 
 nodeListModel::~nodeListModel()

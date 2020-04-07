@@ -155,7 +155,7 @@ Item {
             properties: "scale,opacity"
             from: 1
             to: 0
-            easing.type: Easing.InBack
+            easing.type: Easing.InCirc
             duration: delayCD
 
             onStopped: node_model.removeNode(node.index);

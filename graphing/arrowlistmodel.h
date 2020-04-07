@@ -8,7 +8,7 @@
 
 #include <QHash>
 
-#include <QLinkedList>
+#include <QQueue>
 
 class arrowListModel : public QAbstractListModel
 {
@@ -47,7 +47,7 @@ private:
     QVector<Arrow*> arrowList;
     QHash<Node*,QSet<Arrow*>> map;      // матрица инцидентности
 
-    QLinkedList<Arrow*> del_list;
+    QQueue<Arrow*> del_list;
     void cutArrow(Arrow* arrow);
 private slots:
     void removeBindings(Node* node);

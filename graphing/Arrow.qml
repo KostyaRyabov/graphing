@@ -87,7 +87,7 @@ Item {
         properties: "opacity"
         from: 1
         to: 0
-        easing.type: Easing.InBack
+        easing.type: Easing.OutQuad
         duration: delayCD
 
         onStopped: arrow_model.kill()

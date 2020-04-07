@@ -9,6 +9,6 @@
 
 // animation
 #define delayCD             150
-#define changeTime          200
+#define changeTime          300
 
 #endif // OPTIONS_H

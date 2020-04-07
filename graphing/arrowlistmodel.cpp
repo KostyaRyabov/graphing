@@ -2,7 +2,9 @@
 
 arrowListModel::arrowListModel(QObject *parent) : QAbstractListModel(parent)
 {
-
+    map.reserve(10);
+    del_list.reserve(10);
+    arrowList.reserve(10);
 }
 
 arrowListModel::~arrowListModel()
