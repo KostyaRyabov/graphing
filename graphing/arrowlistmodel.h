@@ -17,10 +17,11 @@ public:
 
     enum aRoles{
         xxx = Qt::UserRole + 1,
-        yyy = Qt::UserRole + 2,
-        len = Qt::UserRole + 3,
-        alpha = Qt::UserRole + 4,
-        bDir = Qt::UserRole + 5
+        yyy,
+        len,
+        alpha,
+        bDir,
+        detonate
     };
 
     QHash<int, QByteArray> roleNames() const;
@@ -30,6 +31,8 @@ public:
 
     Q_INVOKABLE void bindA(int nodeIndex);
     Q_INVOKABLE void bindB(int nodeIndex);
+
+    void remove(Node* A, Node* B);
     Q_INVOKABLE void remove(int A, int B);
 
     Q_INVOKABLE void showMap();
@@ -37,14 +40,16 @@ public:
 
     int getArrowID(int A, int B);
 private:
-    QVector<Arrow> arrowList;
-    QHash<Node*,QSet<int>> map;      // матрица инцидентности
+    QVector<Arrow*> arrowList;
+    QHash<Node*,QSet<Arrow*>> map;      // матрица инцидентности
 private slots:
     void updated(Node *node);
+    Q_INVOKABLE void removeArrowsWidth(QVector<Node*> list);
 signals:
     Node* getNode(int index, bool checkExisted);
     int checkExisting(int A, int B);
-    void updateMatrix(int NodeA, int NodeB, bool related);
+    void updateMatrix(int NodeA, int NodeB, Arrow* p_arrow);
+    Arrow* getArrow(int NodeA, int NodeB);
 };
 
 #endif // ARROWLISTMODEL_H

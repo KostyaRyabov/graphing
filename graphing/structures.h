@@ -10,6 +10,14 @@ struct Arrow{
     Node* B;
 
     bool bidirectional = false;
+    bool destroy = true;
+};
+
+enum aDir{
+    NotFound = -1,
+    InSimplex,
+    OutSimplex,
+    Duplex
 };
 
 #endif // STRUCTURES_H

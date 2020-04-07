@@ -8,8 +8,9 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
     connect(&arrow_model, SIGNAL(getNode(int,bool)), &node_model, SLOT(getNode(int,bool)));
     connect(&node_model, SIGNAL(updated(Node*)), &arrow_model, SLOT(updated(Node*)));
     connect(&arrow_model, SIGNAL(checkExisting(int, int)), this, SLOT(checkExisting(int, int)));
-    connect(&arrow_model, SIGNAL(updateMatrix(int, int, bool)), this, SLOT(updateMatrix(int, int, bool)));
+    connect(&arrow_model, SIGNAL(updateMatrix(int, int, Arrow*)), this, SLOT(updateMatrix(int, int, Arrow*)));
     connect(&node_model, SIGNAL(removeItem(int)), this, SLOT(removeNode(int)));
+    connect(&arrow_model, SIGNAL(getArrow(int,int)), this, SLOT(getArrow(int,int)));
 }
 
 NodeManager::~NodeManager(){
@@ -25,6 +26,7 @@ void NodeManager::newFile(){
 }
 
 void NodeManager::openFile(){
+    /*
     filePath = QFileDialog::getOpenFileName(0, "file path", "", "*.json");
 
     if (!filePath.isNull()){
@@ -38,17 +40,21 @@ void NodeManager::openFile(){
         QJsonDocument document(QJsonDocument::fromJson(data));
         read(document.object());
     }
+    */
 }
 
 void NodeManager::saveFile(){
+    /*
     filePath = QFileDialog::getSaveFileName(0, "file path", "", "*.json");
 
     if (!filePath.isNull()){
         saveAsFile();
     }
+    */
 }
 
 void NodeManager::saveAsFile(){
+    /*
     // saving by prepared file path
 
     QFile file(filePath);
@@ -61,6 +67,7 @@ void NodeManager::saveAsFile(){
     write(data);
     QJsonDocument document(data);
     file.write(document.toJson());
+    */
 }
 
 bool NodeManager::filePathExists(){
@@ -68,6 +75,7 @@ bool NodeManager::filePathExists(){
 }
 
 void NodeManager::read(const QJsonObject &json){
+    /*
     matrix.clear();
     QJsonArray mxArray = json["Nodes"].toArray();
 
@@ -79,9 +87,11 @@ void NodeManager::read(const QJsonObject &json){
         }
         matrix.append(newRow);
     }
+    */
 }
 
 void NodeManager::write(QJsonObject &json) const{
+    /*
     QJsonArray mxArray;
     for (auto &row : matrix) {
         QJsonArray mxRow;
@@ -91,10 +101,11 @@ void NodeManager::write(QJsonObject &json) const{
         mxArray.append(mxRow);
     }
     json["Nodes"] = mxArray;
+    */
 }
 
-void NodeManager::updateMatrix(int NodeA, int NodeB, bool related){
-    matrix[NodeA][NodeB] = related;
+void NodeManager::updateMatrix(int NodeA, int NodeB, Arrow* p_arrow){
+    matrix[NodeA][NodeB] = p_arrow;
 
     showMatrix();
 }
@@ -103,7 +114,7 @@ void NodeManager::addItem(){
     qDebug() << "item was added:" << matrix.size();
     for (auto &row : matrix) row.append(0);
 
-    matrix.append(QVector<bool>().fill(false,matrix.size()+1));
+    matrix.append(QVector<Arrow*>().fill(nullptr,matrix.size()+1));
     showMatrix();
 }
 
@@ -117,10 +128,10 @@ int NodeManager::checkExisting(int A, int B){
     showMatrix();
 
     if (matrix[A][B]){
-        if (matrix[B][A]) return 1;
-        return 0;
-    }
-    return -1;
+        if (matrix[B][A]) return aDir::Duplex;
+        return aDir::InSimplex;
+    } else if (matrix[B][A]) return aDir::OutSimplex;
+    return aDir::NotFound;
 }
 
 void NodeManager::showMatrix(){
@@ -128,11 +139,15 @@ void NodeManager::showMatrix(){
     Qcout << "\n---NodeMatrix---\n";
 
     for (auto &row : matrix){
-        for (auto &column : row){
-            Qcout << " " << QVariant(column).toInt();
+        for (auto column : row){
+            Qcout << " " << QVariant(column != nullptr).toInt();
         }
         Qcout << "\n";
     }
 
     Qcout << "----------------\n";
+}
+
+Arrow* NodeManager::getArrow(int NodeA, int NodeB){
+    return matrix[NodeA][NodeB];
 }

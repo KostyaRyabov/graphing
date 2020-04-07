@@ -33,6 +33,9 @@ int main(int argc, char *argv[])
     rootContext->setContextProperty("wsHeight", ws_Height);
     rootContext->setContextProperty("wsWidth", ws_Width);
 
+    rootContext->setContextProperty("delayCD", delayCD);
+    rootContext->setContextProperty("changeTime", changeTime);
+
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     if (engine.rootObjects().isEmpty()) return -1;

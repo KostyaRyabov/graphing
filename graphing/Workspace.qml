@@ -60,6 +60,7 @@ Rectangle{
             len: Length;
             alpha: Angle;
             bDir: bDirection;
+            detonate: Delete;
         }
     }
 }

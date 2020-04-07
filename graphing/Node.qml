@@ -33,11 +33,16 @@ Item {
         border.width: 1
         radius: width*0.5
 
-        NumberAnimation on scale {
+        Component.onCompleted: creation.start();
+
+        NumberAnimation {
+            id:creation;
+            target:view;
+            properties: "scale,opacity"
             from: 0
             to: 1
             easing.type: Easing.OutBack
-            duration: 400
+            duration: delayCD
         }
 
         Text {
@@ -63,7 +68,7 @@ Item {
             MyMenu {
                 id: contextMenu
                 Action { text: "copy"; }
-                Action { text: "remove"; onTriggered: destroyObj.start() }
+                Action { text: "remove"; onTriggered: detonator.start() }
             }
         }
 
@@ -119,10 +124,12 @@ Item {
 
                 onReleased: {
                     cursorShape = Qt.OpenHandCursor;
-                    if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.rx,2)))>SelectorRadius){
+                    if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.ry,2)))>SelectorRadius){
+                        console.log("дальше области селектора");
                         node_model.addNode(node.xc+node.rx,node.yc+node.ry);
                         arrow_model.bindB(node_model.rowCount()-1)
                     }else{
+                        console.log("внутри области селектора");
                         arrow_model.remove(node_model.rowCount()-1,node_model.rowCount()-1)
                     }
 
@@ -145,15 +152,15 @@ Item {
         }
 
         PropertyAnimation {
-            id: destroyObj
+            id: detonator
             target: node
-            properties: "scale"
+            properties: "scale,opacity"
             from: 1
             to: 0
             easing.type: Easing.InBack
-            duration: 500
+            duration: delayCD
 
-            onStopped: manager.removeNode(node.index);
+            onStopped: node_model.removeNode(node.index);
         }
 
         PropertyAnimation {
@@ -161,8 +168,8 @@ Item {
             target: textBox
             properties: "opacity"
             to: 0
-            easing.type: Easing.InOutQuart
-            duration: 300
+            easing.type: Easing.InOutQuad
+            duration: changeTime
 
             onStopped: {
                 node.stored_index = node.index;
@@ -174,8 +181,8 @@ Item {
             target: textBox
             properties: "opacity"
             to: 1
-            easing.type: Easing.OutInQuart
-            duration: 300
+            easing.type: Easing.OutInQuad
+            duration: changeTime
         }
 
         PropertyAnimation {
@@ -184,7 +191,7 @@ Item {
             properties: "opacity"
             easing.type: Easing.OutBack
             to: 0.2
-            duration: 300
+            duration: changeTime
         }
         PropertyAnimation {
             id: unselected
@@ -192,7 +199,7 @@ Item {
             properties: "opacity"
             easing.type: Easing.InBack
             to: 0
-            duration: 300
+            duration: changeTime
 
             onStopped: {
                 control.x = 0;

@@ -88,6 +88,7 @@ Node* nodeListModel::getNode(int index, bool checkExisted){     //ощущает
     for (auto node : nodeList){         // требуется оптимизация поиска близжайших точек - ? использовать B-tree ? если найдется возможность уведомлять о вхождении в область другой точки - заменить на нее
         if (node == item) continue;
         if (qSqrt(qPow(node->xc-item->xc,2)+qPow(node->yc-item->yc,2)) < Selector_Radius) {
+            qDebug() << "       (remove node)"<<node->index;
             removeNode(index);
             return node;
         }
@@ -129,7 +130,7 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
 void nodeListModel::update(int i, int value, int role){
     setData(index(i), value, role);
 
-    emit updated(nodeList[i]);
+    if (role != nRoles::Index) emit updated(nodeList[i]);
 }
 
 void nodeListModel::showNodeList(){

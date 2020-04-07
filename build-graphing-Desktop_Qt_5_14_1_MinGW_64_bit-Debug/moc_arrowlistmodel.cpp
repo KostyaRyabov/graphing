@@ -10,6 +10,7 @@
 #include "../graphing/arrowlistmodel.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
+#include <QtCore/QVector>
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'arrowlistmodel.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
@@ -22,8 +23,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_arrowListModel_t {
-    QByteArrayData data[21];
-    char stringdata0[164];
+    QByteArrayData data[26];
+    char stringdata0[218];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -44,22 +45,28 @@ QT_MOC_LITERAL(8, 65, 1), // "B"
 QT_MOC_LITERAL(9, 67, 12), // "updateMatrix"
 QT_MOC_LITERAL(10, 80, 5), // "NodeA"
 QT_MOC_LITERAL(11, 86, 5), // "NodeB"
-QT_MOC_LITERAL(12, 92, 7), // "related"
-QT_MOC_LITERAL(13, 100, 7), // "updated"
-QT_MOC_LITERAL(14, 108, 4), // "node"
-QT_MOC_LITERAL(15, 113, 5), // "bindA"
-QT_MOC_LITERAL(16, 119, 9), // "nodeIndex"
-QT_MOC_LITERAL(17, 129, 5), // "bindB"
-QT_MOC_LITERAL(18, 135, 6), // "remove"
-QT_MOC_LITERAL(19, 142, 7), // "showMap"
-QT_MOC_LITERAL(20, 150, 13) // "showArrowList"
+QT_MOC_LITERAL(12, 92, 6), // "Arrow*"
+QT_MOC_LITERAL(13, 99, 7), // "p_arrow"
+QT_MOC_LITERAL(14, 107, 8), // "getArrow"
+QT_MOC_LITERAL(15, 116, 7), // "updated"
+QT_MOC_LITERAL(16, 124, 4), // "node"
+QT_MOC_LITERAL(17, 129, 17), // "removeArrowsWidth"
+QT_MOC_LITERAL(18, 147, 14), // "QVector<Node*>"
+QT_MOC_LITERAL(19, 162, 4), // "list"
+QT_MOC_LITERAL(20, 167, 5), // "bindA"
+QT_MOC_LITERAL(21, 173, 9), // "nodeIndex"
+QT_MOC_LITERAL(22, 183, 5), // "bindB"
+QT_MOC_LITERAL(23, 189, 6), // "remove"
+QT_MOC_LITERAL(24, 196, 7), // "showMap"
+QT_MOC_LITERAL(25, 204, 13) // "showArrowList"
 
     },
     "arrowListModel\0getNode\0Node*\0\0index\0"
     "checkExisted\0checkExisting\0A\0B\0"
-    "updateMatrix\0NodeA\0NodeB\0related\0"
-    "updated\0node\0bindA\0nodeIndex\0bindB\0"
-    "remove\0showMap\0showArrowList"
+    "updateMatrix\0NodeA\0NodeB\0Arrow*\0p_arrow\0"
+    "getArrow\0updated\0node\0removeArrowsWidth\0"
+    "QVector<Node*>\0list\0bindA\0nodeIndex\0"
+    "bindB\0remove\0showMap\0showArrowList"
 };
 #undef QT_MOC_LITERAL
 
@@ -69,39 +76,43 @@ static const uint qt_meta_data_arrowListModel[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-       9,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       3,       // signalCount
+       4,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   59,    3, 0x06 /* Public */,
-       6,    2,   64,    3, 0x06 /* Public */,
-       9,    3,   69,    3, 0x06 /* Public */,
+       1,    2,   69,    3, 0x06 /* Public */,
+       6,    2,   74,    3, 0x06 /* Public */,
+       9,    3,   79,    3, 0x06 /* Public */,
+      14,    2,   86,    3, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      13,    1,   76,    3, 0x08 /* Private */,
+      15,    1,   91,    3, 0x08 /* Private */,
+      17,    1,   94,    3, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-      15,    1,   79,    3, 0x02 /* Public */,
-      17,    1,   82,    3, 0x02 /* Public */,
-      18,    2,   85,    3, 0x02 /* Public */,
-      19,    0,   90,    3, 0x02 /* Public */,
-      20,    0,   91,    3, 0x02 /* Public */,
+      20,    1,   97,    3, 0x02 /* Public */,
+      22,    1,  100,    3, 0x02 /* Public */,
+      23,    2,  103,    3, 0x02 /* Public */,
+      24,    0,  108,    3, 0x02 /* Public */,
+      25,    0,  109,    3, 0x02 /* Public */,
 
  // signals: parameters
     0x80000000 | 2, QMetaType::Int, QMetaType::Bool,    4,    5,
     QMetaType::Int, QMetaType::Int, QMetaType::Int,    7,    8,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Bool,   10,   11,   12,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, 0x80000000 | 12,   10,   11,   13,
+    0x80000000 | 12, QMetaType::Int, QMetaType::Int,   10,   11,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 2,   14,
+    QMetaType::Void, 0x80000000 | 2,   16,
+    QMetaType::Void, 0x80000000 | 18,   19,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int,   16,
-    QMetaType::Void, QMetaType::Int,   16,
+    QMetaType::Void, QMetaType::Int,   21,
+    QMetaType::Void, QMetaType::Int,   21,
     QMetaType::Void, QMetaType::Int, QMetaType::Int,    7,    8,
     QMetaType::Void,
     QMetaType::Void,
@@ -119,13 +130,16 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
             if (_a[0]) *reinterpret_cast< Node**>(_a[0]) = std::move(_r); }  break;
         case 1: { int _r = _t->checkExisting((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
-        case 2: _t->updateMatrix((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
-        case 3: _t->updated((*reinterpret_cast< Node*(*)>(_a[1]))); break;
-        case 4: _t->bindA((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 5: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 6: _t->remove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 7: _t->showMap(); break;
-        case 8: _t->showArrowList(); break;
+        case 2: _t->updateMatrix((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< Arrow*(*)>(_a[3]))); break;
+        case 3: { Arrow* _r = _t->getArrow((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
+            if (_a[0]) *reinterpret_cast< Arrow**>(_a[0]) = std::move(_r); }  break;
+        case 4: _t->updated((*reinterpret_cast< Node*(*)>(_a[1]))); break;
+        case 5: _t->removeArrowsWidth((*reinterpret_cast< QVector<Node*>(*)>(_a[1]))); break;
+        case 6: _t->bindA((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 7: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 8: _t->remove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 9: _t->showMap(); break;
+        case 10: _t->showArrowList(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -145,9 +159,16 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
             }
         }
         {
-            using _t = void (arrowListModel::*)(int , int , bool );
+            using _t = void (arrowListModel::*)(int , int , Arrow * );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&arrowListModel::updateMatrix)) {
                 *result = 2;
+                return;
+            }
+        }
+        {
+            using _t = Arrow * (arrowListModel::*)(int , int );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&arrowListModel::getArrow)) {
+                *result = 3;
                 return;
             }
         }
@@ -183,13 +204,13 @@ int arrowListModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 9)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 9;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 9)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 9;
+        _id -= 11;
     }
     return _id;
 }
@@ -213,10 +234,19 @@ int arrowListModel::checkExisting(int _t1, int _t2)
 }
 
 // SIGNAL 2
-void arrowListModel::updateMatrix(int _t1, int _t2, bool _t3)
+void arrowListModel::updateMatrix(int _t1, int _t2, Arrow * _t3)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t3))) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
+}
+
+// SIGNAL 3
+Arrow * arrowListModel::getArrow(int _t1, int _t2)
+{
+    Arrow* _t0{};
+    void *_a[] = { const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t0))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
+    QMetaObject::activate(this, &staticMetaObject, 3, _a);
+    return _t0;
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

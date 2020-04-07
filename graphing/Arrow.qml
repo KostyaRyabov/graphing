@@ -11,6 +11,10 @@ Item {
     property double alpha: 0
     property bool bDir: false
 
+    property bool detonate: false;
+
+    onDetonateChanged: if (detonate) detonator.start();
+
     x: xxx
     y: yyy
 
@@ -18,7 +22,7 @@ Item {
         from: 0
         to: 1
         easing.type: Easing.InOutQuad
-        duration: 600
+        duration: delayCD
     }
 
     transform: Rotation { angle: alpha }
@@ -75,5 +79,17 @@ Item {
             context.reset();
             canvas.requestPaint();
         }
+    }
+
+    PropertyAnimation {
+        id: detonator
+        target: arrow
+        properties: "opacity"
+        from: 1
+        to: 0
+        easing.type: Easing.InBack
+        duration: delayCD
+
+        onStopped: console.log("remove arrow");
     }
 }

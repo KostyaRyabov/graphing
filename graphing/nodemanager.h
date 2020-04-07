@@ -46,12 +46,13 @@ private:
     void write(QJsonObject &json) const;
 
     QString filePath;
-    QVector<QVector<bool>> matrix;   // матрица смежности
+    QVector<QVector<Arrow*>> matrix;   // матрица смежности
 private slots:
     void addItem();
-    void removeNode(int index);
+    Q_INVOKABLE void removeNode(int index);
     int checkExisting(int A, int B);
-    void updateMatrix(int NodeA, int NodeB, bool related);
+    void updateMatrix(int NodeA, int NodeB, Arrow* p_arrow);
+    Arrow* getArrow(int NodeA, int NodeB);
 };
 
 #endif // NODEMANAGER_H

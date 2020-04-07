@@ -17,10 +17,10 @@ public:
 
     enum nRoles{
         xc = Qt::UserRole + 1,
-        yc = Qt::UserRole + 2,
-        rx = Qt::UserRole + 3,
-        ry = Qt::UserRole + 4,
-        Index = Qt::UserRole + 5
+        yc,
+        rx,
+        ry,
+        Index
     };
 
     QHash<int, QByteArray> roleNames() const;
@@ -40,6 +40,7 @@ signals:
     void updated(Node* node);
     void addItem();
     void removeItem(int index);
+    Q_INVOKABLE void removeArrowsWidth(QVector<Node*> list);
 private slots:
     Node* getNode(int index, bool checkExisted);
 };
