@@ -6,5 +6,6 @@
         <file>PopupMessage.qml</file>
         <file>MyMenu.qml</file>
         <file>Arrow.qml</file>
+        <file>RectSelector.qml</file>
     </qresource>
 </RCC>

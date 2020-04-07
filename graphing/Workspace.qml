@@ -6,20 +6,14 @@ Rectangle{
 
     width: wsWidth
     height: wsHeight
-    x: (parent.width-space.width)/2
-    y: (parent.height-space.height)/2
-
-    Drag.active: dragArea.drag.active
 
     MouseArea {
         id: dragArea
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-        drag.target: parent
-
         cursorShape: Qt.PointingHandCursor
-        onPressed: {cursorShape = Qt.CloseHandCursor}
+        onPressed: cursorShape = Qt.CloseHandCursor
         onReleased: {cursorShape = Qt.PointingHandCursor}
 
         onClicked: {

@@ -12,8 +12,48 @@ ApplicationWindow {
     title: "graph editor"
     color: "lightgray"
 
+    Workspace{
+        id:workspace;
+        objectName: "workspace"
+
+        x: (parent.width-workspace.width)/2
+        y: (parent.height-workspace.height)/2
+
+        property int lastX: 0
+        property int lastY: 0
+
+        transform: Scale { id: scaleRect }
+    }
+
+
     MouseArea {
+        id: area
         anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+        onPressed: {
+            if (mouse.button & Qt.RightButton){
+                workspace.lastX = mouseX - workspace.x
+                workspace.lastY = mouseY - workspace.y
+            } else if (mouse.button & Qt.LeftButton){
+                selector.x = mouseX
+                selector.y = mouseY
+            }
+        }
+        onPositionChanged: {
+            if (area.pressedButtons & Qt.RightButton){
+                workspace.x = mouseX - workspace.lastX
+                workspace.y = mouseY - workspace.lastY
+            } else if (area.pressedButtons & Qt.LeftButton){
+                selector.dX = mouseX - selector.x
+                selector.dY = mouseY - selector.y
+            }
+        }
+
+        onReleased: {
+            selector.dX = 0;
+            selector.dY = 0;
+        }
 
         property double ratio: 0.95;
         onWheel: {
@@ -34,13 +74,8 @@ ApplicationWindow {
             zoomBox.show();
         }
     }
+    RectSelector {id:selector }
 
-    Workspace{
-        id:workspace;
-        objectName: "workspace"
-
-        transform: Scale { id: scaleRect }
-    }
 
     PopupMessage { id:zoomBox; value: (scaleRect.xScale).toFixed(2) + "%" }
 
