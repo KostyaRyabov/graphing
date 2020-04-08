@@ -48,6 +48,7 @@ private:
     QString filePath;
     QVector<QVector<Arrow*>> matrix;   // матрица смежности
 private slots:
+    QVector<Arrow*> getArrowListWithNode(int nodeA);
     void addItem();
     Q_INVOKABLE void removeNode(int index);
     int checkExisting(int A, int B);

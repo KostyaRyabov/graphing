@@ -68,12 +68,12 @@ void nodeListModel::addNode(int x, int y){
 }
 
 void nodeListModel::removeNode(int i){
-    emit removeItem(i);
-
     beginRemoveRows(QModelIndex(), i,i);
     auto node = nodeList.takeAt(i);
     emit removeBindings(node);
     endRemoveRows();
+
+    emit removeItem(i);
 
     //change indexes for rest nodes
     for (auto j = i; j < nodeList.size(); j++) {

@@ -12,6 +12,7 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
     connect(&node_model, SIGNAL(removeItem(int)), this, SLOT(removeNode(int)));
     connect(&arrow_model, SIGNAL(getArrow(int,int)), this, SLOT(getArrow(int,int)));
     connect(&node_model, SIGNAL(removeBindings(Node*)), &arrow_model, SLOT(removeBindings(Node*)));
+    connect(&arrow_model, SIGNAL(getArrowListWithNode(int)), this, SLOT(getArrowListWithNode(int)));
 }
 
 NodeManager::~NodeManager(){
@@ -151,4 +152,18 @@ void NodeManager::showMatrix(){
 
 Arrow* NodeManager::getArrow(int NodeA, int NodeB){
     return matrix[NodeA][NodeB];
+}
+
+QVector<Arrow*> NodeManager::getArrowListWithNode(int nodeA){
+    QVector<Arrow*> arrowList;
+
+    for (int nodeB = 0; nodeB < matrix.size(); nodeB++){
+        if (matrix[nodeA][nodeB] != nullptr){
+            arrowList.append(matrix[nodeA][nodeB]);
+        } else if (matrix[nodeB][nodeA] != nullptr){
+            arrowList.append(matrix[nodeB][nodeA]);
+        }
+    }
+
+    return arrowList;
 }

@@ -2,7 +2,6 @@
 
 arrowListModel::arrowListModel(QObject *parent) : QAbstractListModel(parent)
 {
-    map.reserve(10);
     del_list.reserve(10);
     arrowList.reserve(10);
 }
@@ -75,10 +74,10 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
 void arrowListModel::updated(Node *node){           // обновление ребер, связанных с передаваемой точкой в качестве аргумента
     if (arrowList.isEmpty()) return;                // проверка наличия ребер
 
-    auto list = map.find(node);                     // получаем список ребер из матрицы
-    if (list == map.end()) return;                  // проверяем наличие
+    auto aList = getArrowListWithNode(node->index);
+    if (adding) aList.append(arrowList.last());
 
-    for(auto ix : *list) {
+    for(auto ix : aList) {
         auto i = index(arrowList.indexOf(ix));                         // получаем индекс ребра и
         emit dataChanged(i,i,{xxx,yyy,len,alpha});                      // обновляем его содержимое
     }
@@ -94,8 +93,9 @@ void arrowListModel::bindA(int nodeIndex){              // привязка пе
     item->A = p_node;
     item->B = p_node;
     item->bidirectional = false;
-    arrowList.append(item);                             // занесение в список
-    map[item->A].insert(item);                          // занесение ребра в матрицу инцидентности
+    arrowList.append(item);                            // занесение ребра в матрицу инцидентности
+
+    adding = true;
 
     endInsertRows();
 }
@@ -119,8 +119,7 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
         } case aDir::NotFound: {
             qDebug() << "(не найдено)";
             emit updateMatrix(currentArrow->A->index, p_node->index,currentArrow);      // обновляется матрица
-            currentArrow->B = p_node;
-            map[currentArrow->B].insert(currentArrow);                                  // добавляется карта
+            currentArrow->B = p_node;                                 // добавляется карта
             auto i = index(arrowList.size()-1);
             emit dataChanged(i,i,{xxx,yyy,len,alpha});
             break;
@@ -129,25 +128,16 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
             remove(currentArrow);
         }
     }
+
+    adding = false;
 }
 
 int arrowListModel::getArrowID(int A, int B){
     return arrowList.indexOf(emit getArrow(A,B));
 }
 
-void arrowListModel::cutArrow(Arrow *arrow){
-    auto list = map.find(arrow->A);
-    list->remove(arrow);
-    if (list->isEmpty()) map.remove(arrow->A);
-
-    list = map.find(arrow->B);
-    list->remove(arrow);
-    if (list->isEmpty()) map.remove(arrow->B);
-}
-
 void arrowListModel::remove(Arrow* arrow){
     qDebug() << "removing"<< arrow->A->index << arrow->B->index;
-    cutArrow(arrow);
 
     auto i = index(arrowList.indexOf(arrow));
     emit dataChanged(i,i,{aRoles::detonate});
@@ -158,55 +148,34 @@ void arrowListModel::removeCurrent(){
     auto currentArrow = arrowList.last();
     qDebug() << "removing"<< currentArrow->A->index << currentArrow->B->index;
 
-    auto list = map.find(currentArrow->A);
-    list->remove(currentArrow);
-    if (list->isEmpty()) map.remove(currentArrow->A);
-
     auto i = index(arrowList.size()-1);
     emit dataChanged(i,i,{aRoles::detonate});
     del_list.push_front(currentArrow);
 }
 
 void arrowListModel::removeBindings(Node* node){
-    auto list = map.find(node);
-    if (list != map.end()){
-        QModelIndex i;
-        for (auto arrow : *list) {
-            i = index(arrowList.indexOf(arrow));
-            emit dataChanged(i,i,{aRoles::detonate});
-            del_list.push_front(arrow);
-        }
+    auto aList = getArrowListWithNode(node->index);
+
+    qDebug() << "del List:" << aList.size();
+
+    QModelIndex i;
+    for (auto &arrow : aList) {
+        qDebug() << arrow->A->index << arrow->B->index;
+        i = index(arrowList.indexOf(arrow));
+        emit dataChanged(i,i,{aRoles::detonate});
+        del_list.push_front(arrow);
     }
 }
 
 void arrowListModel::kill(){
     if (!del_list.isEmpty()){
         auto arrow = del_list.takeLast();
-        cutArrow(arrow);
         qDebug() << "kill"<< arrow->A->index << arrow->B->index;
         auto index = arrowList.indexOf(arrow);
         beginRemoveRows(QModelIndex(),index,index);
         arrowList.remove(index);
         endRemoveRows();
     }
-}
-
-void arrowListModel::showMap(){
-    QTextStream Qcout(stdout);
-
-    Qcout << "\n---MAP---\n";
-
-    auto nodes = map.keys();
-
-    for (auto &node : nodes){
-        Qcout << node->index << " :";
-        for (auto &arrow : map[node]){
-            Qcout << "  " << arrowList.indexOf(arrow);
-        }
-        Qcout << "\n";
-    }
-
-    Qcout << "\n---------\n";
 }
 
 void arrowListModel::showArrowList(){

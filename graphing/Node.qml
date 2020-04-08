@@ -69,6 +69,8 @@ Item {
                 id: contextMenu
                 Action { text: "copy"; }
                 Action { text: "remove"; onTriggered: detonator.start() }
+                MenuSeparator { }
+                Action { text: "create loop"; onTriggered: console.log("делай петлю!!!") }
             }
         }
 
@@ -137,6 +139,9 @@ Item {
                         }
                     }
 
+                    control.opacity = 0;
+                    control.x = 0;
+                    control.y = 0;
                     timer.stop();
                 }
             }

@@ -12,24 +12,12 @@ ApplicationWindow {
     title: "graph editor"
     color: "lightgray"
 
-    Workspace{
-        id:workspace;
-        objectName: "workspace"
-
-        x: (parent.width-workspace.width)/2
-        y: (parent.height-workspace.height)/2
-
-        property int lastX: 0
-        property int lastY: 0
-
-        transform: Scale { id: scaleRect }
-    }
-
-
     MouseArea {
         id: area
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+        propagateComposedEvents: true
 
         onPressed: {
             if (mouse.button & Qt.RightButton){
@@ -74,9 +62,21 @@ ApplicationWindow {
             zoomBox.show();
         }
     }
+
+    Workspace{
+        id:workspace;
+        objectName: "workspace"
+
+        x: (parent.width-workspace.width)/2
+        y: (parent.height-workspace.height)/2
+
+        property int lastX: 0
+        property int lastY: 0
+
+        transform: Scale { id: scaleRect }
+    }
+
     RectSelector {id:selector }
-
-
     PopupMessage { id:zoomBox; value: (scaleRect.xScale).toFixed(2) + "%" }
 
     menuBar: MenuBar {
@@ -93,7 +93,6 @@ ApplicationWindow {
             Action { text: "showAll"; onTriggered: {
                     node_model.showNodeList()
                     arrow_model.showArrowList()
-                    arrow_model.showMap()
                     manager.showMatrix()
                 }
             }
