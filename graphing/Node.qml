@@ -59,7 +59,10 @@ Item {
 
             cursorShape: Qt.OpenHandCursor
             onPressed: {   cursorShape = Qt.CloseHandCursor}
-            onReleased: { cursorShape = Qt.OpenHandCursor}
+            onReleased: {
+                cursorShape = Qt.OpenHandCursor
+                node_model.checkNodeCollision(node.index);
+            }
             onPositionChanged: {
                 node.x += mouseX-nodeRadius
                 node.y += mouseY-nodeRadius
@@ -163,7 +166,7 @@ Item {
             easing.type: Easing.InCirc
             duration: delayCD
 
-            onStopped: node_model.removeNode(node.index);
+            onStopped: node_model.removeNode(node.index,true);
         }
 
         PropertyAnimation {

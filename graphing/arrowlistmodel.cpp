@@ -183,8 +183,6 @@ void arrowListModel::removeCurrent(){
 void arrowListModel::removeBindings(Node* node){
     auto aList = getArrowListWithNode(node->index);
 
-    qDebug() << "del List:" << aList.size();
-
     QModelIndex i;
     for (auto &arrow : aList) {
         qDebug() << arrow->A->index << arrow->B->index;
