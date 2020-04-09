@@ -32,22 +32,19 @@ void NodeManager::mergeArrows(int &fA, int &fB, int &A, int &B){
     int arrowDiraction1 = checkExisting(fA,fB);
     int arrowDiraction2 = checkExisting(A,B);
 
-    qDebug() << fA<<fB<<A<<B;
-
     if (arrowDiraction1 == aDir::Duplex){
         if (arrowDiraction2 == aDir::Duplex){
             // удаляем 1е ребро
-            arrow_model.remove(matrix[fA][fB],false);
+            arrow_model.remove(matrix[fA][fB]);
         }else if (arrowDiraction2 == aDir::NotFound){
             // указываем в матрице в 2х местах 1е ребро
-            qDebug()<<"(2)";
             matrix[A][B] = matrix[fA][fB];
             matrix[B][A] = matrix[fA][fB];
         }else{
             // указываем в другой позиции (B,A) матрицы 2е ребро
             // удаляем 1е ребро и сообщаем 2му, что он двунаправленный
 
-            arrow_model.remove(matrix[fA][fB],false);
+            arrow_model.remove(matrix[fA][fB]);
             Arrow *arrow = matrix[A][B];
             arrow->bidirectional = true;
             matrix[B][A] = arrow;
@@ -60,48 +57,42 @@ void NodeManager::mergeArrows(int &fA, int &fB, int &A, int &B){
             // указываем в другой позиции (A,B) матрицы 2е ребро
             // удаляем 1е ребро и сообщаем 2му, что он двунаправленный
 
-            arrow_model.remove(matrix[fA][fB],false);
+            arrow_model.remove(matrix[fA][fB]);
             Arrow *arrow = matrix[B][A];
             arrow->bidirectional = true;
             matrix[A][B] = arrow;
 
             auto index = arrow_model.index(arrow_model.arrowList.indexOf(arrow));
             emit arrow_model.dataChanged(index,index,{arrowListModel::aRoles::bDir});
-        }else if (arrowDiraction2 == aDir::NotFound){
-            Arrow *arrow = matrix[fA][fB];
-            arrow->A = node_model.nodeList[A];
-            matrix[A][B] = arrow;
         }else{
-            arrow_model.remove(matrix[fA][fB],false);
+            // удаляем 1е ребро
+
+            arrow_model.remove(matrix[fA][fB]);
         }
     } else if (arrowDiraction1 == aDir::OutSimplex){
         if (arrowDiraction2 == aDir::InSimplex || arrowDiraction2 == aDir::Duplex){
             // указываем в другой позиции (B,A) матрицы 2е ребро
             // удаляем 1е ребро и сообщаем 2му, что он двунаправленный
 
-            arrow_model.remove(matrix[fB][fA],false);
+            arrow_model.remove(matrix[fB][fA]);
             Arrow *arrow = matrix[A][B];
             arrow->bidirectional = true;
             matrix[B][A] = arrow;
 
             auto index = arrow_model.index(arrow_model.arrowList.indexOf(arrow));
             emit arrow_model.dataChanged(index,index,{arrowListModel::aRoles::bDir});
-        }else if (arrowDiraction2 == aDir::NotFound){
-            Arrow *arrow = matrix[fB][fA];
-            arrow->B = node_model.nodeList[A];
-            matrix[A][B] = arrow;
         }else{
-            arrow_model.remove(matrix[fA][fB],false);
+            // удаляем 1е ребро
+
+            arrow_model.remove(matrix[fB][fA]);
         }
     }
-
-    showMatrix();
 }
 
 void NodeManager::mergeNodes(Node* From, Node* To){
     qDebug() << "from"<<From->index<<"to"<<To->index;
-
     showMatrix();
+
     int i;
     Arrow *arrow, *oldArrow;
 
@@ -118,6 +109,8 @@ void NodeManager::mergeNodes(Node* From, Node* To){
             matrix[To->index][To->index] = arrow;
         }
     }
+
+    showMatrix();
 }
 
 void NodeManager::openFile(){

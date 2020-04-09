@@ -36,7 +36,7 @@ public:
     Q_INVOKABLE void bindA(int nodeIndex);
     Q_INVOKABLE void bindB(int nodeIndex);
 
-    Q_INVOKABLE void remove(Arrow* arrow, bool animation);
+    Q_INVOKABLE void remove(Arrow* arrow);
     Q_INVOKABLE void removeCurrent();
 
     Q_INVOKABLE void showArrowList();

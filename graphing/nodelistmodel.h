@@ -35,8 +35,6 @@ public:
     Q_INVOKABLE void checkNodeCollision(int index);
 
     Q_INVOKABLE void showNodeList();
-
-    friend class NodeManager;
 private:
     QVector<Node*> nodeList;
 signals:
