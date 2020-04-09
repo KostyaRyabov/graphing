@@ -9,6 +9,7 @@
 #include <QHash>
 
 #include <QQueue>
+#include <options.h>
 
 class arrowListModel : public QAbstractListModel
 {
@@ -31,6 +32,7 @@ public:
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    Q_INVOKABLE void createLoop(int nodeIndex);
     Q_INVOKABLE void bindA(int nodeIndex);
     Q_INVOKABLE void bindB(int nodeIndex);
 

@@ -582,6 +582,7 @@ moc_arrowlistmodel.cpp: ../graphing/arrowlistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QQueue \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qqueue.h \
+		../graphing/options.h \
 		moc_predefs.h \
 		C:/Qt/5.14.1/mingw73_64/bin/moc.exe
 	C:\Qt\5.14.1\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/rkrtu/source/repos/Qt/graphing/build-graphing-Desktop_Qt_5_14_1_MinGW_64_bit-Debug/moc_predefs.h -IC:/Qt/5.14.1/mingw73_64/mkspecs/win32-g++ -IC:/Users/rkrtu/source/repos/Qt/graphing/graphing -IC:/Qt/5.14.1/mingw73_64/include -IC:/Qt/5.14.1/mingw73_64/include/QtQuick -IC:/Qt/5.14.1/mingw73_64/include/QtWidgets -IC:/Qt/5.14.1/mingw73_64/include/QtGui -IC:/Qt/5.14.1/mingw73_64/include/QtANGLE -IC:/Qt/5.14.1/mingw73_64/include/QtQmlModels -IC:/Qt/5.14.1/mingw73_64/include/QtQml -IC:/Qt/5.14.1/mingw73_64/include/QtNetwork -IC:/Qt/5.14.1/mingw73_64/include/QtCore -I. -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Tools/mingw730_64/x86_64-w64-mingw32/include ..\graphing\arrowlistmodel.h -o moc_arrowlistmodel.cpp
@@ -852,8 +853,8 @@ moc_nodemanager.cpp: ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QQueue \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qqueue.h \
-		../graphing/nodelistmodel.h \
 		../graphing/options.h \
+		../graphing/nodelistmodel.h \
 		moc_predefs.h \
 		C:/Qt/5.14.1/mingw73_64/bin/moc.exe
 	C:\Qt\5.14.1\mingw73_64\bin\moc.exe $(DEFINES) --include C:/Users/rkrtu/source/repos/Qt/graphing/build-graphing-Desktop_Qt_5_14_1_MinGW_64_bit-Debug/moc_predefs.h -IC:/Qt/5.14.1/mingw73_64/mkspecs/win32-g++ -IC:/Users/rkrtu/source/repos/Qt/graphing/graphing -IC:/Qt/5.14.1/mingw73_64/include -IC:/Qt/5.14.1/mingw73_64/include/QtQuick -IC:/Qt/5.14.1/mingw73_64/include/QtWidgets -IC:/Qt/5.14.1/mingw73_64/include/QtGui -IC:/Qt/5.14.1/mingw73_64/include/QtANGLE -IC:/Qt/5.14.1/mingw73_64/include/QtQmlModels -IC:/Qt/5.14.1/mingw73_64/include/QtQml -IC:/Qt/5.14.1/mingw73_64/include/QtNetwork -IC:/Qt/5.14.1/mingw73_64/include/QtCore -I. -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++ -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/x86_64-w64-mingw32 -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include/c++/backward -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include -IC:/Qt/Tools/mingw730_64/lib/gcc/x86_64-w64-mingw32/7.3.0/include-fixed -IC:/Qt/Tools/mingw730_64/x86_64-w64-mingw32/include ..\graphing\nodemanager.h -o moc_nodemanager.cpp
@@ -949,7 +950,8 @@ arrowlistmodel.o: ../graphing/arrowlistmodel.cpp ../graphing/arrowlistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QQueue \
-		C:/Qt/5.14.1/mingw73_64/include/QtCore/qqueue.h
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/qqueue.h \
+		../graphing/options.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o arrowlistmodel.o ..\graphing\arrowlistmodel.cpp
 
 main.o: ../graphing/main.cpp ../graphing/nodemanager.h \
@@ -1142,8 +1144,8 @@ main.o: ../graphing/main.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QQueue \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qqueue.h \
-		../graphing/nodelistmodel.h \
 		../graphing/options.h \
+		../graphing/nodelistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/QQmlProperty \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/qqmlproperty.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtQml/QtQml \
@@ -1598,8 +1600,8 @@ nodemanager.o: ../graphing/nodemanager.cpp ../graphing/nodemanager.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QHash \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QQueue \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qqueue.h \
-		../graphing/nodelistmodel.h \
 		../graphing/options.h \
+		../graphing/nodelistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtQuick/QQuickItem \
 		C:/Qt/5.14.1/mingw73_64/include/QtQuick/qquickitem.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QList \
