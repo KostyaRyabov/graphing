@@ -47,21 +47,6 @@ Rectangle{
 
 
     Repeater {
-        id: node_conveier
-        anchors.fill: parent
-        model: node_model
-        delegate: Node {
-            xc: PosX;
-            yc: PosY;
-            rx: RelativePosX;
-            ry: RelativePosY;
-            index: node_id;
-        }
-    }
-
-
-
-    Repeater {
         anchors.fill: parent
         model: arrow_model
         delegate: Arrow {
@@ -71,6 +56,18 @@ Rectangle{
             alpha: Angle;
             bDir: bDirection;
             detonate: Delete;
+        }
+    }
+    Repeater {
+        id: node_conveier
+        anchors.fill: parent
+        model: node_model
+        delegate: Node {
+            xc: PosX;
+            yc: PosY;
+            rx: RelativePosX;
+            ry: RelativePosY;
+            index: node_id;
         }
     }
 }

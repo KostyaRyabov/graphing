@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_arrowListModel_t {
-    QByteArrayData data[30];
-    char stringdata0[266];
+    QByteArrayData data[31];
+    char stringdata0[276];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -59,9 +59,10 @@ QT_MOC_LITERAL(23, 208, 5), // "bindA"
 QT_MOC_LITERAL(24, 214, 5), // "bindB"
 QT_MOC_LITERAL(25, 220, 6), // "remove"
 QT_MOC_LITERAL(26, 227, 5), // "arrow"
-QT_MOC_LITERAL(27, 233, 13), // "removeCurrent"
-QT_MOC_LITERAL(28, 247, 13), // "showArrowList"
-QT_MOC_LITERAL(29, 261, 4) // "kill"
+QT_MOC_LITERAL(27, 233, 9), // "animation"
+QT_MOC_LITERAL(28, 243, 13), // "removeCurrent"
+QT_MOC_LITERAL(29, 257, 13), // "showArrowList"
+QT_MOC_LITERAL(30, 271, 4) // "kill"
 
     },
     "arrowListModel\0getArrowListWithNode\0"
@@ -70,8 +71,8 @@ QT_MOC_LITERAL(29, 261, 4) // "kill"
     "updateMatrix\0NodeA\0NodeB\0Arrow*\0p_arrow\0"
     "getArrow\0removeBindings\0node\0updated\0"
     "createLoop\0nodeIndex\0bindA\0bindB\0"
-    "remove\0arrow\0removeCurrent\0showArrowList\0"
-    "kill"
+    "remove\0arrow\0animation\0removeCurrent\0"
+    "showArrowList\0kill"
 };
 #undef QT_MOC_LITERAL
 
@@ -103,10 +104,10 @@ static const uint qt_meta_data_arrowListModel[] = {
       21,    1,  115,    3, 0x02 /* Public */,
       23,    1,  118,    3, 0x02 /* Public */,
       24,    1,  121,    3, 0x02 /* Public */,
-      25,    1,  124,    3, 0x02 /* Public */,
-      27,    0,  127,    3, 0x02 /* Public */,
-      28,    0,  128,    3, 0x02 /* Public */,
-      29,    0,  129,    3, 0x02 /* Public */,
+      25,    2,  124,    3, 0x02 /* Public */,
+      28,    0,  129,    3, 0x02 /* Public */,
+      29,    0,  130,    3, 0x02 /* Public */,
+      30,    0,  131,    3, 0x02 /* Public */,
 
  // signals: parameters
     0x80000000 | 2, QMetaType::Int,    4,
@@ -123,7 +124,7 @@ static const uint qt_meta_data_arrowListModel[] = {
     QMetaType::Void, QMetaType::Int,   22,
     QMetaType::Void, QMetaType::Int,   22,
     QMetaType::Void, QMetaType::Int,   22,
-    QMetaType::Void, 0x80000000 | 15,   26,
+    QMetaType::Void, 0x80000000 | 15, QMetaType::Bool,   26,   27,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -151,7 +152,7 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 7: _t->createLoop((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 8: _t->bindA((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 9: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 10: _t->remove((*reinterpret_cast< Arrow*(*)>(_a[1]))); break;
+        case 10: _t->remove((*reinterpret_cast< Arrow*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
         case 11: _t->removeCurrent(); break;
         case 12: _t->showArrowList(); break;
         case 13: _t->kill(); break;

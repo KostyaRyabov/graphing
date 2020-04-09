@@ -136,7 +136,7 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
             qDebug() << "(в другом направлении)";
             emit updateMatrix(currentArrow->A->index,p_node->index,getArrow(p_node->index,currentArrow->A->index));     // устанавливается в матрице другое направление
 
-            remove(currentArrow);
+            remove(currentArrow,false);
 
             int id = getArrowID(p_node->index, currentArrow->A->index);     // получаем существующее ребро
             auto i = index(id);
@@ -152,7 +152,7 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
             break;
         } case aDir::InSimplex:{
             qDebug() << "(повторяющее)";
-            remove(currentArrow);
+            remove(currentArrow,false);
         }
     }
 
@@ -163,17 +163,21 @@ int arrowListModel::getArrowID(int A, int B){
     return arrowList.indexOf(emit getArrow(A,B));
 }
 
-void arrowListModel::remove(Arrow* arrow){
-    qDebug() << "removing"<< arrow->A->index << arrow->B->index;
-
-    auto i = index(arrowList.indexOf(arrow));
-    emit dataChanged(i,i,{aRoles::detonate});
-    del_list.push_front(arrow);
+void arrowListModel::remove(Arrow* arrow, bool animation){
+    if (animation){
+        auto index = arrowList.indexOf(arrow);
+        beginRemoveRows(QModelIndex(),index,index);
+        delete arrowList.takeAt(index);
+        endRemoveRows();
+    }else{
+        auto i = index(arrowList.indexOf(arrow));
+        emit dataChanged(i,i,{aRoles::detonate});
+        del_list.push_front(arrow);
+    }
 }
 
 void arrowListModel::removeCurrent(){
     auto currentArrow = arrowList.last();
-    qDebug() << "removing"<< currentArrow->A->index << currentArrow->B->index;
 
     auto i = index(arrowList.size()-1);
     emit dataChanged(i,i,{aRoles::detonate});
@@ -195,7 +199,6 @@ void arrowListModel::removeBindings(Node* node){
 void arrowListModel::kill(){
     if (!del_list.isEmpty()){
         auto arrow = del_list.takeLast();
-        qDebug() << "kill"<< arrow->A->index << arrow->B->index;
         auto index = arrowList.indexOf(arrow);
         beginRemoveRows(QModelIndex(),index,index);
         arrowList.remove(index);

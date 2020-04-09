@@ -108,6 +108,25 @@ Item {
             context.reset();
             canvas.requestPaint();
         }
+
+        Rectangle{
+            id: control;
+            anchors.fill: parent
+            anchors.margins: -nodeRadius
+
+            opacity: 0
+            color: "#7777FF"
+            border.color: "#2222FF"
+            border.width: 1
+
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true;
+
+                onEntered: selected.start();
+                onExited: unselected.start();
+            }
+        }
     }
 
     PropertyAnimation {
@@ -120,5 +139,27 @@ Item {
         duration: delayCD
 
         onStopped: arrow_model.kill()
+    }
+
+    PropertyAnimation {
+        id: selected
+        target: control
+        properties: "opacity"
+        easing.type: Easing.OutBack
+        to: 0.2
+        duration: changeTime
+    }
+    PropertyAnimation {
+        id: unselected
+        target: control
+        properties: "opacity"
+        easing.type: Easing.InBack
+        to: 0
+        duration: changeTime
+
+        onStopped: {
+            control.x = 0;
+            control.y = 0;
+        }
     }
 }
