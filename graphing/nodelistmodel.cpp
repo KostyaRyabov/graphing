@@ -26,19 +26,6 @@ int nodeListModel::rowCount(const QModelIndex &parent) const{
     return nodeList.size();
 }
 
-void nodeListModel::checkNodeCollision(int index){
-    auto item = nodeList[index];
-
-    for (auto node : nodeList){
-        if (node == item) continue;
-        if (qSqrt(qPow(node->xc-item->xc,2)+qPow(node->yc-item->yc,2)) < Selector_Radius) {
-            emit mergeNodes(item, node);
-            removeNode(index,false);
-            break;
-        }
-    }
-}
-
 QVariant nodeListModel::data(const QModelIndex &index, int role) const{
     if (!index.isValid()){
         return QVariant();
@@ -76,13 +63,14 @@ void nodeListModel::addNode(int x, int y){
     nodeList.append(item);
 
     endInsertRows();
+
+    //emit addItem();           // добавление в матрицу смежности
 }
 
-void nodeListModel::removeNode(int i, bool relations){
+void nodeListModel::removeNode(int i){
     beginRemoveRows(QModelIndex(), i,i);
     auto node = nodeList.takeAt(i);
-    if (relations) emit removeBindings(node);
-    delete node;
+    emit removeBindings(node);
     endRemoveRows();
 
     emit removeItem(i);
@@ -93,15 +81,16 @@ void nodeListModel::removeNode(int i, bool relations){
     }
 }
 
-Node* nodeListModel::getNode(int index, bool checkExisted){
+Node* nodeListModel::getNode(int index, bool checkExisted){     //ощущается задержка
     if (!checkExisted) return nodeList[index];
 
     auto item = nodeList[index];
 
-    for (auto node : nodeList){
+    for (auto node : nodeList){         // требуется оптимизация поиска близжайших точек - ? использовать B-tree ? если найдется возможность уведомлять о вхождении в область другой точки - заменить на нее
         if (node == item) continue;
         if (qSqrt(qPow(node->xc-item->xc,2)+qPow(node->yc-item->yc,2)) < Selector_Radius) {
-            removeNode(index, true);
+            qDebug() << "       (remove node)"<<node->index;
+            removeNode(index);
             return node;
         }
     }

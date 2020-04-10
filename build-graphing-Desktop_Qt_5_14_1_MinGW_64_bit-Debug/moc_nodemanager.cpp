@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NodeManager_t {
-    QByteArrayData data[27];
-    char stringdata0[236];
+    QByteArrayData data[23];
+    char stringdata0[211];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,41 +33,36 @@ struct qt_meta_stringdata_NodeManager_t {
 static const qt_meta_stringdata_NodeManager_t qt_meta_stringdata_NodeManager = {
     {
 QT_MOC_LITERAL(0, 0, 11), // "NodeManager"
-QT_MOC_LITERAL(1, 12, 10), // "mergeNodes"
-QT_MOC_LITERAL(2, 23, 0), // ""
-QT_MOC_LITERAL(3, 24, 5), // "Node*"
-QT_MOC_LITERAL(4, 30, 4), // "From"
-QT_MOC_LITERAL(5, 35, 2), // "To"
-QT_MOC_LITERAL(6, 38, 20), // "getArrowListWithNode"
-QT_MOC_LITERAL(7, 59, 15), // "QVector<Arrow*>"
-QT_MOC_LITERAL(8, 75, 5), // "nodeA"
-QT_MOC_LITERAL(9, 81, 7), // "addItem"
-QT_MOC_LITERAL(10, 89, 10), // "removeNode"
-QT_MOC_LITERAL(11, 100, 5), // "index"
-QT_MOC_LITERAL(12, 106, 13), // "checkExisting"
-QT_MOC_LITERAL(13, 120, 1), // "A"
-QT_MOC_LITERAL(14, 122, 1), // "B"
-QT_MOC_LITERAL(15, 124, 12), // "updateMatrix"
-QT_MOC_LITERAL(16, 137, 5), // "NodeA"
-QT_MOC_LITERAL(17, 143, 5), // "NodeB"
-QT_MOC_LITERAL(18, 149, 6), // "Arrow*"
-QT_MOC_LITERAL(19, 156, 7), // "p_arrow"
-QT_MOC_LITERAL(20, 164, 8), // "getArrow"
-QT_MOC_LITERAL(21, 173, 7), // "newFile"
-QT_MOC_LITERAL(22, 181, 8), // "openFile"
-QT_MOC_LITERAL(23, 190, 8), // "saveFile"
-QT_MOC_LITERAL(24, 199, 10), // "saveAsFile"
-QT_MOC_LITERAL(25, 210, 14), // "filePathExists"
-QT_MOC_LITERAL(26, 225, 10) // "showMatrix"
+QT_MOC_LITERAL(1, 12, 20), // "getArrowListWithNode"
+QT_MOC_LITERAL(2, 33, 15), // "QVector<Arrow*>"
+QT_MOC_LITERAL(3, 49, 0), // ""
+QT_MOC_LITERAL(4, 50, 5), // "nodeA"
+QT_MOC_LITERAL(5, 56, 7), // "addItem"
+QT_MOC_LITERAL(6, 64, 10), // "removeNode"
+QT_MOC_LITERAL(7, 75, 5), // "index"
+QT_MOC_LITERAL(8, 81, 13), // "checkExisting"
+QT_MOC_LITERAL(9, 95, 1), // "A"
+QT_MOC_LITERAL(10, 97, 1), // "B"
+QT_MOC_LITERAL(11, 99, 12), // "updateMatrix"
+QT_MOC_LITERAL(12, 112, 5), // "NodeA"
+QT_MOC_LITERAL(13, 118, 5), // "NodeB"
+QT_MOC_LITERAL(14, 124, 6), // "Arrow*"
+QT_MOC_LITERAL(15, 131, 7), // "p_arrow"
+QT_MOC_LITERAL(16, 139, 8), // "getArrow"
+QT_MOC_LITERAL(17, 148, 7), // "newFile"
+QT_MOC_LITERAL(18, 156, 8), // "openFile"
+QT_MOC_LITERAL(19, 165, 8), // "saveFile"
+QT_MOC_LITERAL(20, 174, 10), // "saveAsFile"
+QT_MOC_LITERAL(21, 185, 14), // "filePathExists"
+QT_MOC_LITERAL(22, 200, 10) // "showMatrix"
 
     },
-    "NodeManager\0mergeNodes\0\0Node*\0From\0"
-    "To\0getArrowListWithNode\0QVector<Arrow*>\0"
-    "nodeA\0addItem\0removeNode\0index\0"
-    "checkExisting\0A\0B\0updateMatrix\0NodeA\0"
-    "NodeB\0Arrow*\0p_arrow\0getArrow\0newFile\0"
-    "openFile\0saveFile\0saveAsFile\0"
-    "filePathExists\0showMatrix"
+    "NodeManager\0getArrowListWithNode\0"
+    "QVector<Arrow*>\0\0nodeA\0addItem\0"
+    "removeNode\0index\0checkExisting\0A\0B\0"
+    "updateMatrix\0NodeA\0NodeB\0Arrow*\0p_arrow\0"
+    "getArrow\0newFile\0openFile\0saveFile\0"
+    "saveAsFile\0filePathExists\0showMatrix"
 };
 #undef QT_MOC_LITERAL
 
@@ -77,7 +72,7 @@ static const uint qt_meta_data_NodeManager[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      13,   14, // methods
+      12,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -85,30 +80,28 @@ static const uint qt_meta_data_NodeManager[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    2,   79,    2, 0x08 /* Private */,
-       6,    1,   84,    2, 0x08 /* Private */,
-       9,    0,   87,    2, 0x08 /* Private */,
-      10,    1,   88,    2, 0x08 /* Private */,
-      12,    2,   91,    2, 0x08 /* Private */,
-      15,    3,   96,    2, 0x08 /* Private */,
-      20,    2,  103,    2, 0x08 /* Private */,
+       1,    1,   74,    3, 0x08 /* Private */,
+       5,    0,   77,    3, 0x08 /* Private */,
+       6,    1,   78,    3, 0x08 /* Private */,
+       8,    2,   81,    3, 0x08 /* Private */,
+      11,    3,   86,    3, 0x08 /* Private */,
+      16,    2,   93,    3, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-      21,    0,  108,    2, 0x02 /* Public */,
-      22,    0,  109,    2, 0x02 /* Public */,
-      23,    0,  110,    2, 0x02 /* Public */,
-      24,    0,  111,    2, 0x02 /* Public */,
-      25,    0,  112,    2, 0x02 /* Public */,
-      26,    0,  113,    2, 0x02 /* Public */,
+      17,    0,   98,    3, 0x02 /* Public */,
+      18,    0,   99,    3, 0x02 /* Public */,
+      19,    0,  100,    3, 0x02 /* Public */,
+      20,    0,  101,    3, 0x02 /* Public */,
+      21,    0,  102,    3, 0x02 /* Public */,
+      22,    0,  103,    3, 0x02 /* Public */,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3,    4,    5,
-    0x80000000 | 7, QMetaType::Int,    8,
+    0x80000000 | 2, QMetaType::Int,    4,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   11,
-    QMetaType::Int, QMetaType::Int, QMetaType::Int,   13,   14,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, 0x80000000 | 18,   16,   17,   19,
-    0x80000000 | 18, QMetaType::Int, QMetaType::Int,   16,   17,
+    QMetaType::Void, QMetaType::Int,    7,
+    QMetaType::Int, QMetaType::Int, QMetaType::Int,    9,   10,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, 0x80000000 | 14,   12,   13,   15,
+    0x80000000 | 14, QMetaType::Int, QMetaType::Int,   12,   13,
 
  // methods: parameters
     QMetaType::Void,
@@ -127,23 +120,22 @@ void NodeManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         auto *_t = static_cast<NodeManager *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->mergeNodes((*reinterpret_cast< Node*(*)>(_a[1])),(*reinterpret_cast< Node*(*)>(_a[2]))); break;
-        case 1: { QVector<Arrow*> _r = _t->getArrowListWithNode((*reinterpret_cast< int(*)>(_a[1])));
+        case 0: { QVector<Arrow*> _r = _t->getArrowListWithNode((*reinterpret_cast< int(*)>(_a[1])));
             if (_a[0]) *reinterpret_cast< QVector<Arrow*>*>(_a[0]) = std::move(_r); }  break;
-        case 2: _t->addItem(); break;
-        case 3: _t->removeNode((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 4: { int _r = _t->checkExisting((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
+        case 1: _t->addItem(); break;
+        case 2: _t->removeNode((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 3: { int _r = _t->checkExisting((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
-        case 5: _t->updateMatrix((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< Arrow*(*)>(_a[3]))); break;
-        case 6: { Arrow* _r = _t->getArrow((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
+        case 4: _t->updateMatrix((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< Arrow*(*)>(_a[3]))); break;
+        case 5: { Arrow* _r = _t->getArrow((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Arrow**>(_a[0]) = std::move(_r); }  break;
-        case 7: _t->newFile(); break;
-        case 8: _t->openFile(); break;
-        case 9: _t->saveFile(); break;
-        case 10: _t->saveAsFile(); break;
-        case 11: { bool _r = _t->filePathExists();
+        case 6: _t->newFile(); break;
+        case 7: _t->openFile(); break;
+        case 8: _t->saveFile(); break;
+        case 9: _t->saveAsFile(); break;
+        case 10: { bool _r = _t->filePathExists();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 12: _t->showMatrix(); break;
+        case 11: _t->showMatrix(); break;
         default: ;
         }
     }
@@ -178,13 +170,13 @@ int NodeManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 13)
+        if (_id < 12)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 13;
+        _id -= 12;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 13)
+        if (_id < 12)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 13;
+        _id -= 12;
     }
     return _id;
 }

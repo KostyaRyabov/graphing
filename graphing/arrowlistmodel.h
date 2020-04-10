@@ -44,8 +44,6 @@ public:
     Q_INVOKABLE void kill();
 
     int getArrowID(int A, int B);
-
-    friend class NodeManager;
 private:
     QVector<Arrow*> arrowList;
 
