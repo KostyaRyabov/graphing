@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_arrowListModel_t {
-    QByteArrayData data[30];
-    char stringdata0[266];
+    QByteArrayData data[29];
+    char stringdata0[252];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -60,8 +60,7 @@ QT_MOC_LITERAL(24, 214, 5), // "bindB"
 QT_MOC_LITERAL(25, 220, 6), // "remove"
 QT_MOC_LITERAL(26, 227, 5), // "arrow"
 QT_MOC_LITERAL(27, 233, 13), // "removeCurrent"
-QT_MOC_LITERAL(28, 247, 13), // "showArrowList"
-QT_MOC_LITERAL(29, 261, 4) // "kill"
+QT_MOC_LITERAL(28, 247, 4) // "kill"
 
     },
     "arrowListModel\0getArrowListWithNode\0"
@@ -70,8 +69,7 @@ QT_MOC_LITERAL(29, 261, 4) // "kill"
     "updateMatrix\0NodeA\0NodeB\0Arrow*\0p_arrow\0"
     "getArrow\0removeBindings\0node\0updated\0"
     "createLoop\0nodeIndex\0bindA\0bindB\0"
-    "remove\0arrow\0removeCurrent\0showArrowList\0"
-    "kill"
+    "remove\0arrow\0removeCurrent\0kill"
 };
 #undef QT_MOC_LITERAL
 
@@ -81,7 +79,7 @@ static const uint qt_meta_data_arrowListModel[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -89,24 +87,23 @@ static const uint qt_meta_data_arrowListModel[] = {
        5,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   84,    3, 0x06 /* Public */,
-       5,    2,   87,    3, 0x06 /* Public */,
-       9,    2,   92,    3, 0x06 /* Public */,
-      12,    3,   97,    3, 0x06 /* Public */,
-      17,    2,  104,    3, 0x06 /* Public */,
+       1,    1,   79,    3, 0x06 /* Public */,
+       5,    2,   82,    3, 0x06 /* Public */,
+       9,    2,   87,    3, 0x06 /* Public */,
+      12,    3,   92,    3, 0x06 /* Public */,
+      17,    2,   99,    3, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      18,    1,  109,    3, 0x08 /* Private */,
-      20,    1,  112,    3, 0x08 /* Private */,
+      18,    1,  104,    3, 0x08 /* Private */,
+      20,    1,  107,    3, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-      21,    1,  115,    3, 0x02 /* Public */,
-      23,    1,  118,    3, 0x02 /* Public */,
-      24,    1,  121,    3, 0x02 /* Public */,
-      25,    1,  124,    3, 0x02 /* Public */,
-      27,    0,  127,    3, 0x02 /* Public */,
-      28,    0,  128,    3, 0x02 /* Public */,
-      29,    0,  129,    3, 0x02 /* Public */,
+      21,    1,  110,    3, 0x02 /* Public */,
+      23,    1,  113,    3, 0x02 /* Public */,
+      24,    1,  116,    3, 0x02 /* Public */,
+      25,    1,  119,    3, 0x02 /* Public */,
+      27,    0,  122,    3, 0x02 /* Public */,
+      28,    0,  123,    3, 0x02 /* Public */,
 
  // signals: parameters
     0x80000000 | 2, QMetaType::Int,    4,
@@ -124,7 +121,6 @@ static const uint qt_meta_data_arrowListModel[] = {
     QMetaType::Void, QMetaType::Int,   22,
     QMetaType::Void, QMetaType::Int,   22,
     QMetaType::Void, 0x80000000 | 15,   26,
-    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
 
@@ -153,8 +149,7 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 9: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 10: _t->remove((*reinterpret_cast< Arrow*(*)>(_a[1]))); break;
         case 11: _t->removeCurrent(); break;
-        case 12: _t->showArrowList(); break;
-        case 13: _t->kill(); break;
+        case 12: _t->kill(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -226,13 +221,13 @@ int arrowListModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 14;
+        _id -= 13;
     }
     return _id;
 }

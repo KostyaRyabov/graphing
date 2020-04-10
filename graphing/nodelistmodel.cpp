@@ -133,14 +133,3 @@ void nodeListModel::update(int i, int value, int role){
 
     if (role != nRoles::Index) emit updated(nodeList[i]);
 }
-
-void nodeListModel::showNodeList(){
-    qDebug() << "---Nodes---";
-
-    for (auto node : nodeList){
-        qDebug() << node << "|" << node->index << ":    (" << node->xc << node->yc << ")" << "(" << node->rx << node->ry << ")";
-    }
-
-    qDebug() << "-----------";
-}
-

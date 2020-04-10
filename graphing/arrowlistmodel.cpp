@@ -138,7 +138,7 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
 
             remove(currentArrow);
 
-            int id = getArrowID(p_node->index, currentArrow->A->index);     // получаем существующее ребро
+            int id = arrowList.indexOf(getArrow(p_node->index, currentArrow->A->index));     // получаем существующее ребро
             auto i = index(id);
             arrowList[id]->bidirectional = true;
             emit dataChanged(i,i,{aRoles::bDir});
@@ -157,10 +157,6 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
     }
 
     adding = false;
-}
-
-int arrowListModel::getArrowID(int A, int B){
-    return arrowList.indexOf(emit getArrow(A,B));
 }
 
 void arrowListModel::remove(Arrow* arrow){
@@ -203,14 +199,4 @@ void arrowListModel::kill(){
         arrowList.remove(index);
         endRemoveRows();
     }
-}
-
-void arrowListModel::showArrowList(){
-    qDebug() << "---Arrows---";
-
-    for (auto &arrow : arrowList){
-        qDebug() << arrow->A->index << arrow->B->index << arrow->bidirectional;
-    }
-
-    qDebug() << "------------";
 }

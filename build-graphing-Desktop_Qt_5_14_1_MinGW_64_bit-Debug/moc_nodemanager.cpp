@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NodeManager_t {
-    QByteArrayData data[23];
-    char stringdata0[211];
+    QByteArrayData data[22];
+    char stringdata0[200];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -53,8 +53,7 @@ QT_MOC_LITERAL(17, 148, 7), // "newFile"
 QT_MOC_LITERAL(18, 156, 8), // "openFile"
 QT_MOC_LITERAL(19, 165, 8), // "saveFile"
 QT_MOC_LITERAL(20, 174, 10), // "saveAsFile"
-QT_MOC_LITERAL(21, 185, 14), // "filePathExists"
-QT_MOC_LITERAL(22, 200, 10) // "showMatrix"
+QT_MOC_LITERAL(21, 185, 14) // "filePathExists"
 
     },
     "NodeManager\0getArrowListWithNode\0"
@@ -62,7 +61,7 @@ QT_MOC_LITERAL(22, 200, 10) // "showMatrix"
     "removeNode\0index\0checkExisting\0A\0B\0"
     "updateMatrix\0NodeA\0NodeB\0Arrow*\0p_arrow\0"
     "getArrow\0newFile\0openFile\0saveFile\0"
-    "saveAsFile\0filePathExists\0showMatrix"
+    "saveAsFile\0filePathExists"
 };
 #undef QT_MOC_LITERAL
 
@@ -72,7 +71,7 @@ static const uint qt_meta_data_NodeManager[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      11,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -80,20 +79,19 @@ static const uint qt_meta_data_NodeManager[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   74,    3, 0x08 /* Private */,
-       5,    0,   77,    3, 0x08 /* Private */,
-       6,    1,   78,    3, 0x08 /* Private */,
-       8,    2,   81,    3, 0x08 /* Private */,
-      11,    3,   86,    3, 0x08 /* Private */,
-      16,    2,   93,    3, 0x08 /* Private */,
+       1,    1,   69,    3, 0x08 /* Private */,
+       5,    0,   72,    3, 0x08 /* Private */,
+       6,    1,   73,    3, 0x08 /* Private */,
+       8,    2,   76,    3, 0x08 /* Private */,
+      11,    3,   81,    3, 0x08 /* Private */,
+      16,    2,   88,    3, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-      17,    0,   98,    3, 0x02 /* Public */,
-      18,    0,   99,    3, 0x02 /* Public */,
-      19,    0,  100,    3, 0x02 /* Public */,
-      20,    0,  101,    3, 0x02 /* Public */,
-      21,    0,  102,    3, 0x02 /* Public */,
-      22,    0,  103,    3, 0x02 /* Public */,
+      17,    0,   93,    3, 0x02 /* Public */,
+      18,    0,   94,    3, 0x02 /* Public */,
+      19,    0,   95,    3, 0x02 /* Public */,
+      20,    0,   96,    3, 0x02 /* Public */,
+      21,    0,   97,    3, 0x02 /* Public */,
 
  // slots: parameters
     0x80000000 | 2, QMetaType::Int,    4,
@@ -109,7 +107,6 @@ static const uint qt_meta_data_NodeManager[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Bool,
-    QMetaType::Void,
 
        0        // eod
 };
@@ -135,7 +132,6 @@ void NodeManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 9: _t->saveAsFile(); break;
         case 10: { bool _r = _t->filePathExists();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 11: _t->showMatrix(); break;
         default: ;
         }
     }
@@ -170,13 +166,13 @@ int NodeManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 11)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 11;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 11)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 11;
     }
     return _id;
 }

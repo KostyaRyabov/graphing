@@ -32,8 +32,6 @@ public:
     Q_INVOKABLE void addNode(int x, int y);
     Q_INVOKABLE void update(int i, int value, int role);
     Q_INVOKABLE void removeNode(int i);
-
-    Q_INVOKABLE void showNodeList();
 private:
     QVector<Node*> nodeList;
 signals:

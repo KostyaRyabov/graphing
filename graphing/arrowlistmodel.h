@@ -39,11 +39,7 @@ public:
     Q_INVOKABLE void remove(Arrow* arrow);
     Q_INVOKABLE void removeCurrent();
 
-    Q_INVOKABLE void showArrowList();
-
     Q_INVOKABLE void kill();
-
-    int getArrowID(int A, int B);
 private:
     QVector<Arrow*> arrowList;
 
