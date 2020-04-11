@@ -6,13 +6,14 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
 {
     connect(&node_model, SIGNAL(addItem()), this, SLOT(addItem()));
     connect(&arrow_model, SIGNAL(getNode(int,bool)), &node_model, SLOT(getNode(int,bool)));
-    connect(&node_model, SIGNAL(updated(Node*)), &arrow_model, SLOT(updated(Node*)));
     connect(&arrow_model, SIGNAL(checkExisting(int, int)), this, SLOT(checkExisting(int, int)));
     connect(&arrow_model, SIGNAL(updateMatrix(int, int, Arrow*)), this, SLOT(updateMatrix(int, int, Arrow*)));
     connect(&node_model, SIGNAL(removeItem(int)), this, SLOT(removeNode(int)));
     connect(&arrow_model, SIGNAL(getArrow(int,int)), this, SLOT(getArrow(int,int)));
-    connect(&node_model, SIGNAL(removeBindings(Node*)), &arrow_model, SLOT(removeBindings(Node*)));
-    connect(&arrow_model, SIGNAL(getArrowListWithNode(int)), this, SLOT(getArrowListWithNode(int)));
+    connect(&node_model, SIGNAL(mergeNodes(Node*,Node*)), this, SLOT(mergeNodes(Node*,Node*)));
+    connect(&node_model, SIGNAL(updateBindings(int&)), this, SLOT(updateBindings(int&)));
+    connect(&node_model, SIGNAL(removeBindings(int&)), this, SLOT(removeBindings(int&)));
+    connect(&arrow_model, SIGNAL(showMatrix()), this, SLOT(showMatrix()));
 }
 
 NodeManager::~NodeManager(){
@@ -25,6 +26,155 @@ void NodeManager::newFile(){
     filePath.clear();
 
     //emit dataChanged();
+}
+
+void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
+    if (ToID == i) return;
+
+    int arrowDiractionFrom = checkExisting(FromID,i);
+    int arrowDiractionTo = checkExisting(ToID,i);
+
+    switch (arrowDiractionFrom) {
+    case aDir::Duplex:
+        switch (arrowDiractionTo) {
+        case aDir::Duplex:{
+            qDebug() << "[Duplex Duplex]";
+            arrow_model.remove(matrix[FromID][i]->index,false);
+            break;
+        }case aDir::InSimplex:{
+            qDebug() << "[Duplex InSimplex]";
+            arrow_model.remove(matrix[ToID][i]->index,false);
+
+            auto *arrow = matrix[FromID][i];
+            arrow->A = node_model.nodeList[ToID];
+            arrow->B = node_model.nodeList[i];
+            matrix[ToID][i] = arrow;
+            matrix[i][ToID] = arrow;
+            break;
+        }case aDir::OutSimplex:{
+            qDebug() << "[Duplex OutSimplex]";
+            arrow_model.remove(matrix[i][ToID]->index,false);
+
+            auto *arrow = matrix[i][FromID];
+            arrow->A = node_model.nodeList[ToID];
+            arrow->B = node_model.nodeList[i];
+            matrix[ToID][i] = arrow;
+            matrix[i][ToID] = arrow;
+            break;
+        }default:{
+            qDebug() << "[Duplex NF]";
+            auto *arrow = matrix[i][FromID];
+            arrow->A = node_model.nodeList[ToID];
+            arrow->B = node_model.nodeList[i];
+            matrix[ToID][i] = arrow;
+            matrix[i][ToID] = arrow;
+            break;
+        }
+        }
+        break;
+    case aDir::InSimplex:
+        switch (arrowDiractionTo) {
+        case aDir::Duplex:{
+            qDebug() << "[InSimplex Duplex]";
+            arrow_model.remove(matrix[FromID][i]->index,false);
+            break;
+        }case aDir::InSimplex:{
+            qDebug() << "[InSimplex InSimplex]";
+            Arrow* arrow = matrix[FromID][i];
+            arrow_model.remove(arrow->index,false);
+            break;
+        }case aDir::OutSimplex:{
+            qDebug() << "[InSimplex OutSimplex]";
+            arrow_model.remove(matrix[FromID][i]->index,false);
+
+            Arrow* arrow = matrix[i][ToID];
+            arrow->bidirectional = true;
+
+            auto ix = arrow_model.index(arrow->index);
+            emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
+            break;
+        }default:{
+            qDebug() << "[InSimplex NF]";
+            Arrow* arrow = matrix[FromID][i];
+            arrow->A = node_model.nodeList[ToID];
+            matrix[i][ToID] = arrow;
+            break;
+        }
+        }
+        break;
+    case aDir::OutSimplex:
+        switch (arrowDiractionTo) {
+        case aDir::Duplex:{
+            qDebug() << "[OutSimplex Duplex]";
+            arrow_model.remove(matrix[i][FromID]->index,false);
+            break;
+        }case aDir::InSimplex:{
+            qDebug() << "[OutSimplex InSimplex]";
+            arrow_model.remove(matrix[i][FromID]->index,false);
+
+            Arrow* arrow = matrix[ToID][i];
+            arrow->bidirectional = true;
+
+            auto ix = arrow_model.index(arrow->index);
+            emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
+            break;
+        }case aDir::OutSimplex:{
+            qDebug() << "[OutSimplex OutSimplex]";
+            Arrow* arrow = matrix[i][FromID];
+            arrow_model.remove(arrow->index,false);
+            break;
+        }default:{
+            qDebug() << "[OS NF]";
+            Arrow* arrow = matrix[i][FromID];
+            arrow->B = node_model.nodeList[ToID];
+            matrix[ToID][i] = arrow;
+            break;
+        }
+        }
+        break;
+    default:
+        qDebug() << "[NF NF]";
+        break;
+    }
+}
+
+void NodeManager::mergeNodes(Node* From, Node* To){
+    showMatrix();
+
+    int i;
+
+
+
+
+
+
+
+    for (i = 0; i < From->index; i++) mergeArrows(From->index,To->index,i);
+    for (i++ ; i < matrix.size(); i++) mergeArrows(From->index,To->index,i);
+
+    Arrow* arrow = matrix[From->index][From->index];
+    if (arrow){
+        Arrow* oldArrow = matrix[To->index][To->index];
+        if (oldArrow) delete arrow;
+        else{
+            arrow->A = To;
+            arrow->B = To;
+            matrix[To->index][To->index] = arrow;
+        }
+    }
+
+    showMatrix();
+
+
+    if (matrix[From->index][To->index] != nullptr){
+        //matrix[From->index][To->index]->A = To;
+         arrow_model.remove(matrix[From->index][To->index]->index,false);
+    } else if (matrix[To->index][From->index] != nullptr){
+        //matrix[To->index][From->index]->B = To;
+        arrow_model.remove(matrix[To->index][From->index]->index,false);
+    }
+
+    node_model.removeNode(From->index,false);
 }
 
 void NodeManager::openFile(){
@@ -113,7 +263,6 @@ void NodeManager::updateMatrix(int NodeA, int NodeB, Arrow* p_arrow){
 }
 
 void NodeManager::addItem(){
-    qDebug() << "item was added:" << matrix.size();
     for (auto &row : matrix) row.append(0);
 
     matrix.append(QVector<Arrow*>().fill(nullptr,matrix.size()+1));
@@ -127,8 +276,6 @@ void NodeManager::removeNode(int index){
 }
 
 int NodeManager::checkExisting(int A, int B){
-    showMatrix();
-
     if (matrix[A][B]){
         if (matrix[B][A]) return aDir::Duplex;
         return aDir::InSimplex;
@@ -141,8 +288,10 @@ void NodeManager::showMatrix(){
     Qcout << "\n---NodeMatrix---\n";
 
     for (auto &row : matrix){
-        for (auto column : row){
-            Qcout << " " << QVariant(column != nullptr).toInt();
+        for (auto arrow : row){
+            if (arrow){
+                Qcout << " " << QVariant(arrow->index).toString();
+            } else Qcout << " -";
         }
         Qcout << "\n";
     }
@@ -154,16 +303,31 @@ Arrow* NodeManager::getArrow(int NodeA, int NodeB){
     return matrix[NodeA][NodeB];
 }
 
-QVector<Arrow*> NodeManager::getArrowListWithNode(int nodeA){
-    QVector<Arrow*> arrowList;
+void NodeManager::updateBindings(int &nodeA){
+    QModelIndex i;
 
-    for (int nodeB = 0; nodeB < matrix.size(); nodeB++){
-        if (matrix[nodeA][nodeB] != nullptr){
-            arrowList.append(matrix[nodeA][nodeB]);
-        } else if (matrix[nodeB][nodeA] != nullptr){
-            arrowList.append(matrix[nodeB][nodeA]);
+    if (arrow_model.adding){
+        i = arrow_model.index(arrow_model.arrowList.size()-1);
+        emit arrow_model.dataChanged(i,i,{xxx,yyy,len,alpha});
+    }else{
+        for (int nodeB = 0; nodeB < matrix.size(); nodeB++){
+            if (matrix[nodeA][nodeB] != nullptr){
+                i = arrow_model.index(matrix[nodeA][nodeB]->index);
+                emit arrow_model.dataChanged(i,i,{xxx,yyy,len,alpha});
+            } else if (matrix[nodeB][nodeA] != nullptr){
+                i = arrow_model.index(matrix[nodeB][nodeA]->index);
+                emit arrow_model.dataChanged(i,i,{xxx,yyy,len,alpha});
+            }
         }
     }
+}
 
-    return arrowList;
+void NodeManager::removeBindings(int &nodeA){
+    for (int nodeB = 0; nodeB < matrix.size(); nodeB++){
+        if (matrix[nodeA][nodeB] != nullptr){
+            arrow_model.remove(matrix[nodeA][nodeB]->index,false);
+        } else if (matrix[nodeB][nodeA] != nullptr){
+            arrow_model.remove(matrix[nodeB][nodeA]->index,false);
+        }
+    }
 }

@@ -3,7 +3,7 @@ import QtQuick.Controls 2.14
 
 Item {
     id: node
-    property int index: -1
+    property int nIndex: -1
     property int stored_index: -1
 
     property int xc: 0
@@ -15,10 +15,10 @@ Item {
     x: xc
     y: yc
 
-    onXChanged: node_model.update(node.index,node.x,257)
-    onYChanged: node_model.update(node.index,node.y,258)
+    onXChanged: node_model.update(node.nIndex,node.x,257)
+    onYChanged: node_model.update(node.nIndex,node.y,258)
 
-    onIndexChanged: textHide.start();
+    onNIndexChanged: textHide.start();
 
     Rectangle {
         id: view
@@ -59,7 +59,10 @@ Item {
 
             cursorShape: Qt.OpenHandCursor
             onPressed: {   cursorShape = Qt.CloseHandCursor}
-            onReleased: { cursorShape = Qt.OpenHandCursor}
+            onReleased: {
+                cursorShape = Qt.OpenHandCursor
+                node_model.checkNodeCollision(node.nIndex);
+            }
             onPositionChanged: {
                 node.x += mouseX-nodeRadius
                 node.y += mouseY-nodeRadius
@@ -70,7 +73,7 @@ Item {
                 Action { text: "copy"; }
                 Action { text: "remove"; onTriggered: detonator.start() }
                 MenuSeparator { }
-                Action { text: "create loop"; onTriggered: console.log("делай петлю!!!") }
+                Action { text: "create loop"; onTriggered: arrow_model.createLoop(node.nIndex); }
             }
         }
 
@@ -93,8 +96,8 @@ Item {
             x: rx;
             y: ry;
 
-            onXChanged: node_model.update(node.index,control.x,259)
-            onYChanged: node_model.update(node.index,control.y,260)
+            onXChanged: node_model.update(node.nIndex,control.x,259)
+            onYChanged: node_model.update(node.nIndex,control.y,260)
 
             MouseArea{
                 anchors.fill: parent
@@ -116,7 +119,7 @@ Item {
                     control.counter = 0;
                     timer.start();
                     cursorShape = Qt.ArrowCursor;
-                    arrow_model.bindA(node.index)
+                    arrow_model.bindA(node.nIndex);
                 }
 
                 onPositionChanged: {
@@ -127,8 +130,7 @@ Item {
                 onReleased: {
                     cursorShape = Qt.OpenHandCursor;
                     if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.ry,2)))>SelectorRadius){
-                        node_model.addNode(node.xc+node.rx,node.yc+node.ry);
-                        arrow_model.bindB(node_model.rowCount()-1)
+                        arrow_model.bindB(node.nIndex)
                     } else {
                         arrow_model.removeCurrent();
                     }
@@ -163,7 +165,7 @@ Item {
             easing.type: Easing.InCirc
             duration: delayCD
 
-            onStopped: node_model.removeNode(node.index);
+            onStopped: node_model.removeNode(node.nIndex,true);
         }
 
         PropertyAnimation {
@@ -175,7 +177,7 @@ Item {
             duration: changeTime
 
             onStopped: {
-                node.stored_index = node.index;
+                node.stored_index = node.nIndex;
                 textShow.start();
             }
         }

@@ -7,6 +7,8 @@ Rectangle{
     width: wsWidth
     height: wsHeight
 
+    property bool activated: false
+
     MouseArea {
         id: dragArea
         anchors.fill: parent
@@ -17,6 +19,8 @@ Rectangle{
         cursorShape: Qt.PointingHandCursor
 
         onPressed: {
+            space.activated = false;
+            timer.start();
             cursorShape = Qt.CloseHandCursor
             mouse.accepted = false
         }
@@ -28,7 +32,8 @@ Rectangle{
 
         onClicked: {
             if (mouse.button === Qt.RightButton)
-                contextMenu.popup()
+                if (!space.activated)
+                    contextMenu.popup()
 
             mouse.accepted = false
         }
@@ -44,21 +49,12 @@ Rectangle{
         }
     }
 
-
-
-    Repeater {
-        id: node_conveier
-        anchors.fill: parent
-        model: node_model
-        delegate: Node {
-            xc: PosX;
-            yc: PosY;
-            rx: RelativePosX;
-            ry: RelativePosY;
-            index: node_id;
-        }
+    Timer {
+        id: timer
+        interval: 200
+        repeat: true
+        onTriggered: {space.activated = true;timer.stop()}
     }
-
 
 
     Repeater {
@@ -71,6 +67,19 @@ Rectangle{
             alpha: Angle;
             bDir: bDirection;
             detonate: Delete;
+            aIndex: arrow_id;
+        }
+    }
+    Repeater {
+        id: node_conveier
+        anchors.fill: parent
+        model: node_model
+        delegate: Node {
+            xc: PosX;
+            yc: PosY;
+            rx: RelativePosX;
+            ry: RelativePosY;
+            nIndex: node_id;
         }
     }
 }

@@ -9,6 +9,8 @@ struct Arrow{
     Node* A;
     Node* B;
 
+    int index;
+    bool isLooped = false;
     bool bidirectional = false;
     bool destroy = true;
 };

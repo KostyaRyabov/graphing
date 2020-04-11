@@ -9,6 +9,19 @@
 #include <QHash>
 
 #include <QQueue>
+#include <options.h>
+
+#include <QMessageBox>
+
+enum aRoles{
+    xxx = Qt::UserRole + 1,
+    yyy,
+    len,
+    alpha,
+    bDir,
+    detonate,
+    aIndex
+};
 
 class arrowListModel : public QAbstractListModel
 {
@@ -17,24 +30,16 @@ public:
     arrowListModel(QObject *parent = nullptr);
     ~arrowListModel();
 
-    enum aRoles{
-        xxx = Qt::UserRole + 1,
-        yyy,
-        len,
-        alpha,
-        bDir,
-        detonate
-    };
-
     QHash<int, QByteArray> roleNames() const;
 
     int rowCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
 
+    Q_INVOKABLE void createLoop(int nodeIndex);
     Q_INVOKABLE void bindA(int nodeIndex);
     Q_INVOKABLE void bindB(int nodeIndex);
 
-    Q_INVOKABLE void remove(Arrow* arrow);
+    Q_INVOKABLE void remove(int arrowID,bool animated);
     Q_INVOKABLE void removeCurrent();
 
     Q_INVOKABLE void showArrowList();
@@ -42,15 +47,15 @@ public:
     Q_INVOKABLE void kill();
 
     int getArrowID(int A, int B);
+
+    friend class NodeManager;
 private:
     QVector<Arrow*> arrowList;
 
     QQueue<Arrow*> del_list;
     bool adding = false;
-private slots:
-    void removeBindings(Node* node);
-    void updated(Node *node);
 signals:
+    void showMatrix();
     QVector<Arrow*> getArrowListWithNode(int nodeA);
     Node* getNode(int index, bool checkExisted);
     int checkExisting(int A, int B);

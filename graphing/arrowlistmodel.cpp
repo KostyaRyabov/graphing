@@ -19,6 +19,7 @@ QHash<int, QByteArray> arrowListModel::roleNames() const{
     roles[alpha] = "Angle";
     roles[bDir] = "bDirection";
     roles[detonate] = "Delete";
+    roles[aIndex] = "arrow_id";
     return roles;
 }
 
@@ -32,16 +33,21 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
         return QVariant();
     }
 
+
     auto item = arrowList[index.row()];
 
     switch (role) {
     case xxx:
+        if (item->isLooped) return QVariant(item->A->xc+0.95*Node_Radius);
         if (item->A == item->B) return QVariant(item->B->xc+item->B->rx/2);         // new arrow
         else return QVariant((item->B->xc+item->A->xc)/2);
     case yyy:
+        if (item->isLooped) return QVariant(item->A->yc+1.5*Node_Radius);
         if (item->A == item->B) return QVariant(item->B->yc+item->B->ry/2);         // new arrow
         else return QVariant((item->B->yc+item->A->yc)/2);
     case alpha: {
+        if (item->isLooped) return 0;
+
         int v_x,v_y;
 
         if (item->A == item->B){
@@ -58,29 +64,38 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
         else return QVariant(a);
     }
     case len:
+        if (item->isLooped) return QVariant(-1);
         if (item->A == item->B) return QVariant(qSqrt(qPow(item->B->rx,2)+qPow(item->B->ry,2)));
         else return QVariant(qSqrt(qPow(item->B->xc-item->A->xc,2)+qPow(item->B->yc-item->A->yc,2)));
     case bDir:
         return QVariant(item->bidirectional);
     case detonate:
         item->destroy = !item->destroy;
-        qDebug() << "                       item->destroy:" << item->destroy;
         return QVariant(item->destroy);
+    case aIndex:
+        item->index = index.row();
+        return QVariant(item->index);
     default:
         return QVariant();
     }
 }
 
-void arrowListModel::updated(Node *node){           // обновление ребер, связанных с передаваемой точкой в качестве аргумента
-    if (arrowList.isEmpty()) return;                // проверка наличия ребер
+void arrowListModel::createLoop(int nodeIndex){
+    auto *p_node = emit getNode(nodeIndex,false);
 
-    auto aList = getArrowListWithNode(node->index);
-    if (adding) aList.append(arrowList.last());
+    auto index = arrowList.size();
+    beginInsertRows(QModelIndex(),index,index);         // создаем новое ребро
 
-    for(auto ix : aList) {
-        auto i = index(arrowList.indexOf(ix));                         // получаем индекс ребра и
-        emit dataChanged(i,i,{xxx,yyy,len,alpha});                      // обновляем его содержимое
-    }
+    Arrow* item = new Arrow();                                         // процесс инициализации ребра
+    item->A = p_node;
+    item->B = p_node;
+    item->isLooped = true;
+    item->bidirectional = false;
+    arrowList.append(item);                            // занесение ребра в матрицу инцидентности
+
+    emit updateMatrix(nodeIndex,nodeIndex,item);
+
+    endInsertRows();
 }
 
 void arrowListModel::bindA(int nodeIndex){              // привязка первого узла к ребру
@@ -92,7 +107,9 @@ void arrowListModel::bindA(int nodeIndex){              // привязка пе
     Arrow* item = new Arrow();                                         // процесс инициализации ребра
     item->A = p_node;
     item->B = p_node;
+    item->isLooped = false;
     item->bidirectional = false;
+    item->index = index;
     arrowList.append(item);                            // занесение ребра в матрицу инцидентности
 
     adding = true;
@@ -105,27 +122,28 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
     auto currentArrow = arrowList.last();
 
     switch (emit checkExisting(currentArrow->A->index,p_node->index)) {
-        case aDir::OutSimplex: {    // >> duplex
-            qDebug() << "(в другом направлении)";
-            emit updateMatrix(currentArrow->A->index,p_node->index,getArrow(p_node->index,currentArrow->A->index));     // устанавливается в матрице другое направление
+        case aDir::OutSimplex: {
+            auto arrow = getArrow(p_node->index,currentArrow->A->index);
+            emit updateMatrix(currentArrow->A->index,p_node->index,arrow);     // устанавливается в матрице другое направление
 
-            remove(currentArrow);
-
-            int id = getArrowID(p_node->index, currentArrow->A->index);     // получаем существующее ребро
-            auto i = index(id);
-            arrowList[id]->bidirectional = true;
+            remove(currentArrow->index,false);
+            auto i = index(arrow->index);
+            arrowList[arrow->index]->bidirectional = true;
+            qDebug() << "update dir:" << arrow->index;
             emit dataChanged(i,i,{aRoles::bDir});
             break;
-        } case aDir::NotFound: {
-            qDebug() << "(не найдено)";
+        } case aDir::InSimplex:{
+            remove(currentArrow->index,false);
+            break;
+        } case aDir::Duplex:{
+            remove(currentArrow->index,false);
+            break;
+        } default:{
             emit updateMatrix(currentArrow->A->index, p_node->index,currentArrow);      // обновляется матрица
             currentArrow->B = p_node;                                 // добавляется карта
             auto i = index(arrowList.size()-1);
             emit dataChanged(i,i,{xxx,yyy,len,alpha});
             break;
-        } case aDir::InSimplex:{
-            qDebug() << "(повторяющее)";
-            remove(currentArrow);
         }
     }
 
@@ -136,53 +154,37 @@ int arrowListModel::getArrowID(int A, int B){
     return arrowList.indexOf(emit getArrow(A,B));
 }
 
-void arrowListModel::remove(Arrow* arrow){
-    qDebug() << "removing"<< arrow->A->index << arrow->B->index;
+void arrowListModel::remove(int arrowID,bool animated){
+    if (animated){
+        auto i = index(arrowID);
+        emit dataChanged(i,i,{detonate});
+        del_list.push_front(arrowList[arrowID]);
+    }else{
+        beginRemoveRows(QModelIndex(),arrowID,arrowID);
+        delete arrowList.takeAt(arrowID);
+        endRemoveRows();
 
-    auto i = index(arrowList.indexOf(arrow));
-    emit dataChanged(i,i,{aRoles::detonate});
-    del_list.push_front(arrow);
+        emit dataChanged(index(arrowID),index(arrowList.size()-1),{aIndex});
+
+        adding = false;
+    }
 }
 
 void arrowListModel::removeCurrent(){
-    auto currentArrow = arrowList.last();
-    qDebug() << "removing"<< currentArrow->A->index << currentArrow->B->index;
-
-    auto i = index(arrowList.size()-1);
-    emit dataChanged(i,i,{aRoles::detonate});
-    del_list.push_front(currentArrow);
-}
-
-void arrowListModel::removeBindings(Node* node){
-    auto aList = getArrowListWithNode(node->index);
-
-    qDebug() << "del List:" << aList.size();
-
-    QModelIndex i;
-    for (auto &arrow : aList) {
-        qDebug() << arrow->A->index << arrow->B->index;
-        i = index(arrowList.indexOf(arrow));
-        emit dataChanged(i,i,{aRoles::detonate});
-        del_list.push_front(arrow);
-    }
+    remove(arrowList.last()->index,true);
 }
 
 void arrowListModel::kill(){
     if (!del_list.isEmpty()){
-        auto arrow = del_list.takeLast();
-        qDebug() << "kill"<< arrow->A->index << arrow->B->index;
-        auto index = arrowList.indexOf(arrow);
-        beginRemoveRows(QModelIndex(),index,index);
-        arrowList.remove(index);
-        endRemoveRows();
+        remove(del_list.takeLast()->index,false);
     }
 }
 
 void arrowListModel::showArrowList(){
-    qDebug() << "---Arrows---";
+    qDebug() << "---Arrows["+QVariant(arrowList.size()).toString()+"]---";
 
     for (auto &arrow : arrowList){
-        qDebug() << arrow->A->index << arrow->B->index << arrow->bidirectional;
+        qDebug() << arrow->index;
     }
 
     qDebug() << "------------";

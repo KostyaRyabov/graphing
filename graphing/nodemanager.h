@@ -47,8 +47,12 @@ private:
 
     QString filePath;
     QVector<QVector<Arrow*>> matrix;   // матрица смежности
+
+    void mergeArrows(int &FromID, int &ToID, int &i);
 private slots:
-    QVector<Arrow*> getArrowListWithNode(int nodeA);
+    void mergeNodes(Node* From, Node* To);
+    void updateBindings(int &nodeA);
+    void removeBindings(int &nodeA);
     void addItem();
     Q_INVOKABLE void removeNode(int index);
     int checkExisting(int A, int B);

@@ -16,7 +16,7 @@ QHash<int, QByteArray> nodeListModel::roleNames() const{
     roles[yc] = "PosY";
     roles[rx] = "RelativePosX";
     roles[ry] = "RelativePosY";
-    roles[Index] = "node_id";
+    roles[nIndex] = "node_id";
 
     return roles;
 }
@@ -26,12 +26,24 @@ int nodeListModel::rowCount(const QModelIndex &parent) const{
     return nodeList.size();
 }
 
+void nodeListModel::checkNodeCollision(int index){
+    auto item = nodeList[index];
+
+    for (auto node : nodeList){
+        if (node == item) continue;
+        if (qSqrt(qPow(node->xc-item->xc,2)+qPow(node->yc-item->yc,2)) < Selector_Radius) {
+            emit mergeNodes(item, node);
+            break;
+        }
+    }
+}
+
 QVariant nodeListModel::data(const QModelIndex &index, int role) const{
     if (!index.isValid()){
         return QVariant();
     }
 
-    auto item = nodeList[index.row()];
+    auto &item = nodeList[index.row()];
 
     switch (role) {
     case xc:
@@ -42,8 +54,9 @@ QVariant nodeListModel::data(const QModelIndex &index, int role) const{
         return QVariant(item->rx);
     case ry:
         return QVariant(item->ry);
-    case Index:
-        return QVariant(index.row());
+    case nIndex:
+        item->index = index.row();
+        return QVariant(item->index);
     default:
         return QVariant();
     }
@@ -63,37 +76,34 @@ void nodeListModel::addNode(int x, int y){
     nodeList.append(item);
 
     endInsertRows();
-
-    //emit addItem();           // добавление в матрицу смежности
 }
 
-void nodeListModel::removeNode(int i){
+void nodeListModel::removeNode(int i, bool relations){
     beginRemoveRows(QModelIndex(), i,i);
-    auto node = nodeList.takeAt(i);
-    emit removeBindings(node);
+    if (relations) emit removeBindings(i);
+    delete nodeList.takeAt(i);
     endRemoveRows();
 
     emit removeItem(i);
 
-    //change indexes for rest nodes
-    emit dataChanged(index(i),index(nodeList.size()-1),{nRoles::Index});
+    showNodeList();
+    emit dataChanged(index(i),index(nodeList.size()-1),{nIndex});
+    showNodeList();
 }
 
-Node* nodeListModel::getNode(int index, bool checkExisted){     //ощущается задержка
+Node* nodeListModel::getNode(int index, bool checkExisted){
     if (!checkExisted) return nodeList[index];
 
     auto item = nodeList[index];
 
-    for (auto node : nodeList){         // требуется оптимизация поиска близжайших точек - ? использовать B-tree ? если найдется возможность уведомлять о вхождении в область другой точки - заменить на нее
-        if (node == item) continue;
-        if (qSqrt(qPow(node->xc-item->xc,2)+qPow(node->yc-item->yc,2)) < Selector_Radius) {
-            qDebug() << "       (remove node)"<<node->index;
-            removeNode(index);
+    for (auto node : nodeList){
+        if (node != item && qSqrt(qPow(node->xc-item->xc-item->rx,2)+qPow(node->yc-item->yc-item->ry,2)) < Selector_Radius) {
             return node;
         }
     }
 
-    return item;
+    addNode(item->xc+item->rx,item->yc+item->ry);
+    return nodeList.last();
 }
 
 bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int role){
@@ -114,9 +124,6 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
     case ry:
         item->ry = value.toInt();
         break;
-    case Index:
-        item->index = value.toInt();
-        break;
     default:
         return false;
     }
@@ -129,7 +136,7 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
 void nodeListModel::update(int i, int value, int role){
     setData(index(i), value, role);
 
-    if (role != nRoles::Index) emit updated(nodeList[i]);
+    emit updateBindings(i);
 }
 
 void nodeListModel::showNodeList(){

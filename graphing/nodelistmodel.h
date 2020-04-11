@@ -8,20 +8,20 @@
 #include <QtMath>
 #include <options.h>
 
+enum nRoles{
+    xc = Qt::UserRole + 1,
+    yc,
+    rx,
+    ry,
+    nIndex
+};
+
 class nodeListModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
     nodeListModel(QObject *parent = nullptr);
     ~nodeListModel();
-
-    enum nRoles{
-        xc = Qt::UserRole + 1,
-        yc,
-        rx,
-        ry,
-        Index
-    };
 
     QHash<int, QByteArray> roleNames() const;
 
@@ -31,14 +31,18 @@ public:
 
     Q_INVOKABLE void addNode(int x, int y);
     Q_INVOKABLE void update(int i, int value, int role);
-    Q_INVOKABLE void removeNode(int i);
+    Q_INVOKABLE void removeNode(int i, bool relations);
+    Q_INVOKABLE void checkNodeCollision(int index);
 
     Q_INVOKABLE void showNodeList();
+
+    friend class NodeManager;
 private:
     QVector<Node*> nodeList;
 signals:
-    void removeBindings(Node* node);
-    void updated(Node* node);
+    void mergeNodes(Node* From, Node* To);
+    void removeBindings(int &nodeA);
+    void updateBindings(int &nodeA);
     void addItem();
     void removeItem(int index);
     Q_INVOKABLE void removeArrowsWidth(QVector<Node*> list);
