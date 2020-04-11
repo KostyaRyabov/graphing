@@ -37,6 +37,8 @@ public:
     Q_INVOKABLE void saveAsFile();
     Q_INVOKABLE bool filePathExists();
 
+    Q_INVOKABLE void showMatrix();
+
     nodeListModel node_model;
     arrowListModel arrow_model;
 private:

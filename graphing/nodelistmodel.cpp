@@ -76,9 +76,7 @@ void nodeListModel::removeNode(int i){
     emit removeItem(i);
 
     //change indexes for rest nodes
-    for (auto j = i; j < nodeList.size(); j++) {
-        update(j, i++, nRoles::Index);
-    }
+    emit dataChanged(index(i),index(nodeList.size()-1),{nRoles::Index});
 }
 
 Node* nodeListModel::getNode(int index, bool checkExisted){     //ощущается задержка
@@ -133,3 +131,14 @@ void nodeListModel::update(int i, int value, int role){
 
     if (role != nRoles::Index) emit updated(nodeList[i]);
 }
+
+void nodeListModel::showNodeList(){
+    qDebug() << "---Nodes---";
+
+    for (auto node : nodeList){
+        qDebug() << node << "|" << node->index << ":    (" << node->xc << node->yc << ")" << "(" << node->rx << node->ry << ")";
+    }
+
+    qDebug() << "-----------";
+}
+

@@ -70,7 +70,7 @@ Item {
                 Action { text: "copy"; }
                 Action { text: "remove"; onTriggered: detonator.start() }
                 MenuSeparator { }
-                Action { text: "create loop"; onTriggered: arrow_model.createLoop(node.index); }
+                Action { text: "create loop"; onTriggered: console.log("делай петлю!!!") }
             }
         }
 
