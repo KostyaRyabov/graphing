@@ -12,11 +12,8 @@ Item {
     property int rx: 0
     property int ry: 0
 
-    x: xc
-    y: yc
-
-    onXChanged: node_model.update(node.nIndex,node.x,257)
-    onYChanged: node_model.update(node.nIndex,node.y,258)
+    Binding on x { when: onXcChanged; value: xc }
+    Binding on y { when: onYcChanged; value: yc }
 
     onNIndexChanged: textHide.start();
 
@@ -66,6 +63,9 @@ Item {
             onPositionChanged: {
                 node.x += mouseX-nodeRadius
                 node.y += mouseY-nodeRadius
+
+                node_model.update(node.nIndex,node.x,257)
+                node_model.update(node.nIndex,node.y,258)
             }
 
             MyMenu {
@@ -96,9 +96,6 @@ Item {
             x: rx;
             y: ry;
 
-            onXChanged: node_model.update(node.nIndex,control.x,259)
-            onYChanged: node_model.update(node.nIndex,control.y,260)
-
             MouseArea{
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton
@@ -125,6 +122,9 @@ Item {
                 onPositionChanged: {
                     control.x += mouse.x-nodeRadius
                     control.y += mouse.y-nodeRadius
+
+                    node_model.update(node.nIndex,control.x,259)
+                    node_model.update(node.nIndex,control.y,260)
                 }
 
                 onReleased: {

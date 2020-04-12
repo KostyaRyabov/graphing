@@ -90,6 +90,7 @@ ApplicationWindow {
             Action { text: "Save As..."; onTriggered: manager.saveAsFile(); enabled: manager.filePathExists() }
             MenuSeparator { }
             Action { text: "Quit"; onTriggered: close() }
+            Action { text: "last"; onTriggered: if (node_model.rowCount() > 0) node_model.update(0,50,257) }
         }
         MyMenu {
             implicitHeight: 20

@@ -49,15 +49,15 @@ QT_MOC_LITERAL(12, 100, 5), // "index"
 QT_MOC_LITERAL(13, 106, 17), // "removeArrowsWidth"
 QT_MOC_LITERAL(14, 124, 14), // "QVector<Node*>"
 QT_MOC_LITERAL(15, 139, 4), // "list"
-QT_MOC_LITERAL(16, 144, 7), // "getNode"
-QT_MOC_LITERAL(17, 152, 12), // "checkExisted"
-QT_MOC_LITERAL(18, 165, 7), // "addNode"
-QT_MOC_LITERAL(19, 173, 1), // "x"
-QT_MOC_LITERAL(20, 175, 1), // "y"
-QT_MOC_LITERAL(21, 177, 6), // "update"
-QT_MOC_LITERAL(22, 184, 1), // "i"
-QT_MOC_LITERAL(23, 186, 5), // "value"
-QT_MOC_LITERAL(24, 192, 4), // "role"
+QT_MOC_LITERAL(16, 144, 6), // "update"
+QT_MOC_LITERAL(17, 151, 1), // "i"
+QT_MOC_LITERAL(18, 153, 5), // "value"
+QT_MOC_LITERAL(19, 159, 4), // "role"
+QT_MOC_LITERAL(20, 164, 7), // "getNode"
+QT_MOC_LITERAL(21, 172, 12), // "checkExisted"
+QT_MOC_LITERAL(22, 185, 7), // "addNode"
+QT_MOC_LITERAL(23, 193, 1), // "x"
+QT_MOC_LITERAL(24, 195, 1), // "y"
 QT_MOC_LITERAL(25, 197, 10), // "removeNode"
 QT_MOC_LITERAL(26, 208, 9), // "relations"
 QT_MOC_LITERAL(27, 218, 18), // "checkNodeCollision"
@@ -68,8 +68,8 @@ QT_MOC_LITERAL(28, 237, 12) // "showNodeList"
     "To\0removeBindings\0int&\0nodeA\0"
     "updateBindings\0addItem\0removeItem\0"
     "index\0removeArrowsWidth\0QVector<Node*>\0"
-    "list\0getNode\0checkExisted\0addNode\0x\0"
-    "y\0update\0i\0value\0role\0removeNode\0"
+    "list\0update\0i\0value\0role\0getNode\0"
+    "checkExisted\0addNode\0x\0y\0removeNode\0"
     "relations\0checkNodeCollision\0showNodeList"
 };
 #undef QT_MOC_LITERAL
@@ -96,11 +96,11 @@ static const uint qt_meta_data_nodeListModel[] = {
       13,    1,   89,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      16,    2,   92,    2, 0x08 /* Private */,
+      16,    3,   92,    2, 0x0a /* Public */,
+      20,    2,   99,    2, 0x0a /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-      18,    2,   97,    2, 0x02 /* Public */,
-      21,    3,  102,    2, 0x02 /* Public */,
+      22,    2,  104,    2, 0x02 /* Public */,
       25,    2,  109,    2, 0x02 /* Public */,
       27,    1,  114,    2, 0x02 /* Public */,
       28,    0,  117,    2, 0x02 /* Public */,
@@ -114,12 +114,12 @@ static const uint qt_meta_data_nodeListModel[] = {
     QMetaType::Void, 0x80000000 | 14,   15,
 
  // slots: parameters
-    0x80000000 | 3, QMetaType::Int, QMetaType::Bool,   12,   17,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   17,   18,   19,
+    0x80000000 | 3, QMetaType::Int, QMetaType::Bool,   12,   21,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   19,   20,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   22,   23,   24,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   22,   26,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   23,   24,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   17,   26,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void,
 
@@ -138,10 +138,10 @@ void nodeListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 3: _t->addItem(); break;
         case 4: _t->removeItem((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 5: _t->removeArrowsWidth((*reinterpret_cast< QVector<Node*>(*)>(_a[1]))); break;
-        case 6: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
+        case 6: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 7: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Node**>(_a[0]) = std::move(_r); }  break;
-        case 7: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 8: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 8: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
         case 9: _t->removeNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
         case 10: _t->checkNodeCollision((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 11: _t->showNodeList(); break;

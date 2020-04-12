@@ -30,7 +30,6 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     Q_INVOKABLE void addNode(int x, int y);
-    Q_INVOKABLE void update(int i, int value, int role);
     Q_INVOKABLE void removeNode(int i, bool relations);
     Q_INVOKABLE void checkNodeCollision(int index);
 
@@ -46,7 +45,8 @@ signals:
     void addItem();
     void removeItem(int index);
     Q_INVOKABLE void removeArrowsWidth(QVector<Node*> list);
-private slots:
+public slots:
+    Q_INVOKABLE void update(int i, int value, int role);
     Node* getNode(int index, bool checkExisted);
 };
 

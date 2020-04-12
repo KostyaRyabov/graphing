@@ -125,14 +125,13 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
         return false;
     }
 
-    emit dataChanged(index,index);
+    emit dataChanged(index,index,{role});
 
     return true;
 }
 
 void nodeListModel::update(int i, int value, int role){
     setData(index(i), value, role);
-
     emit updateBindings(i);
 }
 

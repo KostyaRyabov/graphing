@@ -154,6 +154,23 @@ int arrowListModel::getArrowID(int A, int B){
     return arrowList.indexOf(emit getArrow(A,B));
 }
 
+void arrowListModel::moveTo(int arrowID, int lX, int lY, float angle){
+    Arrow* arrow = arrowList[arrowID];
+
+    angle = qDegreesToRadians(angle);
+
+    double S = qSin(angle);
+    double C = qCos(angle);
+    int x = lX*C-lY*S;
+    int y = lX*S+lY*C;
+
+    emit updateNode(arrow->A->index,arrow->A->xc+x,nRoles::xc);
+    emit updateNode(arrow->A->index,arrow->A->yc+y,nRoles::yc);
+
+    emit updateNode(arrow->B->index,arrow->B->xc+x,nRoles::xc);
+    emit updateNode(arrow->B->index,arrow->B->yc+y,nRoles::yc);
+}
+
 void arrowListModel::remove(int arrowID,bool animated){
     if (animated){
         auto i = index(arrowID);

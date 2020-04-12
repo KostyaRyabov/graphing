@@ -13,7 +13,7 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
     connect(&node_model, SIGNAL(mergeNodes(Node*,Node*)), this, SLOT(mergeNodes(Node*,Node*)));
     connect(&node_model, SIGNAL(updateBindings(int&)), this, SLOT(updateBindings(int&)));
     connect(&node_model, SIGNAL(removeBindings(int&)), this, SLOT(removeBindings(int&)));
-    connect(&arrow_model, SIGNAL(showMatrix()), this, SLOT(showMatrix()));
+    connect(&arrow_model, SIGNAL(updateNode(int,int,int)), &node_model, SLOT(update(int,int,int)));
 }
 
 NodeManager::~NodeManager(){

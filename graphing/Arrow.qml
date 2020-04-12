@@ -117,7 +117,7 @@ Item {
             MouseArea{
                 anchors.fill: parent
                 hoverEnabled: true;
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                acceptedButtons: Qt.RightButton
 
                 onEntered: selected.start();
                 onExited: unselected.start();
@@ -127,6 +127,22 @@ Item {
                         contextMenu.popup()
                     }
                 }
+            }
+
+            MouseArea{
+                id: moveArea
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton
+
+                property int offsetX: 0
+                property int offsetY: 0
+
+                onPressed:{
+                    offsetX = mouse.x
+                    offsetY = mouse.y
+                }
+
+                onPositionChanged: arrow_model.moveTo(aIndex, mouse.x-offsetX, mouse.y-offsetY,alpha);
             }
         }
     }

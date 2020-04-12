@@ -8,6 +8,8 @@
 
 #include <QHash>
 
+#include <nodelistmodel.h>
+
 #include <QQueue>
 #include <options.h>
 
@@ -46,6 +48,8 @@ public:
 
     Q_INVOKABLE void kill();
 
+    Q_INVOKABLE void moveTo(int arrowID, int lX, int lY, float angle);      //vector
+
     int getArrowID(int A, int B);
 
     friend class NodeManager;
@@ -55,7 +59,7 @@ private:
     QQueue<Arrow*> del_list;
     bool adding = false;
 signals:
-    void showMatrix();
+    void updateNode(int i, int value, int role);
     QVector<Arrow*> getArrowListWithNode(int nodeA);
     Node* getNode(int index, bool checkExisted);
     int checkExisting(int A, int B);
