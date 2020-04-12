@@ -85,10 +85,7 @@ void nodeListModel::removeNode(int i, bool relations){
     endRemoveRows();
 
     emit removeItem(i);
-
-    showNodeList();
     emit dataChanged(index(i),index(nodeList.size()-1),{nIndex});
-    showNodeList();
 }
 
 Node* nodeListModel::getNode(int index, bool checkExisted){

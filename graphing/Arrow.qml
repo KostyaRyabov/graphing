@@ -41,8 +41,7 @@ Item {
     transform: Rotation { angle: alpha }
 
     onBDirChanged: {
-        canvas.clear();
-        canvas.draw();
+        canvas.redraw();
     }
 
     Canvas {
@@ -56,57 +55,50 @@ Item {
         antialiasing: true
 
         onPaint: {
-            if (len >= 0) draw();
-            else drawLoop();
-        }
-
-        function draw(){
             var context = canvas.getContext('2d')
 
-            context.beginPath();
-            context.strokeStyle = "black"
-            context.lineWidth = nodeRadius/4;
-            context.moveTo(nodeRadius, width);
-            context.lineTo(nodeRadius, height-width);
-            context.stroke();
+            if (len >= 0){
+                context.beginPath();
+                context.strokeStyle = "black"
+                context.lineWidth = nodeRadius/4;
+                context.moveTo(nodeRadius, width);
+                context.lineTo(nodeRadius, height-width);
+                context.stroke();
 
-            if (bDir){
+                if (bDir){
+                    context.beginPath();
+                    context.fillStyle = "black"
+                    context.moveTo(nodeRadius, width);
+                    context.lineTo(0, 2*width);
+                    context.lineTo(width, 2*width);
+                    context.lineTo(nodeRadius, width);
+                    context.fill();
+                }
+
                 context.beginPath();
                 context.fillStyle = "black"
-                context.moveTo(nodeRadius, width);
-                context.lineTo(0, 2*width);
-                context.lineTo(width, 2*width);
-                context.lineTo(nodeRadius, width);
+                context.moveTo(nodeRadius, height-width);
+                context.lineTo(0, height-2*width);
+                context.lineTo(width, height-2*width);
+                context.lineTo(nodeRadius, height-width);
                 context.fill();
+            }else{
+                context.beginPath();
+                context.fillStyle = "black"
+                context.moveTo(width/2, 0);
+                context.lineTo(width*0.8, width*0.05);
+                context.lineTo(width*0.55, width*0.3);
+                context.fill();
+
+                context.beginPath();
+                context.strokeStyle = "black"
+                context.lineWidth = width/20;
+                context.arc(width*0.42, width*0.42, width*0.35, 1.7*Math.PI, 1.1*Math.PI, false);
+                context.stroke();
             }
-
-            context.beginPath();
-            context.fillStyle = "black"
-            context.moveTo(nodeRadius, height-width);
-            context.lineTo(0, height-2*width);
-            context.lineTo(width, height-2*width);
-            context.lineTo(nodeRadius, height-width);
-            context.fill();
         }
 
-        function drawLoop(){
-            var context = canvas.getContext('2d')
-
-            context.beginPath();
-            context.fillStyle = "black"
-            context.moveTo(width/2, 0);
-            context.lineTo(width*0.8, width*0.05);
-            context.lineTo(width*0.55, width*0.3);
-            context.fill();
-
-            context.beginPath();
-            context.strokeStyle = "black"
-            context.lineWidth = width/20;
-            context.arc(width*0.42, width*0.42, width*0.35, 1.7*Math.PI, 1.1*Math.PI, false);
-            context.stroke();
-        }
-
-        function clear(){
+        function redraw(){
             var context = canvas.getContext('2d')
             context.reset();
             canvas.requestPaint();
@@ -184,6 +176,6 @@ Item {
     MyMenu {
         id: contextMenu
         Action { text: "copy"; }
-        Action { text: "remove"; onTriggered: arrow_model.remove(aIndex,true) }
+        Action { text: "remove"; onTriggered: { manager.removeArrow(aIndex); arrow_model.remove(aIndex,true) }}
     }
 }

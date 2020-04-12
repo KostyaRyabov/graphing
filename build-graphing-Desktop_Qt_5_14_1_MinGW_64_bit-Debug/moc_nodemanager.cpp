@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NodeManager_t {
-    QByteArrayData data[28];
-    char stringdata0[234];
+    QByteArrayData data[30];
+    char stringdata0[254];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -59,7 +59,9 @@ QT_MOC_LITERAL(23, 179, 8), // "openFile"
 QT_MOC_LITERAL(24, 188, 8), // "saveFile"
 QT_MOC_LITERAL(25, 197, 10), // "saveAsFile"
 QT_MOC_LITERAL(26, 208, 14), // "filePathExists"
-QT_MOC_LITERAL(27, 223, 10) // "showMatrix"
+QT_MOC_LITERAL(27, 223, 10), // "showMatrix"
+QT_MOC_LITERAL(28, 234, 11), // "removeArrow"
+QT_MOC_LITERAL(29, 246, 7) // "arrowID"
 
     },
     "NodeManager\0mergeNodes\0\0Node*\0From\0"
@@ -68,7 +70,8 @@ QT_MOC_LITERAL(27, 223, 10) // "showMatrix"
     "index\0checkExisting\0A\0B\0updateMatrix\0"
     "NodeA\0NodeB\0Arrow*\0p_arrow\0getArrow\0"
     "newFile\0openFile\0saveFile\0saveAsFile\0"
-    "filePathExists\0showMatrix"
+    "filePathExists\0showMatrix\0removeArrow\0"
+    "arrowID"
 };
 #undef QT_MOC_LITERAL
 
@@ -78,7 +81,7 @@ static const uint qt_meta_data_NodeManager[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -86,22 +89,23 @@ static const uint qt_meta_data_NodeManager[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    2,   84,    2, 0x08 /* Private */,
-       6,    1,   89,    2, 0x08 /* Private */,
-       9,    1,   92,    2, 0x08 /* Private */,
-      10,    0,   95,    2, 0x08 /* Private */,
-      11,    1,   96,    2, 0x08 /* Private */,
-      13,    2,   99,    2, 0x08 /* Private */,
-      16,    3,  104,    2, 0x08 /* Private */,
-      21,    2,  111,    2, 0x08 /* Private */,
+       1,    2,   89,    2, 0x08 /* Private */,
+       6,    1,   94,    2, 0x08 /* Private */,
+       9,    1,   97,    2, 0x08 /* Private */,
+      10,    0,  100,    2, 0x08 /* Private */,
+      11,    1,  101,    2, 0x08 /* Private */,
+      13,    2,  104,    2, 0x08 /* Private */,
+      16,    3,  109,    2, 0x08 /* Private */,
+      21,    2,  116,    2, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-      22,    0,  116,    2, 0x02 /* Public */,
-      23,    0,  117,    2, 0x02 /* Public */,
-      24,    0,  118,    2, 0x02 /* Public */,
-      25,    0,  119,    2, 0x02 /* Public */,
-      26,    0,  120,    2, 0x02 /* Public */,
-      27,    0,  121,    2, 0x02 /* Public */,
+      22,    0,  121,    2, 0x02 /* Public */,
+      23,    0,  122,    2, 0x02 /* Public */,
+      24,    0,  123,    2, 0x02 /* Public */,
+      25,    0,  124,    2, 0x02 /* Public */,
+      26,    0,  125,    2, 0x02 /* Public */,
+      27,    0,  126,    2, 0x02 /* Public */,
+      28,    1,  127,    2, 0x02 /* Public */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3,    4,    5,
@@ -120,6 +124,7 @@ static const uint qt_meta_data_NodeManager[] = {
     QMetaType::Void,
     QMetaType::Bool,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   29,
 
        0        // eod
 };
@@ -147,6 +152,7 @@ void NodeManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
         case 12: { bool _r = _t->filePathExists();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 13: _t->showMatrix(); break;
+        case 14: _t->removeArrow((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -181,13 +187,13 @@ int NodeManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 15)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 14;
+        _id -= 15;
     }
     return _id;
 }

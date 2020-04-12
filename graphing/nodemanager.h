@@ -38,6 +38,7 @@ public:
     Q_INVOKABLE bool filePathExists();
 
     Q_INVOKABLE void showMatrix();
+    Q_INVOKABLE void removeArrow(int arrowID);
 
     nodeListModel node_model;
     arrowListModel arrow_model;

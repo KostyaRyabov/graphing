@@ -161,7 +161,8 @@ void arrowListModel::remove(int arrowID,bool animated){
         del_list.push_front(arrowList[arrowID]);
     }else{
         beginRemoveRows(QModelIndex(),arrowID,arrowID);
-        delete arrowList.takeAt(arrowID);
+        auto arrow = arrowList.takeAt(arrowID);
+        delete arrow;
         endRemoveRows();
 
         emit dataChanged(index(arrowID),index(arrowList.size()-1),{aIndex});

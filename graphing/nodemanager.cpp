@@ -28,6 +28,17 @@ void NodeManager::newFile(){
     //emit dataChanged();
 }
 
+void NodeManager::removeArrow(int arrowID){
+    Arrow *arrow = arrow_model.arrowList[arrowID];
+
+    if (matrix[arrow->A->index][arrow->B->index] != nullptr){
+        matrix[arrow->A->index][arrow->B->index] = nullptr;
+    }
+    if (matrix[arrow->B->index][arrow->A->index] != nullptr){
+        matrix[arrow->B->index][arrow->A->index] = nullptr;
+    }
+}
+
 void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
     if (ToID == i) return;
 
@@ -89,6 +100,7 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
 
             Arrow* arrow = matrix[i][ToID];
             arrow->bidirectional = true;
+            matrix[ToID][i] = arrow;
 
             auto ix = arrow_model.index(arrow->index);
             emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
@@ -97,7 +109,7 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
             qDebug() << "[InSimplex NF]";
             Arrow* arrow = matrix[FromID][i];
             arrow->A = node_model.nodeList[ToID];
-            matrix[i][ToID] = arrow;
+            matrix[ToID][i] = arrow;
             break;
         }
         }
@@ -114,6 +126,7 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
 
             Arrow* arrow = matrix[ToID][i];
             arrow->bidirectional = true;
+            matrix[i][ToID] = arrow;
 
             auto ix = arrow_model.index(arrow->index);
             emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
@@ -127,7 +140,7 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
             qDebug() << "[OS NF]";
             Arrow* arrow = matrix[i][FromID];
             arrow->B = node_model.nodeList[ToID];
-            matrix[ToID][i] = arrow;
+            matrix[i][ToID] = arrow;
             break;
         }
         }
@@ -144,6 +157,11 @@ void NodeManager::mergeNodes(Node* From, Node* To){
     int i;
 
 
+    if (matrix[From->index][To->index] != nullptr){
+        arrow_model.remove(matrix[From->index][To->index]->index,false);
+    } else if (matrix[To->index][From->index] != nullptr){
+        arrow_model.remove(matrix[To->index][From->index]->index,false);
+    }
 
 
 
@@ -163,18 +181,11 @@ void NodeManager::mergeNodes(Node* From, Node* To){
         }
     }
 
-    showMatrix();
 
-
-    if (matrix[From->index][To->index] != nullptr){
-        //matrix[From->index][To->index]->A = To;
-         arrow_model.remove(matrix[From->index][To->index]->index,false);
-    } else if (matrix[To->index][From->index] != nullptr){
-        //matrix[To->index][From->index]->B = To;
-        arrow_model.remove(matrix[To->index][From->index]->index,false);
-    }
 
     node_model.removeNode(From->index,false);
+
+    showMatrix();
 }
 
 void NodeManager::openFile(){
@@ -289,7 +300,7 @@ void NodeManager::showMatrix(){
 
     for (auto &row : matrix){
         for (auto arrow : row){
-            if (arrow){
+            if (arrow != nullptr){
                 Qcout << " " << QVariant(arrow->index).toString();
             } else Qcout << " -";
         }
@@ -325,9 +336,9 @@ void NodeManager::updateBindings(int &nodeA){
 void NodeManager::removeBindings(int &nodeA){
     for (int nodeB = 0; nodeB < matrix.size(); nodeB++){
         if (matrix[nodeA][nodeB] != nullptr){
-            arrow_model.remove(matrix[nodeA][nodeB]->index,false);
+            arrow_model.remove(matrix[nodeA][nodeB]->index,true);
         } else if (matrix[nodeB][nodeA] != nullptr){
-            arrow_model.remove(matrix[nodeB][nodeA]->index,false);
+            arrow_model.remove(matrix[nodeB][nodeA]->index,true);
         }
     }
 }
