@@ -35,9 +35,13 @@ public:
 
     Q_INVOKABLE void showNodeList();
 
+    Node* getCollision(int &index, bool consider_offset = false);
+    void updateNodePosition(int &index);
+
     friend class NodeManager;
 private:
-    QVector<Node*> nodeList;
+    QVector<Node*> nodeList;        //view
+    QVector<Node*> map[block_Size*block_Size];     //for searching
 signals:
     void mergeNodes(Node* From, Node* To);
     void removeBindings(int &nodeA);

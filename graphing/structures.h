@@ -2,7 +2,7 @@
 #define STRUCTURES_H
 
 struct Node{
-    int xc,yc,rx,ry,index;
+    int xc,yc,rx,ry,index,lastBlock;
 };
 
 struct Arrow{
