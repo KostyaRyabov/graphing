@@ -135,7 +135,15 @@ void nodeListModel::addNode(int x, int y){
 void nodeListModel::removeNode(int i, bool relations){
     beginRemoveRows(QModelIndex(), i,i);
     if (relations) emit removeBindings(i);
-    delete nodeList.takeAt(i);
+
+    auto item = nodeList.takeAt(i);
+
+    auto &list = map[item->lastBlock];
+    int ix = list.indexOf(item);
+    if (ix >= 0) list.remove(ix);
+
+    delete item;
+
     endRemoveRows();
 
     emit removeItem(i);
