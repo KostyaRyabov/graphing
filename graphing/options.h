@@ -10,7 +10,7 @@
 #define delayCD             150
 #define changeTime          300
 
-#define block_Size           3
+#define block_Size           4
 #define block_RangeX         (ws_Height/block_Size)             // поменять потом на глобальные переменные,
 #define block_RangeY         (ws_Width/block_Size)              // для возможности редактировать размеры холста
 

@@ -42,7 +42,6 @@ void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, 
     }
 
     qDebug() << "---------------------"<< scale <<"-----------------------";
-    qDebug() << left << right << top << bottom;
 
     left = (left < offsetX)?0:left-offsetX;
     top = (top < offsetY)?0:top-offsetY;
@@ -70,22 +69,19 @@ void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, 
      2) если ширина блока равна рассчитываемому то включить весь блок, иначе проводить выборку по растоянию
     */
 
-    for (X = left; X < right && X < ws_Width; X = newX){
-        if (right - X < block_RangeX) newX = right;
-        else newX = (X/block_RangeX+1)*block_RangeX + X/block_RangeX;
+    for (X = left; X < right; X = newX){
+        newX = (X/block_RangeX+1)*block_RangeX;
+        if (newX > right) newX = right;
 
-        for (Y = top; Y < bottom && Y < ws_Height; Y = newY){
-            if (bottom - Y < block_RangeY) newY = bottom;
-            else newY = (Y/block_RangeY+1)*block_RangeY + Y/block_RangeY;
+        for (Y = top; Y < bottom; Y = newY){
+            newY = (Y/block_RangeY+1)*block_RangeY;
+            if (newY > bottom) newY = bottom;
 
             if ((newX - X >= block_RangeX) && (newY - Y >= block_RangeY)){
                 selected.append(map[(Y/block_RangeY)*block_Size+(X/block_RangeX)]);
             }else{
-                qDebug() << "---append:";
                 for (auto node : map[(Y/block_RangeY)*block_Size+(X/block_RangeX)]){
-                    qDebug() << "      " << X << node->xc << newX << "|" << Y << node->yc << newY;
                     if ((X <= node->xc && node->xc <= newX) && (Y <= node->yc && node->yc <= newY)) {
-                        qDebug() << "   " << node->index;
                         selected.append(node);
                     }
                 }
