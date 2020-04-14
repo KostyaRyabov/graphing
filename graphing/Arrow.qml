@@ -16,6 +16,13 @@ Item {
 
     property bool aDetonate: false;
 
+    property bool isMoving: false
+
+    onIsMovingChanged: {
+        if(isMoving) selected.start()
+        else unselected.start()
+    }
+
     onLenChanged: {
         if (len >= 0){
             canvas.height = len*2
@@ -119,8 +126,8 @@ Item {
                 hoverEnabled: true;
                 acceptedButtons: Qt.RightButton
 
-                onEntered: selected.start();
-                onExited: unselected.start();
+                onEntered: arrow_model.changeFocus(arrow.aIndex)
+                onExited: arrow_model.changeFocus(-1)
 
                 onClicked: {
                     if (mouse.button === Qt.RightButton){
@@ -143,6 +150,8 @@ Item {
                 }
 
                 onPositionChanged: arrow_model.moveTo(aIndex, mouse.x-offsetX, mouse.y-offsetY,alpha);
+
+                onReleased: node_model.checkNodeCollision();
             }
         }
     }

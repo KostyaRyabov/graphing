@@ -36,8 +36,6 @@ public:
     Q_INVOKABLE void remove();
     Q_INVOKABLE void checkNodeCollision();
 
-    Q_INVOKABLE void selectNode(int nodeID, bool append);
-
     Q_INVOKABLE void showNodeList();
     Q_INVOKABLE void selectNodesOnRect(int left, int top, int right, int bottom, int offsetX, int offsetY, float scale);
 
@@ -57,6 +55,7 @@ signals:
     void removeItem(int index);
     Q_INVOKABLE void removeArrowsWidth(QVector<Node*> list);
 public slots:
+    Q_INVOKABLE void selectNode(int nodeID, bool append);
     Q_INVOKABLE void update(int i, int value, int role, bool multi = true);
     Node* getNode(int index, bool checkExisted);
 };

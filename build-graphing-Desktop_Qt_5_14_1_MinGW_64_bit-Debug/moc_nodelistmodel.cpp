@@ -49,24 +49,24 @@ QT_MOC_LITERAL(12, 100, 5), // "index"
 QT_MOC_LITERAL(13, 106, 17), // "removeArrowsWidth"
 QT_MOC_LITERAL(14, 124, 14), // "QVector<Node*>"
 QT_MOC_LITERAL(15, 139, 4), // "list"
-QT_MOC_LITERAL(16, 144, 6), // "update"
-QT_MOC_LITERAL(17, 151, 1), // "i"
-QT_MOC_LITERAL(18, 153, 5), // "value"
-QT_MOC_LITERAL(19, 159, 4), // "role"
-QT_MOC_LITERAL(20, 164, 5), // "multi"
-QT_MOC_LITERAL(21, 170, 7), // "getNode"
-QT_MOC_LITERAL(22, 178, 12), // "checkExisted"
-QT_MOC_LITERAL(23, 191, 7), // "addNode"
-QT_MOC_LITERAL(24, 199, 1), // "x"
-QT_MOC_LITERAL(25, 201, 1), // "y"
-QT_MOC_LITERAL(26, 203, 10), // "removeNode"
-QT_MOC_LITERAL(27, 214, 9), // "relations"
-QT_MOC_LITERAL(28, 224, 7), // "animate"
-QT_MOC_LITERAL(29, 232, 6), // "remove"
-QT_MOC_LITERAL(30, 239, 18), // "checkNodeCollision"
-QT_MOC_LITERAL(31, 258, 10), // "selectNode"
-QT_MOC_LITERAL(32, 269, 6), // "nodeID"
-QT_MOC_LITERAL(33, 276, 6), // "append"
+QT_MOC_LITERAL(16, 144, 10), // "selectNode"
+QT_MOC_LITERAL(17, 155, 6), // "nodeID"
+QT_MOC_LITERAL(18, 162, 6), // "append"
+QT_MOC_LITERAL(19, 169, 6), // "update"
+QT_MOC_LITERAL(20, 176, 1), // "i"
+QT_MOC_LITERAL(21, 178, 5), // "value"
+QT_MOC_LITERAL(22, 184, 4), // "role"
+QT_MOC_LITERAL(23, 189, 5), // "multi"
+QT_MOC_LITERAL(24, 195, 7), // "getNode"
+QT_MOC_LITERAL(25, 203, 12), // "checkExisted"
+QT_MOC_LITERAL(26, 216, 7), // "addNode"
+QT_MOC_LITERAL(27, 224, 1), // "x"
+QT_MOC_LITERAL(28, 226, 1), // "y"
+QT_MOC_LITERAL(29, 228, 10), // "removeNode"
+QT_MOC_LITERAL(30, 239, 9), // "relations"
+QT_MOC_LITERAL(31, 249, 7), // "animate"
+QT_MOC_LITERAL(32, 257, 6), // "remove"
+QT_MOC_LITERAL(33, 264, 18), // "checkNodeCollision"
 QT_MOC_LITERAL(34, 283, 12), // "showNodeList"
 QT_MOC_LITERAL(35, 296, 17), // "selectNodesOnRect"
 QT_MOC_LITERAL(36, 314, 4), // "left"
@@ -82,12 +82,12 @@ QT_MOC_LITERAL(42, 352, 5) // "scale"
     "To\0removeBindings\0int&\0nodeA\0"
     "updateBindings\0addItem\0removeItem\0"
     "index\0removeArrowsWidth\0QVector<Node*>\0"
-    "list\0update\0i\0value\0role\0multi\0getNode\0"
-    "checkExisted\0addNode\0x\0y\0removeNode\0"
-    "relations\0animate\0remove\0checkNodeCollision\0"
-    "selectNode\0nodeID\0append\0showNodeList\0"
-    "selectNodesOnRect\0left\0top\0right\0"
-    "bottom\0offsetX\0offsetY\0scale"
+    "list\0selectNode\0nodeID\0append\0update\0"
+    "i\0value\0role\0multi\0getNode\0checkExisted\0"
+    "addNode\0x\0y\0removeNode\0relations\0"
+    "animate\0remove\0checkNodeCollision\0"
+    "showNodeList\0selectNodesOnRect\0left\0"
+    "top\0right\0bottom\0offsetX\0offsetY\0scale"
 };
 #undef QT_MOC_LITERAL
 
@@ -113,17 +113,17 @@ static const uint qt_meta_data_nodeListModel[] = {
       13,    1,  114,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      16,    4,  117,    2, 0x0a /* Public */,
-      16,    3,  126,    2, 0x2a /* Public | MethodCloned */,
-      21,    2,  133,    2, 0x0a /* Public */,
+      16,    2,  117,    2, 0x0a /* Public */,
+      19,    4,  122,    2, 0x0a /* Public */,
+      19,    3,  131,    2, 0x2a /* Public | MethodCloned */,
+      24,    2,  138,    2, 0x0a /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-      23,    2,  138,    2, 0x02 /* Public */,
-      26,    3,  143,    2, 0x02 /* Public */,
-      26,    2,  150,    2, 0x22 /* Public | MethodCloned */,
-      29,    0,  155,    2, 0x02 /* Public */,
-      30,    0,  156,    2, 0x02 /* Public */,
-      31,    2,  157,    2, 0x02 /* Public */,
+      26,    2,  143,    2, 0x02 /* Public */,
+      29,    3,  148,    2, 0x02 /* Public */,
+      29,    2,  155,    2, 0x22 /* Public | MethodCloned */,
+      32,    0,  160,    2, 0x02 /* Public */,
+      33,    0,  161,    2, 0x02 /* Public */,
       34,    0,  162,    2, 0x02 /* Public */,
       35,    7,  163,    2, 0x02 /* Public */,
 
@@ -136,17 +136,17 @@ static const uint qt_meta_data_nodeListModel[] = {
     QMetaType::Void, 0x80000000 | 14,   15,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Bool,   17,   18,   19,   20,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   17,   18,   19,
-    0x80000000 | 3, QMetaType::Int, QMetaType::Bool,   12,   22,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   17,   18,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Bool,   20,   21,   22,   23,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   20,   21,   22,
+    0x80000000 | 3, QMetaType::Int, QMetaType::Bool,   12,   25,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   24,   25,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool, QMetaType::Bool,   17,   27,   28,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   17,   27,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   27,   28,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool, QMetaType::Bool,   20,   30,   31,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   20,   30,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   32,   33,
     QMetaType::Void,
     QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Float,   36,   37,   38,   39,   40,   41,   42,
 
@@ -165,16 +165,16 @@ void nodeListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 3: _t->addItem(); break;
         case 4: _t->removeItem((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 5: _t->removeArrowsWidth((*reinterpret_cast< QVector<Node*>(*)>(_a[1]))); break;
-        case 6: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4]))); break;
-        case 7: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
-        case 8: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
+        case 6: _t->selectNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 7: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4]))); break;
+        case 8: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 9: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Node**>(_a[0]) = std::move(_r); }  break;
-        case 9: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 10: _t->removeNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
-        case 11: _t->removeNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 12: _t->remove(); break;
-        case 13: _t->checkNodeCollision(); break;
-        case 14: _t->selectNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 10: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 11: _t->removeNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
+        case 12: _t->removeNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 13: _t->remove(); break;
+        case 14: _t->checkNodeCollision(); break;
         case 15: _t->showNodeList(); break;
         case 16: _t->selectNodesOnRect((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< int(*)>(_a[5])),(*reinterpret_cast< int(*)>(_a[6])),(*reinterpret_cast< float(*)>(_a[7]))); break;
         default: ;

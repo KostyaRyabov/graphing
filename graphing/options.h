@@ -14,4 +14,6 @@
 #define block_RangeX         (ws_Height/block_Size)             // поменять потом на глобальные переменные,
 #define block_RangeY         (ws_Width/block_Size)              // для возможности редактировать размеры холста
 
+#define reservedItemsCount  16
+
 #endif // OPTIONS_H

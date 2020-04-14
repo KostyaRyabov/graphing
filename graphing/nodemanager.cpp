@@ -14,6 +14,7 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
     connect(&node_model, SIGNAL(updateBindings(int&)), this, SLOT(updateBindings(int&)));
     connect(&node_model, SIGNAL(removeBindings(int&)), this, SLOT(removeBindings(int&)));
     connect(&arrow_model, SIGNAL(updateNode(int,int,int)), &node_model, SLOT(update(int,int,int)));
+    connect(&arrow_model, SIGNAL(selectNode(int,bool)), &node_model, SLOT(selectNode(int,bool)));
 }
 
 NodeManager::~NodeManager(){

@@ -2,7 +2,8 @@
 
 nodeListModel::nodeListModel(QObject *parent) : QAbstractListModel(parent)
 {
-    nodeList.reserve(10);
+    nodeList.reserve(reservedItemsCount);
+    selected.reserve(reservedItemsCount);
 }
 
 nodeListModel::~nodeListModel()

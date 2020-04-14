@@ -2,8 +2,8 @@
 
 arrowListModel::arrowListModel(QObject *parent) : QAbstractListModel(parent)
 {
-    del_list.reserve(10);
-    arrowList.reserve(10);
+    del_list.reserve(reservedItemsCount);
+    arrowList.reserve(reservedItemsCount);
 }
 
 arrowListModel::~arrowListModel()
@@ -20,6 +20,7 @@ QHash<int, QByteArray> arrowListModel::roleNames() const{
     roles[bDir] = "bDirection";
     roles[aDetonate] = "Delete";
     roles[aIndex] = "arrow_id";
+    roles[isMoving] = "selected";
     return roles;
 }
 
@@ -29,6 +30,8 @@ int arrowListModel::rowCount(const QModelIndex &parent) const{
 }
 
 QVariant arrowListModel::data(const QModelIndex &index, int role) const{
+    if (role == isMoving) qDebug() << "tr";
+
     if (!index.isValid()){
         return QVariant();
     }
@@ -75,6 +78,9 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
     case aIndex:
         item->index = index.row();
         return QVariant(item->index);
+    case isMoving:
+        qDebug() << "   val:" << (selectedID == item->index);
+        return (selectedID == item->index);
     default:
         return QVariant();
     }
@@ -156,6 +162,19 @@ int arrowListModel::getArrowID(int A, int B){
     return arrowList.indexOf(emit getArrow(A,B));
 }
 
+void arrowListModel::changeFocus(int arrowID){
+    qDebug() << "   CF:" << selectedID << arrowID;
+
+    QModelIndex ix;
+
+    ix = index(selectedID);
+    selectedID = arrowID;
+    emit dataChanged(ix,ix,{isMoving});
+
+    ix = index(selectedID);
+    emit dataChanged(ix,ix,{isMoving});
+}
+
 void arrowListModel::moveTo(int arrowID, int lX, int lY, float angle){
     Arrow* arrow = arrowList[arrowID];
 
@@ -166,11 +185,11 @@ void arrowListModel::moveTo(int arrowID, int lX, int lY, float angle){
     int x = lX*C-lY*S;
     int y = lX*S+lY*C;
 
+    emit selectNode(arrow->A->index,false);
+    emit selectNode(arrow->B->index,true);
+
     emit updateNode(arrow->A->index,arrow->A->xc+x,nRoles::xc);
     emit updateNode(arrow->A->index,arrow->A->yc+y,nRoles::yc);
-
-    emit updateNode(arrow->B->index,arrow->B->xc+x,nRoles::xc);
-    emit updateNode(arrow->B->index,arrow->B->yc+y,nRoles::yc);
 }
 
 void arrowListModel::remove(int arrowID,bool animated){

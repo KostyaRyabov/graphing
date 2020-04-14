@@ -68,6 +68,7 @@ Rectangle{
             bDir: bDirection;
             aDetonate: Delete;
             aIndex: arrow_id;
+            isMoving: selected;
         }
     }
     Repeater {

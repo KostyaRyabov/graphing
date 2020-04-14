@@ -22,6 +22,7 @@ enum aRoles{
     alpha,
     bDir,
     aDetonate,
+    isMoving,
     aIndex
 };
 
@@ -53,12 +54,20 @@ public:
     int getArrowID(int A, int B);
 
     friend class NodeManager;
+
+    Q_INVOKABLE void changeFocus(int arrowID);
 private:
     QVector<Arrow*> arrowList;
 
     QQueue<Arrow*> del_list;
     bool adding = false;
+
+    int selectedID = -1;
 signals:
+    void checkNodeCollision();
+    void updateNodesPosition();
+
+    void selectNode(int nodeID,bool append);
     void updateNode(int i, int value, int role);
     QVector<Arrow*> getArrowListWithNode(int nodeA);
     Node* getNode(int index, bool checkExisted);

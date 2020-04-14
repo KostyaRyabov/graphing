@@ -40,7 +40,7 @@ ApplicationWindow {
 
         onReleased: {
             node_model.selectNodesOnRect(selector.x,selector.y,selector.x+selector.dX,selector.y+selector.dY,workspace.x,workspace.y,scaleRect.xScale)
-
+            arrow_model.changeFocus(-1);
             selector.dX = 0;
             selector.dY = 0;
         }
