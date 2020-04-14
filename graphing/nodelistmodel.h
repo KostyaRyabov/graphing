@@ -32,7 +32,8 @@ public:
 
     Q_INVOKABLE void addNode(int x, int y);
     Q_INVOKABLE void removeNode(int i, bool relations);
-    Q_INVOKABLE void checkNodeCollision(int index);
+    Q_INVOKABLE void remove();
+    Q_INVOKABLE void checkNodeCollision();
 
     Q_INVOKABLE void selectNode(int nodeID, bool append);
 
@@ -40,7 +41,7 @@ public:
     Q_INVOKABLE void selectNodesOnRect(int left, int top, int right, int bottom, int offsetX, int offsetY, float scale);
 
     Node* getCollision(int &index, bool consider_offset = false);
-    void updateNodePosition(int &index);
+    void updateNodesPosition();
 
     friend class NodeManager;
 private:

@@ -121,31 +121,33 @@ void arrowListModel::bindB(int nodeIndex){              // привязка вт
     auto *p_node = emit getNode(nodeIndex,true);        // получаем узел по его идентификатору
     auto currentArrow = arrowList.last();
 
-    switch (emit checkExisting(currentArrow->A->index,p_node->index)) {
-        case aDir::OutSimplex: {
-            auto arrow = getArrow(p_node->index,currentArrow->A->index);
-            emit updateMatrix(currentArrow->A->index,p_node->index,arrow);     // устанавливается в матрице другое направление
+    if (p_node != nullptr){
+        switch (emit checkExisting(currentArrow->A->index,p_node->index)) {
+            case aDir::OutSimplex: {
+                auto arrow = getArrow(p_node->index,currentArrow->A->index);
+                emit updateMatrix(currentArrow->A->index,p_node->index,arrow);     // устанавливается в матрице другое направление
 
-            remove(currentArrow->index,false);
-            auto i = index(arrow->index);
-            arrowList[arrow->index]->bidirectional = true;
-            qDebug() << "update dir:" << arrow->index;
-            emit dataChanged(i,i,{aRoles::bDir});
-            break;
-        } case aDir::InSimplex:{
-            remove(currentArrow->index,false);
-            break;
-        } case aDir::Duplex:{
-            remove(currentArrow->index,false);
-            break;
-        } default:{
-            emit updateMatrix(currentArrow->A->index, p_node->index,currentArrow);      // обновляется матрица
-            currentArrow->B = p_node;                                 // добавляется карта
-            auto i = index(arrowList.size()-1);
-            emit dataChanged(i,i,{xxx,yyy,len,alpha});
-            break;
+                remove(currentArrow->index,false);
+                auto i = index(arrow->index);
+                arrowList[arrow->index]->bidirectional = true;
+                qDebug() << "update dir:" << arrow->index;
+                emit dataChanged(i,i,{aRoles::bDir});
+                break;
+            } case aDir::InSimplex:{
+                remove(currentArrow->index,false);
+                break;
+            } case aDir::Duplex:{
+                remove(currentArrow->index,false);
+                break;
+            } default:{
+                emit updateMatrix(currentArrow->A->index, p_node->index,currentArrow);      // обновляется матрица
+                currentArrow->B = p_node;                                 // добавляется карта
+                auto i = index(arrowList.size()-1);
+                emit dataChanged(i,i,{xxx,yyy,len,alpha});
+                break;
+            }
         }
-    }
+    }else removeCurrent();
 
     adding = false;
 }

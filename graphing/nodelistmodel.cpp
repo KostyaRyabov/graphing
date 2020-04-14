@@ -82,35 +82,42 @@ void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, 
     for (auto &item : selected) setData(index(item->index),true,nRoles::isSelected);
 }
 
-void nodeListModel::checkNodeCollision(int index){          //O(N)
-    //update node position on map
+void nodeListModel::checkNodeCollision(){
+    updateNodesPosition();
 
-    updateNodePosition(index);
-
-    auto collision = getCollision(index);
-    if (collision != nullptr) emit mergeNodes(nodeList[index], collision);
+    for (auto &node : selected){
+        auto collision = getCollision(node->index);
+        if (collision != nullptr) emit mergeNodes(node, collision);
+    }
 }
 
-void nodeListModel::updateNodePosition(int &index){
-    auto item = nodeList[index];
+void nodeListModel::updateNodesPosition(){
+    short block;
+    Node* item;
 
-    short   row = item->yc/block_RangeX,
-            column = item->xc/block_RangeX,
-            block = block_Size*row + column;
+    QVector<Node*>::iterator it = selected.begin();
 
-    if (item->lastBlock != block){
-        auto &list = map[item->lastBlock];
+    while (it != selected.end()){
+        item = *it;
 
-        qDebug() << "list";
-        for (auto &el : list){
-            qDebug() << el->index;
+        if (item->xc < Node_Radius || item->xc > ws_Width - Node_Radius || item->yc < Node_Radius || item->yc > ws_Height - Node_Radius){
+            it = selected.erase(it);
+            removeNode(item->index,true);
+            continue;
         }
 
-        int ix = list.indexOf(item);
-        if (ix >= 0) list.remove(ix);
-        item->lastBlock = block;
-        qDebug() << "move to block №"<<item->lastBlock;
-        map[block].append(item);
+        block = block_Size*(item->yc/block_RangeX) + (item->xc/block_RangeX);
+
+        if (item->lastBlock != block){
+            auto &list = map[item->lastBlock];
+
+            int ix = list.indexOf(item);
+            if (ix >= 0) list.remove(ix);
+            item->lastBlock = block;
+            map[block].append(item);
+        }
+
+        ++it;
     }
 }
 
@@ -140,6 +147,8 @@ void nodeListModel::selectNode(int nodeID, bool append){
     if (!append) {
         for (auto &item : selected) setData(index(item->index),false,nRoles::isSelected);
         selected.clear();
+    }else{
+        qDebug() << "           shifted";
     }
     selected.append(nodeList[nodeID]);
     setData(index(nodeID),true,nRoles::isSelected);
@@ -198,6 +207,13 @@ void nodeListModel::addNode(int x, int y){
     endInsertRows();
 }
 
+void nodeListModel::remove(){
+    for (auto &item: selected){
+        removeNode(item->index, true);
+    }
+    selected.clear();
+}
+
 void nodeListModel::removeNode(int i, bool relations){
     beginRemoveRows(QModelIndex(), i,i);
     if (relations) emit removeBindings(i);
@@ -223,7 +239,13 @@ Node* nodeListModel::getNode(int index, bool checkExisted){
     if (collision != nullptr) return collision;
 
     auto item = nodeList[index];
-    addNode(item->xc+item->rx,item->yc+item->ry);
+
+    int x = item->xc+item->rx,
+        y = item->yc+item->ry;
+
+    if (x < Node_Radius || x > ws_Width - Node_Radius || y < Node_Radius || y > ws_Height - Node_Radius) return nullptr;
+
+    addNode(x,y);
     return nodeList.last();
 }
 

@@ -62,7 +62,11 @@ Item {
             acceptedButtons: Qt.LeftButton
 
             cursorShape: Qt.OpenHandCursor
-            onPressed: {   cursorShape = Qt.CloseHandCursor}
+            onPressed: {
+                cursorShape = Qt.CloseHandCursor;
+
+                if (!isSelected) node_model.selectNode(node.nIndex,(mouse.modifiers & Qt.ShiftModifier));
+            }
             onReleased: {
                 cursorShape = Qt.OpenHandCursor
                 node_model.checkNodeCollision(node.nIndex);
@@ -114,8 +118,8 @@ Item {
                     acceptedButtons: Qt.NoButton
 
                     hoverEnabled: true;
-                    onEntered: if (!isSelected) node_model.selectNode(nIndex,false);
-                    onExited: unselected.start();
+                    onEntered: if (!isSelected) selected.start();
+                    onExited: if (!isSelected) unselected.start();
                 }
 
                 onPressed: {
