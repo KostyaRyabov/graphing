@@ -23,8 +23,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_nodeListModel_t {
-    QByteArrayData data[29];
-    char stringdata0[250];
+    QByteArrayData data[38];
+    char stringdata0[318];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -53,24 +53,35 @@ QT_MOC_LITERAL(16, 144, 6), // "update"
 QT_MOC_LITERAL(17, 151, 1), // "i"
 QT_MOC_LITERAL(18, 153, 5), // "value"
 QT_MOC_LITERAL(19, 159, 4), // "role"
-QT_MOC_LITERAL(20, 164, 7), // "getNode"
-QT_MOC_LITERAL(21, 172, 12), // "checkExisted"
-QT_MOC_LITERAL(22, 185, 7), // "addNode"
-QT_MOC_LITERAL(23, 193, 1), // "x"
-QT_MOC_LITERAL(24, 195, 1), // "y"
-QT_MOC_LITERAL(25, 197, 10), // "removeNode"
-QT_MOC_LITERAL(26, 208, 9), // "relations"
-QT_MOC_LITERAL(27, 218, 18), // "checkNodeCollision"
-QT_MOC_LITERAL(28, 237, 12) // "showNodeList"
+QT_MOC_LITERAL(20, 164, 5), // "multi"
+QT_MOC_LITERAL(21, 170, 7), // "getNode"
+QT_MOC_LITERAL(22, 178, 12), // "checkExisted"
+QT_MOC_LITERAL(23, 191, 7), // "addNode"
+QT_MOC_LITERAL(24, 199, 1), // "x"
+QT_MOC_LITERAL(25, 201, 1), // "y"
+QT_MOC_LITERAL(26, 203, 10), // "removeNode"
+QT_MOC_LITERAL(27, 214, 9), // "relations"
+QT_MOC_LITERAL(28, 224, 18), // "checkNodeCollision"
+QT_MOC_LITERAL(29, 243, 12), // "showNodeList"
+QT_MOC_LITERAL(30, 256, 17), // "selectNodesOnRect"
+QT_MOC_LITERAL(31, 274, 4), // "left"
+QT_MOC_LITERAL(32, 279, 3), // "top"
+QT_MOC_LITERAL(33, 283, 5), // "right"
+QT_MOC_LITERAL(34, 289, 6), // "bottom"
+QT_MOC_LITERAL(35, 296, 7), // "offsetX"
+QT_MOC_LITERAL(36, 304, 7), // "offsetY"
+QT_MOC_LITERAL(37, 312, 5) // "scale"
 
     },
     "nodeListModel\0mergeNodes\0\0Node*\0From\0"
     "To\0removeBindings\0int&\0nodeA\0"
     "updateBindings\0addItem\0removeItem\0"
     "index\0removeArrowsWidth\0QVector<Node*>\0"
-    "list\0update\0i\0value\0role\0getNode\0"
+    "list\0update\0i\0value\0role\0multi\0getNode\0"
     "checkExisted\0addNode\0x\0y\0removeNode\0"
-    "relations\0checkNodeCollision\0showNodeList"
+    "relations\0checkNodeCollision\0showNodeList\0"
+    "selectNodesOnRect\0left\0top\0right\0"
+    "bottom\0offsetX\0offsetY\0scale"
 };
 #undef QT_MOC_LITERAL
 
@@ -80,7 +91,7 @@ static const uint qt_meta_data_nodeListModel[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      14,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -88,22 +99,24 @@ static const uint qt_meta_data_nodeListModel[] = {
        6,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   74,    2, 0x06 /* Public */,
-       6,    1,   79,    2, 0x06 /* Public */,
-       9,    1,   82,    2, 0x06 /* Public */,
-      10,    0,   85,    2, 0x06 /* Public */,
-      11,    1,   86,    2, 0x06 /* Public */,
-      13,    1,   89,    2, 0x06 /* Public */,
+       1,    2,   84,    2, 0x06 /* Public */,
+       6,    1,   89,    2, 0x06 /* Public */,
+       9,    1,   92,    2, 0x06 /* Public */,
+      10,    0,   95,    2, 0x06 /* Public */,
+      11,    1,   96,    2, 0x06 /* Public */,
+      13,    1,   99,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      16,    3,   92,    2, 0x0a /* Public */,
-      20,    2,   99,    2, 0x0a /* Public */,
+      16,    4,  102,    2, 0x0a /* Public */,
+      16,    3,  111,    2, 0x2a /* Public | MethodCloned */,
+      21,    2,  118,    2, 0x0a /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-      22,    2,  104,    2, 0x02 /* Public */,
-      25,    2,  109,    2, 0x02 /* Public */,
-      27,    1,  114,    2, 0x02 /* Public */,
-      28,    0,  117,    2, 0x02 /* Public */,
+      23,    2,  123,    2, 0x02 /* Public */,
+      26,    2,  128,    2, 0x02 /* Public */,
+      28,    1,  133,    2, 0x02 /* Public */,
+      29,    0,  136,    2, 0x02 /* Public */,
+      30,    7,  137,    2, 0x02 /* Public */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3, 0x80000000 | 3,    4,    5,
@@ -114,14 +127,16 @@ static const uint qt_meta_data_nodeListModel[] = {
     QMetaType::Void, 0x80000000 | 14,   15,
 
  // slots: parameters
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Bool,   17,   18,   19,   20,
     QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int,   17,   18,   19,
-    0x80000000 | 3, QMetaType::Int, QMetaType::Bool,   12,   21,
+    0x80000000 | 3, QMetaType::Int, QMetaType::Bool,   12,   22,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::Int,   23,   24,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   17,   26,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   24,   25,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   17,   27,
     QMetaType::Void, QMetaType::Int,   12,
     QMetaType::Void,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Float,   31,   32,   33,   34,   35,   36,   37,
 
        0        // eod
 };
@@ -138,13 +153,15 @@ void nodeListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _i
         case 3: _t->addItem(); break;
         case 4: _t->removeItem((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 5: _t->removeArrowsWidth((*reinterpret_cast< QVector<Node*>(*)>(_a[1]))); break;
-        case 6: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
-        case 7: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
+        case 6: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< bool(*)>(_a[4]))); break;
+        case 7: _t->update((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 8: { Node* _r = _t->getNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Node**>(_a[0]) = std::move(_r); }  break;
-        case 8: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 9: _t->removeNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 10: _t->checkNodeCollision((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 11: _t->showNodeList(); break;
+        case 9: _t->addNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 10: _t->removeNode((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 11: _t->checkNodeCollision((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 12: _t->showNodeList(); break;
+        case 13: _t->selectNodesOnRect((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4])),(*reinterpret_cast< int(*)>(_a[5])),(*reinterpret_cast< int(*)>(_a[6])),(*reinterpret_cast< float(*)>(_a[7]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -223,13 +240,13 @@ int nodeListModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 14)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 14;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 14)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 14;
     }
     return _id;
 }

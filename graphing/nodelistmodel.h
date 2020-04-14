@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE void checkNodeCollision(int index);
 
     Q_INVOKABLE void showNodeList();
+    Q_INVOKABLE void selectNodesOnRect(int left, int top, int right, int bottom, int offsetX, int offsetY, float scale);
 
     Node* getCollision(int &index, bool consider_offset = false);
     void updateNodePosition(int &index);
@@ -42,6 +43,7 @@ public:
 private:
     QVector<Node*> nodeList;        //view
     QVector<Node*> map[block_Size*block_Size];     //for searching
+    QVector<Node*> selected;
 signals:
     void mergeNodes(Node* From, Node* To);
     void removeBindings(int &nodeA);
@@ -50,7 +52,7 @@ signals:
     void removeItem(int index);
     Q_INVOKABLE void removeArrowsWidth(QVector<Node*> list);
 public slots:
-    Q_INVOKABLE void update(int i, int value, int role);
+    Q_INVOKABLE void update(int i, int value, int role, bool multi = true);
     Node* getNode(int index, bool checkExisted);
 };
 

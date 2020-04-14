@@ -39,6 +39,8 @@ ApplicationWindow {
         }
 
         onReleased: {
+            node_model.selectNodesOnRect(selector.x,selector.y,selector.x+selector.dX,selector.y+selector.dY,workspace.x,workspace.y,scaleRect.xScale)
+
             selector.dX = 0;
             selector.dY = 0;
         }

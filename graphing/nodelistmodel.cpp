@@ -26,6 +26,78 @@ int nodeListModel::rowCount(const QModelIndex &parent) const{
     return nodeList.size();
 }
 
+void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, int offsetX, int offsetY, float scale){
+    selected.clear();
+
+    if (left > right) {
+        int tmp = left;
+        left = right;
+        right = tmp;
+    }
+
+    if (top > bottom) {
+        int tmp = top;
+        top = bottom;
+        bottom = tmp;
+    }
+
+    qDebug() << "---------------------"<< scale <<"-----------------------";
+    qDebug() << left << right << top << bottom;
+
+    left = (left < offsetX)?0:left-offsetX;
+    top = (top < offsetY)?0:top-offsetY;
+
+    right-=offsetX;
+    bottom-=offsetY;
+
+    left/=scale;
+    right/=scale;
+    top/=scale;
+    bottom/=scale;
+
+    if (right > ws_Width) right = ws_Width;
+    if (bottom > ws_Height) bottom = ws_Height;
+
+    qDebug() << left << right << top << bottom;
+
+    int X,Y, newX, newY;
+
+    /*
+     P.S.: scale фактор не учитывался сразу
+
+     0) если левая граница селектора меньше левой границы рабочей области приравнять нулю
+     1) если правая граница селектора больше правой границы блока, то делать сдвиг, иначе присвоить правой ганице блока правую границу селектора (и потов выйти из цыкла)
+     2) если ширина блока равна рассчитываемому то включить весь блок, иначе проводить выборку по растоянию
+    */
+
+    for (X = left; X < right && X < ws_Width; X = newX){
+        if (right - X < block_RangeX) newX = right;
+        else newX = (X/block_RangeX+1)*block_RangeX + X/block_RangeX;
+
+        for (Y = top; Y < bottom && Y < ws_Height; Y = newY){
+            if (bottom - Y < block_RangeY) newY = bottom;
+            else newY = (Y/block_RangeY+1)*block_RangeY + Y/block_RangeY;
+
+            if ((newX - X >= block_RangeX) && (newY - Y >= block_RangeY)){
+                selected.append(map[(Y/block_RangeY)*block_Size+(X/block_RangeX)]);
+            }else{
+                qDebug() << "---append:";
+                for (auto node : map[(Y/block_RangeY)*block_Size+(X/block_RangeX)]){
+                    qDebug() << "      " << X << node->xc << newX << "|" << Y << node->yc << newY;
+                    if ((X <= node->xc && node->xc <= newX) && (Y <= node->yc && node->yc <= newY)) {
+                        qDebug() << "   " << node->index;
+                        selected.append(node);
+                    }
+                }
+            }
+        }
+    }
+
+    qDebug() << "selected:";
+    for (auto &node : selected){
+        qDebug() << node->index;
+    }
+}
 
 void nodeListModel::checkNodeCollision(int index){          //O(N)
     //update node position on map
@@ -188,8 +260,26 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
     return true;
 }
 
-void nodeListModel::update(int i, int value, int role){
+void nodeListModel::update(int i, int value, int role, bool multi){
     setData(index(i), value, role);
+
+    if (multi) {
+        for (auto &node: selected) {
+            if (node->index != i) {
+                //qDebug() << "           update node" << node->index << " role:" << role;
+
+                switch (role) {
+                case nRoles::xc:
+                    update(node->index, node->xc + nodeList[i]->xc-value,role, false);
+                    break;
+                case nRoles::yc:
+                    update(node->index, node->yc + nodeList[i]->yc-value,role, false);
+                    break;
+                }
+            }
+        }
+    }
+
     emit updateBindings(i);
 }
 
