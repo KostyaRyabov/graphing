@@ -6,6 +6,13 @@ Item {
     property int nIndex: -1
     property int stored_index: -1
 
+    property bool isSelected: false
+
+    onIsSelectedChanged: {
+        if (isSelected) selected.start();
+        else unselected.start();
+    }
+
     property int xc: 0
     property int yc: 0
 
@@ -104,12 +111,11 @@ Item {
 
                 MouseArea{
                     anchors.fill: parent
-                    acceptedButtons: "NoButton"
+                    acceptedButtons: Qt.NoButton
 
-                    hoverEnabled: true
-                    onEntered: selected.start();
-
-                    onExited: { unselected.start();}
+                    hoverEnabled: true;
+                    onEntered: if (!isSelected) node_model.selectNode(nIndex,false);
+                    onExited: unselected.start();
                 }
 
                 onPressed: {

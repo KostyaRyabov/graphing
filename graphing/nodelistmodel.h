@@ -13,7 +13,8 @@ enum nRoles{
     yc,
     rx,
     ry,
-    nIndex
+    nIndex,
+    isSelected
 };
 
 class nodeListModel : public QAbstractListModel
@@ -32,6 +33,8 @@ public:
     Q_INVOKABLE void addNode(int x, int y);
     Q_INVOKABLE void removeNode(int i, bool relations);
     Q_INVOKABLE void checkNodeCollision(int index);
+
+    Q_INVOKABLE void selectNode(int nodeID, bool append);
 
     Q_INVOKABLE void showNodeList();
     Q_INVOKABLE void selectNodesOnRect(int left, int top, int right, int bottom, int offsetX, int offsetY, float scale);

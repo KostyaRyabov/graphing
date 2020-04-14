@@ -17,6 +17,7 @@ QHash<int, QByteArray> nodeListModel::roleNames() const{
     roles[rx] = "RelativePosX";
     roles[ry] = "RelativePosY";
     roles[nIndex] = "node_id";
+    roles[isSelected] = "selected";
 
     return roles;
 }
@@ -27,6 +28,7 @@ int nodeListModel::rowCount(const QModelIndex &parent) const{
 }
 
 void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, int offsetX, int offsetY, float scale){
+    for (auto &item : selected) setData(index(item->index),false,nRoles::isSelected);
     selected.clear();
 
     if (left > right) {
@@ -40,8 +42,6 @@ void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, 
         top = bottom;
         bottom = tmp;
     }
-
-    qDebug() << "---------------------"<< scale <<"-----------------------";
 
     left = (left < offsetX)?0:left-offsetX;
     top = (top < offsetY)?0:top-offsetY;
@@ -57,17 +57,7 @@ void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, 
     if (right > ws_Width) right = ws_Width;
     if (bottom > ws_Height) bottom = ws_Height;
 
-    qDebug() << left << right << top << bottom;
-
     int X,Y, newX, newY;
-
-    /*
-     P.S.: scale фактор не учитывался сразу
-
-     0) если левая граница селектора меньше левой границы рабочей области приравнять нулю
-     1) если правая граница селектора больше правой границы блока, то делать сдвиг, иначе присвоить правой ганице блока правую границу селектора (и потов выйти из цыкла)
-     2) если ширина блока равна рассчитываемому то включить весь блок, иначе проводить выборку по растоянию
-    */
 
     for (X = left; X < right; X = newX){
         newX = (X/block_RangeX+1)*block_RangeX;
@@ -89,10 +79,7 @@ void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, 
         }
     }
 
-    qDebug() << "selected:";
-    for (auto &node : selected){
-        qDebug() << node->index;
-    }
+    for (auto &item : selected) setData(index(item->index),true,nRoles::isSelected);
 }
 
 void nodeListModel::checkNodeCollision(int index){          //O(N)
@@ -149,6 +136,15 @@ Node* nodeListModel::getCollision(int &index, bool consider_offset){
     return nullptr;
 }
 
+void nodeListModel::selectNode(int nodeID, bool append){
+    if (!append) {
+        for (auto &item : selected) setData(index(item->index),false,nRoles::isSelected);
+        selected.clear();
+    }
+    selected.append(nodeList[nodeID]);
+    setData(index(nodeID),true,nRoles::isSelected);
+}
+
 QVariant nodeListModel::data(const QModelIndex &index, int role) const{
     if (!index.isValid()){
         return QVariant();
@@ -168,6 +164,8 @@ QVariant nodeListModel::data(const QModelIndex &index, int role) const{
     case nIndex:
         item->index = index.row();
         return QVariant(item->index);
+    case isSelected:
+        return item->isSelected;
     default:
         return QVariant();
     }
@@ -247,6 +245,9 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
     case ry:
         item->ry = value.toInt();
         break;
+    case isSelected:
+        item->isSelected = value.toBool();
+        break;
     default:
         return false;
     }
@@ -257,24 +258,22 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
 }
 
 void nodeListModel::update(int i, int value, int role, bool multi){
-    setData(index(i), value, role);
-
     if (multi) {
         for (auto &node: selected) {
             if (node->index != i) {
-                //qDebug() << "           update node" << node->index << " role:" << role;
-
                 switch (role) {
                 case nRoles::xc:
-                    update(node->index, node->xc + nodeList[i]->xc-value,role, false);
+                    update(node->index, node->xc + value-nodeList[i]->xc,role, false);
                     break;
                 case nRoles::yc:
-                    update(node->index, node->yc + nodeList[i]->yc-value,role, false);
+                    update(node->index, node->yc + value-nodeList[i]->yc,role, false);
                     break;
                 }
             }
         }
     }
+
+    setData(index(i), value, role);
 
     emit updateBindings(i);
 }

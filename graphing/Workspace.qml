@@ -80,6 +80,7 @@ Rectangle{
             rx: RelativePosX;
             ry: RelativePosY;
             nIndex: node_id;
+            isSelected: selected
         }
     }
 }

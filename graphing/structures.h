@@ -3,6 +3,7 @@
 
 struct Node{
     int xc,yc,rx,ry,index,lastBlock;
+    bool isSelected = false;
 };
 
 struct Arrow{
