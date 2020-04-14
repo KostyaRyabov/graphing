@@ -13,6 +13,9 @@ Item {
         else unselected.start();
     }
 
+    property bool nDetonate: false;
+    onNDetonateChanged: if (nDetonate) detonator.start();
+
     property int xc: 0
     property int yc: 0
 
@@ -82,7 +85,7 @@ Item {
             MyMenu {
                 id: contextMenu
                 Action { text: "copy"; }
-                Action { text: "remove"; onTriggered: detonator.start() }
+                Action { text: "remove"; onTriggered: node_model.remove() }
                 MenuSeparator { }
                 Action { text: "create loop"; onTriggered: arrow_model.createLoop(node.nIndex); }
             }
@@ -113,6 +116,16 @@ Item {
 
                 cursorShape: Qt.OpenHandCursor
 
+                property bool moved: false
+
+                onPressed: {
+                    control.counter = 0;
+                    timer.start();
+                    cursorShape = Qt.ArrowCursor;
+
+                    moved = false;
+                }
+
                 MouseArea{
                     anchors.fill: parent
                     acceptedButtons: Qt.NoButton
@@ -122,16 +135,16 @@ Item {
                     onExited: if (!isSelected) unselected.start();
                 }
 
-                onPressed: {
-                    control.counter = 0;
-                    timer.start();
-                    cursorShape = Qt.ArrowCursor;
-                    arrow_model.bindA(node.nIndex);
-                }
-
                 onPositionChanged: {
                     control.x += mouse.x-nodeRadius
                     control.y += mouse.y-nodeRadius
+
+                    if (!moved){
+                        if (control.x != 0 || control.y != 0){
+                            arrow_model.bindA(node.nIndex);
+                            moved = true;
+                        }
+                    }
 
                     node_model.update(node.nIndex,control.x,259)
                     node_model.update(node.nIndex,control.y,260)
@@ -139,11 +152,17 @@ Item {
 
                 onReleased: {
                     cursorShape = Qt.OpenHandCursor;
-                    if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.ry,2)))>SelectorRadius){
-                        arrow_model.bindB(node.nIndex)
-                    } else {
-                        arrow_model.removeCurrent();
-                    }
+
+                    if (moved){
+                        if (Math.abs(Math.sqrt(Math.pow(node.rx,2)+Math.pow(node.ry,2)))>SelectorRadius){
+                            arrow_model.bindB(node.nIndex);
+                            control.opacity = 0;
+                            control.x = 0;
+                            control.y = 0;
+                        } else {
+                            arrow_model.removeCurrent();
+                        }
+                    }else if (!isSelected) node_model.selectNode(node.nIndex,(mouse.modifiers & Qt.ShiftModifier));
 
                     if (mouse.button === Qt.RightButton){
                         if (control.counter < 1){
@@ -151,9 +170,6 @@ Item {
                         }
                     }
 
-                    control.opacity = 0;
-                    control.x = 0;
-                    control.y = 0;
                     timer.stop();
                 }
             }
@@ -175,7 +191,7 @@ Item {
             easing.type: Easing.InCirc
             duration: delayCD
 
-            onStopped: node_model.removeNode(node.nIndex,true);
+            onStopped: node_model.removeNode(node.nIndex,true,false);
         }
 
         PropertyAnimation {

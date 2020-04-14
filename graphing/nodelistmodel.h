@@ -14,7 +14,8 @@ enum nRoles{
     rx,
     ry,
     nIndex,
-    isSelected
+    isSelected,
+    nDetonate
 };
 
 class nodeListModel : public QAbstractListModel
@@ -31,7 +32,7 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     Q_INVOKABLE void addNode(int x, int y);
-    Q_INVOKABLE void removeNode(int i, bool relations);
+    Q_INVOKABLE void removeNode(int i, bool relations, bool animate = true);
     Q_INVOKABLE void remove();
     Q_INVOKABLE void checkNodeCollision();
 

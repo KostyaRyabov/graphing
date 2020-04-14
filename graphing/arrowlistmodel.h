@@ -21,7 +21,7 @@ enum aRoles{
     len,
     alpha,
     bDir,
-    detonate,
+    aDetonate,
     aIndex
 };
 

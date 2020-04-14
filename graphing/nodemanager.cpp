@@ -183,7 +183,7 @@ void NodeManager::mergeNodes(Node* From, Node* To){
 
 
 
-    node_model.removeNode(From->index,false);
+    node_model.removeNode(From->index,false,false);
 
     showMatrix();
 }

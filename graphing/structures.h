@@ -3,7 +3,8 @@
 
 struct Node{
     int xc,yc,rx,ry,index,lastBlock;
-    bool isSelected = false;
+    bool    isSelected = false,
+            destroy = true;;
 };
 
 struct Arrow{
@@ -11,9 +12,9 @@ struct Arrow{
     Node* B;
 
     int index;
-    bool isLooped = false;
-    bool bidirectional = false;
-    bool destroy = true;
+    bool    isLooped = false,
+            bidirectional = false,
+            destroy = true;
 };
 
 

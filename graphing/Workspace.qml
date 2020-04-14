@@ -66,7 +66,7 @@ Rectangle{
             len: Length;
             alpha: Angle;
             bDir: bDirection;
-            detonate: Delete;
+            aDetonate: Delete;
             aIndex: arrow_id;
         }
     }
@@ -80,7 +80,8 @@ Rectangle{
             rx: RelativePosX;
             ry: RelativePosY;
             nIndex: node_id;
-            isSelected: selected
+            isSelected: selected;
+            nDetonate: Delete;
         }
     }
 }

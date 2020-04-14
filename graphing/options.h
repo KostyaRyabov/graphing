@@ -8,7 +8,7 @@
 
 // animation
 #define delayCD             150
-#define changeTime          300
+#define changeTime          250
 
 #define block_Size           4
 #define block_RangeX         (ws_Height/block_Size)             // поменять потом на глобальные переменные,

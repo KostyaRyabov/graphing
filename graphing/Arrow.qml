@@ -14,7 +14,7 @@ Item {
     property double alpha: 0
     property bool bDir: false
 
-    property bool detonate: false;
+    property bool aDetonate: false;
 
     onLenChanged: {
         if (len >= 0){
@@ -26,7 +26,7 @@ Item {
         }
     }
 
-    onDetonateChanged: if (detonate) detonator.start();
+    onADetonateChanged: if (aDetonate) detonator.start();
 
     x: xxx
     y: yyy

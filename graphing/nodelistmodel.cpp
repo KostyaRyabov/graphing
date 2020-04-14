@@ -18,6 +18,7 @@ QHash<int, QByteArray> nodeListModel::roleNames() const{
     roles[ry] = "RelativePosY";
     roles[nIndex] = "node_id";
     roles[isSelected] = "selected";
+    roles[nDetonate] = "Delete";
 
     return roles;
 }
@@ -101,6 +102,11 @@ void nodeListModel::updateNodesPosition(){
         item = *it;
 
         if (item->xc < Node_Radius || item->xc > ws_Width - Node_Radius || item->yc < Node_Radius || item->yc > ws_Height - Node_Radius){
+            auto &list = map[item->lastBlock];
+
+            int ix = list.indexOf(item);
+            if (ix >= 0) list.remove(ix);
+
             it = selected.erase(it);
             removeNode(item->index,true);
             continue;
@@ -147,9 +153,8 @@ void nodeListModel::selectNode(int nodeID, bool append){
     if (!append) {
         for (auto &item : selected) setData(index(item->index),false,nRoles::isSelected);
         selected.clear();
-    }else{
-        qDebug() << "           shifted";
     }
+
     selected.append(nodeList[nodeID]);
     setData(index(nodeID),true,nRoles::isSelected);
 }
@@ -175,6 +180,8 @@ QVariant nodeListModel::data(const QModelIndex &index, int role) const{
         return QVariant(item->index);
     case isSelected:
         return item->isSelected;
+    case nDetonate:
+        return QVariant(item->destroy);
     default:
         return QVariant();
     }
@@ -190,10 +197,12 @@ void nodeListModel::addNode(int x, int y){
     item->yc = y;
     item->rx = 0;
     item->ry = 0;
+    item->destroy = false;
     item->index = i;
 
     short   row = item->yc/block_RangeY,
             column = item->xc/block_RangeX;
+
     item->lastBlock = block_Size*row + column;
     qDebug() << "block №"<<item->lastBlock;
     map[item->lastBlock].append(item);
@@ -214,22 +223,26 @@ void nodeListModel::remove(){
     selected.clear();
 }
 
-void nodeListModel::removeNode(int i, bool relations){
-    beginRemoveRows(QModelIndex(), i,i);
-    if (relations) emit removeBindings(i);
+void nodeListModel::removeNode(int i, bool relations, bool animate){
+    if (animate){
+        setData(index(i), QVariant(true), nDetonate);
+    }else{
+        beginRemoveRows(QModelIndex(), i,i);
+        if (relations) emit removeBindings(i);
 
-    auto item = nodeList.takeAt(i);
+        auto item = nodeList.takeAt(i);
 
-    auto &list = map[item->lastBlock];
-    int ix = list.indexOf(item);
-    if (ix >= 0) list.remove(ix);
+        auto &list = map[item->lastBlock];
+        int ix = list.indexOf(item);
+        if (ix >= 0) list.remove(ix);
 
-    delete item;
+        delete item;
 
-    endRemoveRows();
+        endRemoveRows();
 
-    emit removeItem(i);
-    emit dataChanged(index(i),index(nodeList.size()-1),{nIndex});
+        emit removeItem(i);
+        emit dataChanged(index(i),index(nodeList.size()-1),{nIndex});
+    }
 }
 
 Node* nodeListModel::getNode(int index, bool checkExisted){
@@ -269,6 +282,9 @@ bool nodeListModel::setData(const QModelIndex &index, const QVariant &value, int
         break;
     case isSelected:
         item->isSelected = value.toBool();
+        break;
+    case nDetonate:
+        item->destroy = value.toBool();
         break;
     default:
         return false;

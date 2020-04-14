@@ -18,7 +18,7 @@ QHash<int, QByteArray> arrowListModel::roleNames() const{
     roles[len] = "Length";
     roles[alpha] = "Angle";
     roles[bDir] = "bDirection";
-    roles[detonate] = "Delete";
+    roles[aDetonate] = "Delete";
     roles[aIndex] = "arrow_id";
     return roles;
 }
@@ -69,7 +69,7 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
         else return QVariant(qSqrt(qPow(item->B->xc-item->A->xc,2)+qPow(item->B->yc-item->A->yc,2)));
     case bDir:
         return QVariant(item->bidirectional);
-    case detonate:
+    case aDetonate:
         item->destroy = !item->destroy;
         return QVariant(item->destroy);
     case aIndex:
@@ -176,7 +176,7 @@ void arrowListModel::moveTo(int arrowID, int lX, int lY, float angle){
 void arrowListModel::remove(int arrowID,bool animated){
     if (animated){
         auto i = index(arrowID);
-        emit dataChanged(i,i,{detonate});
+        emit dataChanged(i,i,{aDetonate});
         del_list.push_front(arrowList[arrowID]);
     }else{
         beginRemoveRows(QModelIndex(),arrowID,arrowID);
