@@ -123,8 +123,8 @@ void arrowListModel::bindA(int nodeIndex){              // привязка пе
     endInsertRows();
 }
 
-void arrowListModel::bindB(int nodeIndex){              // привязка второго узла к ребру
-    auto *p_node = emit getNode(nodeIndex,true);        // получаем узел по его идентификатору
+void arrowListModel::bindB(int nodeIndex, bool exist){              // привязка второго узла к ребру
+    auto *p_node = emit getNode(nodeIndex, exist);        // получаем узел по его идентификатору
     auto currentArrow = arrowList.last();
 
     if (p_node != nullptr){
@@ -206,6 +206,8 @@ void arrowListModel::remove(int arrowID,bool animated){
         emit dataChanged(index(arrowID),index(arrowList.size()-1),{aIndex});
 
         adding = false;
+
+        if (checkSize) emit cleared();
     }
 }
 

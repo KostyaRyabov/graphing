@@ -86,10 +86,10 @@ ApplicationWindow {
 
         MyMenu {
             title: "File"
-            Action { text: "New..."; onTriggered: manager.newFile() }
+            Action { text: "Clear..."; onTriggered: manager.clear() }
             Action { text: "Open..."; onTriggered: manager.openFile() }
-            Action { text: "Save"; onTriggered: manager.saveFile() }
-            Action { text: "Save As..."; onTriggered: manager.saveAsFile(); enabled: manager.filePathExists() }
+            Action { id:save; text: "Save"; onTriggered: manager.saveAsFile(); enabled: false; }
+            Action { text: "Save As..."; onTriggered: save.enabled = manager.saveAsFile(); }
             MenuSeparator { }
             Action { text: "Quit"; onTriggered: close() }
             Action { text: "last"; onTriggered: if (node_model.rowCount() > 0) node_model.update(0,50,257) }

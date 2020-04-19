@@ -1,6 +1,7 @@
 #ifndef NODEMANAGER_H
 #define NODEMANAGER_H
 
+
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlListProperty>
@@ -16,6 +17,7 @@
 #include <QFile>
 #include <QDebug>
 
+#include <QThread>
 #include <QQmlComponent>
 
 #include <QVector>
@@ -31,11 +33,10 @@ public:
     NodeManager(QObject *parent = nullptr);
     ~NodeManager();
 
-    Q_INVOKABLE void newFile();
-    Q_INVOKABLE void openFile();
-    Q_INVOKABLE void saveFile();
-    Q_INVOKABLE void saveAsFile();
-    Q_INVOKABLE bool filePathExists();
+    Q_INVOKABLE void clear();
+    Q_INVOKABLE bool openFile();
+    Q_INVOKABLE bool saveFile();
+    Q_INVOKABLE bool saveAsFile();
 
     Q_INVOKABLE void showMatrix();
     Q_INVOKABLE void removeArrow(int arrowID);
@@ -46,11 +47,12 @@ private:
     void read(const QJsonObject &json);
     void write(QJsonObject &json) const;
 
-    QString filePath;
     QVector<QVector<Arrow*>> matrix;   // матрица смежности
 
+    QFile file;
     void mergeArrows(int &FromID, int &ToID, int &i);
 private slots:
+    void readFile();
     void mergeNodes(Node* From, Node* To);
     void updateBindings(int &nodeA);
     void removeBindings(int &nodeA);

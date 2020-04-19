@@ -15,18 +15,18 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
     connect(&node_model, SIGNAL(removeBindings(int&)), this, SLOT(removeBindings(int&)));
     connect(&arrow_model, SIGNAL(updateNode(int,int,int)), &node_model, SLOT(update(int,int,int)));
     connect(&arrow_model, SIGNAL(selectNode(int,bool)), &node_model, SLOT(selectNode(int,bool)));
+    connect(&arrow_model, SIGNAL(cleared()), this, SLOT(readFile()));
 }
 
 NodeManager::~NodeManager(){
 
 }
 
-void NodeManager::newFile(){
-    //clear all data
-    matrix.clear();
-    filePath.clear();
-
-    //emit dataChanged();
+void NodeManager::clear(){
+    node_model.selected.clear();
+    for (auto &node : node_model.nodeList){
+        node_model.removeNode(node->index, true);
+    }
 }
 
 void NodeManager::removeArrow(int arrowID){
@@ -189,83 +189,90 @@ void NodeManager::mergeNodes(Node* From, Node* To){
     showMatrix();
 }
 
-void NodeManager::openFile(){
-    /*
-    filePath = QFileDialog::getOpenFileName(0, "file path", "", "*.json");
+bool NodeManager::openFile(){
+    file.setFileName(QFileDialog::getOpenFileName(0, "file path", "", "*.json"));
 
-    if (!filePath.isNull()){
-        QFile file(filePath);
-        if (!file.open(QIODevice::WriteOnly)){
-            qWarning("Couldn't open file.");
-            return;
-        }
-
-        QByteArray data = file.readAll();
-        QJsonDocument document(QJsonDocument::fromJson(data));
-        read(document.object());
+    if (!file.open(QIODevice::ReadOnly)){
+        qWarning("Couldn't open file.");
+        return false;
     }
-    */
+
+    if (arrow_model.arrowList.size() == 0) readFile();
+    else{
+        arrow_model.checkSize = true;
+        clear();
+    }
+    return true;
 }
 
-void NodeManager::saveFile(){
-    /*
-    filePath = QFileDialog::getSaveFileName(0, "file path", "", "*.json");
-
-    if (!filePath.isNull()){
-        saveAsFile();
-    }
-    */
+void NodeManager::readFile(){
+    QByteArray data = file.readAll();
+    QJsonDocument document(QJsonDocument::fromJson(data));
+    read(document.object());
+    file.close();
 }
 
-void NodeManager::saveAsFile(){
-    /*
+bool NodeManager::saveAsFile(){
+    file.setFileName(QFileDialog::getSaveFileName(0, "file path", "", "*.json"));
+    if (file.fileName().isNull()) return false;
+    return saveFile();
+}
+
+bool NodeManager::saveFile(){
     // saving by prepared file path
 
-    QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly)){
         qWarning("Couldn't create file.");
-        return;
+        return false;
     }
 
     QJsonObject data;
     write(data);
     QJsonDocument document(data);
     file.write(document.toJson());
-    */
-}
+    file.close();
 
-bool NodeManager::filePathExists(){
-    return !filePath.isNull();
+    return true;
 }
 
 void NodeManager::read(const QJsonObject &json){
-    /*
-    matrix.clear();
-    QJsonArray mxArray = json["Nodes"].toArray();
+    int size = json["size"].toInt();
 
-    for (int mxIndex = 0; mxIndex < mxArray.size(); ++mxIndex) {
-        QJsonArray mxRow = mxArray[mxIndex].toArray();
-        QVector<bool> newRow;
-        for (auto mxitem : mxRow){
-            newRow.append(mxitem.toBool());
-        }
-        matrix.append(newRow);
+    // сначала строим точки, то есть создаем матрицу
+
+    for (int A = 0; A < size; A++) {
+        auto alpha = qDegreesToRadians(360.0/size*A);
+        node_model.addNode(ws_Width/2+ws_Width/3*qCos(alpha),ws_Height/2+ws_Height/3*qSin(alpha));
     }
-    */
+
+    for (int A = 0; A < size; A++) {
+        QJsonArray bindedNodes = json[QString::number(A)].toArray();
+
+        for (auto B : bindedNodes) {
+            if (A == B.toInt()) arrow_model.createLoop(A);
+            else if (auto arrow = matrix[B.toInt()][A]){
+                arrow->bidirectional = true;
+                auto ix = arrow_model.index(arrow->index);
+                emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
+            }else{
+                arrow_model.bindA(A);
+                arrow_model.bindB(B.toInt(), false);
+            }
+        }
+    }
 }
 
 void NodeManager::write(QJsonObject &json) const{
-    /*
-    QJsonArray mxArray;
-    for (auto &row : matrix) {
-        QJsonArray mxRow;
-        for (auto &item : row){
-            mxRow.append(item);
+    json.insert("size",matrix.size());
+
+    for (int A = 0; A < matrix.size(); A++) {
+        QJsonObject nodeList;
+        QJsonArray bindingsJArray;
+        for (int B = 0; B < matrix.size(); B++) {
+            if (matrix[A][B]) bindingsJArray.append(B);
         }
-        mxArray.append(mxRow);
+        json.insert(QString::number(A),bindingsJArray);
     }
-    json["Nodes"] = mxArray;
-    */
 }
 
 void NodeManager::updateMatrix(int NodeA, int NodeB, Arrow* p_arrow){

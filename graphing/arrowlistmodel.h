@@ -40,7 +40,7 @@ public:
 
     Q_INVOKABLE void createLoop(int nodeIndex);
     Q_INVOKABLE void bindA(int nodeIndex);
-    Q_INVOKABLE void bindB(int nodeIndex);
+    Q_INVOKABLE void bindB(int nodeIndex, bool exist = true);
 
     Q_INVOKABLE void remove(int arrowID,bool animated);
     Q_INVOKABLE void removeCurrent();
@@ -63,7 +63,10 @@ private:
     bool adding = false;
 
     int selectedID = -1;
+
+    bool checkSize = false;
 signals:
+    void cleared();
     void checkNodeCollision();
     void updateNodesPosition();
 
