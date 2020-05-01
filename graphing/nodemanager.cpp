@@ -20,7 +20,7 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
 }
 
 NodeManager::~NodeManager(){
-
+    clear(false);
 }
 
 void NodeManager::copy(){
@@ -38,18 +38,18 @@ void NodeManager::copy(){
         buffer.cx += A->xc;
         buffer.cy += A->yc;
 
-        if (keys.find(A->index) == keys.end())
-            keys[A->index] = counter++;
-
+        keys[A->index] = counter++;
         buffer.tmp_coord_list.append({A->xc, A->yc});
+    }
 
+    buffer.cx /= node_model.selected.size();
+    buffer.cy /= node_model.selected.size();
+
+    for (auto A : node_model.selected){
         for (auto B : node_model.selected){
             int dir = checkExisting(A->index,B->index);
 
             if (dir == aDir::InSimplex){
-                if (keys.find(B->index) == keys.end())
-                    keys[B->index] = counter++;
-
                 iArrow a;
                 a.A = keys[A->index];
                 a.B = keys[B->index];
@@ -58,9 +58,6 @@ void NodeManager::copy(){
                 buffer.tmp_arrow_list.append(a);
             }else if (dir == aDir::Duplex){
                 if (A->index <= B->index){
-                    if (keys.find(B->index) == keys.end())
-                        keys[B->index] = counter++;
-
                     iArrow a;
                     a.A = keys[A->index];
                     a.B = keys[B->index];
@@ -71,9 +68,6 @@ void NodeManager::copy(){
             }
         }
     }
-
-    buffer.cx /= node_model.selected.size();
-    buffer.cy /= node_model.selected.size();
 }
 
 void NodeManager::paste(int mouseX, int mouseY){
@@ -102,10 +96,10 @@ void NodeManager::paste(int mouseX, int mouseY){
     }
 }
 
-void NodeManager::clear(){
+void NodeManager::clear(bool anim){
     node_model.selected.clear();
     for (auto &node : node_model.nodeList){
-        node_model.removeNode(node->index, true);
+        node_model.removeNode(node->index, anim);
     }
 }
 

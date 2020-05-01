@@ -10,9 +10,9 @@
 #define delayCD             150
 #define changeTime          250
 
-#define block_Size           4
-#define block_RangeX         (ws_Height/block_Size)
-#define block_RangeY         (ws_Width/block_Size)
+#define block_count         3
+#define block_RangeX        (ws_Height/block_count)
+#define block_RangeY        (ws_Width/block_count)
 
 #define reservedItemsCount  16
 

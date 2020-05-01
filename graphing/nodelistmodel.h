@@ -4,7 +4,6 @@
 #include <QAbstractListModel>
 #include <structures.h>
 #include <QDebug>
-
 #include <QtMath>
 #include <options.h>
 
@@ -45,7 +44,7 @@ public:
     friend class NodeManager;
 private:
     QVector<Node*> nodeList;
-    QVector<Node*> map[block_Size*block_Size];
+    QVector<Node*> map[block_count*block_count];
     QVector<Node*> selected;
 signals:
     void mergeNodes(Node* From, Node* To);

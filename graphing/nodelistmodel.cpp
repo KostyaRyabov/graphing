@@ -70,9 +70,9 @@ void nodeListModel::selectNodesOnRect(int left, int top, int right, int bottom, 
             if (newY > bottom) newY = bottom;
 
             if ((newX - X >= block_RangeX) && (newY - Y >= block_RangeY)){
-                selected.append(map[(Y/block_RangeY)*block_Size+(X/block_RangeX)]);
+                selected.append(map[(Y/block_RangeY)*block_count+(X/block_RangeX)]);
             }else{
-                for (auto node : map[(Y/block_RangeY)*block_Size+(X/block_RangeX)]){
+                for (auto node : map[(Y/block_RangeY)*block_count+(X/block_RangeX)]){
                     if ((X <= node->xc && node->xc <= newX) && (Y <= node->yc && node->yc <= newY)) {
                         selected.append(node);
                     }
@@ -113,7 +113,7 @@ void nodeListModel::updateNodesPosition(){
             continue;
         }
 
-        block = block_Size*(item->yc/block_RangeX) + (item->xc/block_RangeX);
+        block = block_count*(item->yc/block_RangeX) + (item->xc/block_RangeX);
 
         if (item->lastBlock != block){
             auto &list = map[item->lastBlock];
@@ -132,14 +132,14 @@ Node* nodeListModel::getCollision(int &index, bool consider_offset){
     auto item = nodeList[index];
 
     if (consider_offset){
-        auto list = &map[block_Size*((item->yc+item->ry)/block_RangeX)+((item->xc+item->rx)/block_RangeX)];
+        auto list = &map[block_count*((item->yc+item->ry)/block_RangeX)+((item->xc+item->rx)/block_RangeX)];
 
         for (auto node : *list){
             if (node == item) continue;
             if (qSqrt(qPow(node->xc-item->xc-item->rx,2)+qPow(node->yc-item->yc-item->ry,2)) < Selector_Radius) return node;
         }
     } else {
-        auto list = &map[block_Size*(item->yc/block_RangeX)+(item->xc/block_RangeX)];
+        auto list = &map[block_count*(item->yc/block_RangeX)+(item->xc/block_RangeX)];
 
         for (auto node : *list){
             if (node == item) continue;
@@ -204,7 +204,7 @@ void nodeListModel::addNode(int x, int y){
     short   row = item->yc/block_RangeY,
             column = item->xc/block_RangeX;
 
-    item->lastBlock = block_Size*row + column;
+    item->lastBlock = block_count*row + column;
     map[item->lastBlock].append(item);
     nodeList.append(item);
 

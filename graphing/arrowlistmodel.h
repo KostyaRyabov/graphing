@@ -5,15 +5,10 @@
 #include <structures.h>
 #include <QDebug>
 #include <QtMath>
-
 #include <QHash>
-
 #include <nodelistmodel.h>
-
 #include <QQueue>
 #include <options.h>
-
-#include <QMessageBox>
 
 enum aRoles{
     xxx = Qt::UserRole + 1,
@@ -41,21 +36,15 @@ public:
     Q_INVOKABLE void createLoop(int nodeIndex);
     Q_INVOKABLE void bindA(int nodeIndex);
     Q_INVOKABLE void bindB(int nodeIndex, bool exist = true);
-
     Q_INVOKABLE void remove(int arrowID,bool animated);
     Q_INVOKABLE void removeCurrent();
-
     Q_INVOKABLE void showArrowList();
-
     Q_INVOKABLE void kill();
-
-    Q_INVOKABLE void moveTo(int arrowID, int lX, int lY, float angle);      //vector
-
+    Q_INVOKABLE void moveTo(int arrowID, int lX, int lY, float angle);
     int getArrowID(int A, int B);
 
-    friend class NodeManager;
-
     Q_INVOKABLE void changeFocus(int arrowID);
+    friend class NodeManager;
 private:
     QVector<Arrow*> arrowList;
 
