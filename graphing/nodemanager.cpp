@@ -214,12 +214,6 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
         }
         }
         break;
-    default:
-        if (Arrow* arrow = matrix[FromID][FromID]){
-            qDebug() << "remove arrow :" << arrow->index;
-            arrow_model.remove(arrow->index,false);
-        }
-        break;
     }
 }
 
@@ -241,7 +235,7 @@ void NodeManager::mergeNodes(Node* From, Node* To){
     Arrow* arrow = matrix[From->index][From->index];
     if (arrow){
         Arrow* oldArrow = matrix[To->index][To->index];
-        if (oldArrow) delete arrow;
+        if (oldArrow) arrow_model.remove(arrow->index,false);
         else{
             arrow->A = To;
             arrow->B = To;
