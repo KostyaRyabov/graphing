@@ -491,7 +491,6 @@ compiler_rcc_clean:
 qrc_qml.cpp: ../graphing/qml.qrc \
 		C:/Qt/5.14.1/mingw73_64/bin/rcc.exe \
 		../graphing/Workspace.qml \
-		../graphing/MyMenu.qml \
 		../graphing/RectSelector.qml \
 		../graphing/Node.qml \
 		../graphing/Arrow.qml \
@@ -576,6 +575,7 @@ moc_arrowlistmodel.cpp: ../graphing/arrowlistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer_impl.h \
 		../graphing/structures.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
@@ -698,6 +698,7 @@ moc_nodelistmodel.cpp: ../graphing/nodelistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer_impl.h \
 		../graphing/structures.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
@@ -992,6 +993,7 @@ arrowlistmodel.o: ../graphing/arrowlistmodel.cpp ../graphing/arrowlistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer_impl.h \
 		../graphing/structures.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \
@@ -1497,6 +1499,7 @@ nodelistmodel.o: ../graphing/nodelistmodel.cpp ../graphing/nodelistmodel.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer.h \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qsharedpointer_impl.h \
 		../graphing/structures.h \
+		C:/Qt/5.14.1/mingw73_64/include/QtCore/QVector \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QDebug \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/QtMath \
 		C:/Qt/5.14.1/mingw73_64/include/QtCore/qmath.h \

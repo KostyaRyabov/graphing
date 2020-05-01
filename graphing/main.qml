@@ -1,7 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Window 2.12
-import QtQuick.Controls 2.14
-import QtQuick.Controls.Styles 1.4
+import QtQuick 2.0
+import QtQuick.Window 2.0
+import QtQuick.Controls 1.4
 
 ApplicationWindow {
     id: window
@@ -92,41 +91,19 @@ ApplicationWindow {
     PopupMessage { id:msgBox; }
 
     menuBar: MenuBar {
-        implicitHeight: 20
-
-        MyMenu {
+        Menu {
             title: "File"
-            Action { text: "Clear..."; onTriggered: manager.clear() }
-            Action { text: "Open..."; onTriggered: manager.openFile() }
-            Action { id:save; text: "Save"; onTriggered: manager.saveFile(); enabled: false; }
-            Action { text: "Save As..."; onTriggered: save.enabled = manager.saveAsFile(); }
+            MenuItem { text: "Clear..."; onTriggered: manager.clear() }
+            MenuItem { text: "Open..."; onTriggered: manager.openFile() }
+            MenuItem { id:save; text: "Save"; onTriggered: manager.saveFile(); enabled: false; }
+            MenuItem { text: "Save As..."; onTriggered: save.enabled = manager.saveAsFile(); }
             MenuSeparator { }
-            Action { text: "Quit"; onTriggered: close() }
-            Action { text: "last"; onTriggered: if (node_model.rowCount() > 0) node_model.update(0,50,257) }
+            MenuItem { text: "Quit"; onTriggered: close() }
+            MenuItem { text: "last"; onTriggered: if (node_model.rowCount() > 0) node_model.update(0,50,257) }
         }
-        MyMenu {
-            implicitHeight: 20
-
+        Menu {
             title: "Help"
-            Action { text: "About" }
-        }
-
-        delegate: MenuBarItem {
-            id: menuBarItem
-            implicitHeight: 20
-
-            contentItem: Text {
-                text: menuBarItem.text
-                font: menuBarItem.font
-                color: "#2c374a"
-                horizontalAlignment: Text.AlignLeft
-                verticalAlignment: Text.AlignVCenter
-                elide: Text.ElideRight
-            }
-
-            background: Rectangle {
-                color: menuBarItem.highlighted ? "#b9bfc9" : "transparent"
-            }
+            MenuItem { text: "About" }
         }
     }
 }

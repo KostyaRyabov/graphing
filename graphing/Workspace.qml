@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.14
+import QtQuick.Controls 1.4
 
 Rectangle{
     id : space
@@ -38,10 +38,10 @@ Rectangle{
             mouse.accepted = false
         }
 
-        MyMenu {
+        Menu {
             id: contextMenu
-            Action { text: "new Node"; onTriggered: node_model.addNode(dragArea.mouseX, dragArea.mouseY)}
-            Action { text: "paste"; onTriggered: manager.paste(dragArea.mouseX, dragArea.mouseY)}
+            MenuItem { text: "new Node"; onTriggered: node_model.addNode(dragArea.mouseX, dragArea.mouseY)}
+            MenuItem { text: "paste"; onTriggered: manager.paste(dragArea.mouseX, dragArea.mouseY)}
         }
     }
 

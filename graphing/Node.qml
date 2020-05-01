@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.14
+import QtQuick.Controls 1.4
 
 Item {
     id: node
@@ -82,12 +82,12 @@ Item {
                 node_model.update(node.nIndex,node.y,258)
             }
 
-            MyMenu {
+            Menu {
                 id: contextMenu
-                Action { text: "copy"; onTriggered: manager.copy()}
-                Action { text: "remove"; onTriggered: node_model.remove() }
+                MenuItem { text: "copy"; onTriggered: manager.copy()}
+                MenuItem { text: "remove"; onTriggered: node_model.remove() }
                 MenuSeparator { }
-                Action { text: "create loop"; onTriggered: arrow_model.createLoop(node.nIndex); }
+                MenuItem { text: "create loop"; onTriggered: arrow_model.createLoop(node.nIndex); }
             }
         }
 

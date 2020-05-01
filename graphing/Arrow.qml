@@ -1,5 +1,5 @@
-import QtQuick 2.4
-import QtQuick.Controls 2.14
+import QtQuick 2.0
+import QtQuick.Controls 1.4
 
 Item {
     id:arrow
@@ -198,9 +198,9 @@ Item {
         }
     }
 
-    MyMenu {
+    Menu {
         id: contextMenu
-        Action { text: "copy"; }
-        Action { text: "remove"; onTriggered: { manager.removeArrow(aIndex); arrow_model.remove(aIndex,true) }}
+        MenuItem { text: "copy"; }
+        MenuItem { text: "remove"; onTriggered: { manager.removeArrow(aIndex); arrow_model.remove(aIndex,true) }}
     }
 }
