@@ -61,7 +61,8 @@ ApplicationWindow {
             scaleRect.xScale *= scale
             scaleRect.yScale *= scale
 
-            zoomBox.show();
+            msgBox.message = scaleRect.xScale.toFixed(2) + "%";
+            msgBox.show();
         }
     }
 
@@ -79,7 +80,16 @@ ApplicationWindow {
     }
 
     RectSelector {id:selector }
-    PopupMessage { id:zoomBox; value: (scaleRect.xScale).toFixed(2) + "%" }
+
+    Connections {
+        target: manager
+        onDebug: {
+            msgBox.message = text;
+            msgBox.show();
+        }
+    }
+
+    PopupMessage { id:msgBox; }
 
     menuBar: MenuBar {
         implicitHeight: 20
@@ -88,7 +98,7 @@ ApplicationWindow {
             title: "File"
             Action { text: "Clear..."; onTriggered: manager.clear() }
             Action { text: "Open..."; onTriggered: manager.openFile() }
-            Action { id:save; text: "Save"; onTriggered: manager.saveAsFile(); enabled: false; }
+            Action { id:save; text: "Save"; onTriggered: manager.saveFile(); enabled: false; }
             Action { text: "Save As..."; onTriggered: save.enabled = manager.saveAsFile(); }
             MenuSeparator { }
             Action { text: "Quit"; onTriggered: close() }

@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_arrowListModel_t {
-    QByteArrayData data[44];
-    char stringdata0[382];
+    QByteArrayData data[45];
+    char stringdata0[400];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -59,23 +59,24 @@ QT_MOC_LITERAL(23, 219, 5), // "NodeA"
 QT_MOC_LITERAL(24, 225, 5), // "NodeB"
 QT_MOC_LITERAL(25, 231, 6), // "Arrow*"
 QT_MOC_LITERAL(26, 238, 7), // "p_arrow"
-QT_MOC_LITERAL(27, 246, 8), // "getArrow"
-QT_MOC_LITERAL(28, 255, 10), // "createLoop"
-QT_MOC_LITERAL(29, 266, 9), // "nodeIndex"
-QT_MOC_LITERAL(30, 276, 5), // "bindA"
-QT_MOC_LITERAL(31, 282, 5), // "bindB"
-QT_MOC_LITERAL(32, 288, 5), // "exist"
-QT_MOC_LITERAL(33, 294, 6), // "remove"
-QT_MOC_LITERAL(34, 301, 7), // "arrowID"
-QT_MOC_LITERAL(35, 309, 8), // "animated"
-QT_MOC_LITERAL(36, 318, 13), // "removeCurrent"
-QT_MOC_LITERAL(37, 332, 13), // "showArrowList"
-QT_MOC_LITERAL(38, 346, 4), // "kill"
-QT_MOC_LITERAL(39, 351, 6), // "moveTo"
-QT_MOC_LITERAL(40, 358, 2), // "lX"
-QT_MOC_LITERAL(41, 361, 2), // "lY"
-QT_MOC_LITERAL(42, 364, 5), // "angle"
-QT_MOC_LITERAL(43, 370, 11) // "changeFocus"
+QT_MOC_LITERAL(27, 246, 17), // "checkLoopExisting"
+QT_MOC_LITERAL(28, 264, 8), // "getArrow"
+QT_MOC_LITERAL(29, 273, 10), // "createLoop"
+QT_MOC_LITERAL(30, 284, 9), // "nodeIndex"
+QT_MOC_LITERAL(31, 294, 5), // "bindA"
+QT_MOC_LITERAL(32, 300, 5), // "bindB"
+QT_MOC_LITERAL(33, 306, 5), // "exist"
+QT_MOC_LITERAL(34, 312, 6), // "remove"
+QT_MOC_LITERAL(35, 319, 7), // "arrowID"
+QT_MOC_LITERAL(36, 327, 8), // "animated"
+QT_MOC_LITERAL(37, 336, 13), // "removeCurrent"
+QT_MOC_LITERAL(38, 350, 13), // "showArrowList"
+QT_MOC_LITERAL(39, 364, 4), // "kill"
+QT_MOC_LITERAL(40, 369, 6), // "moveTo"
+QT_MOC_LITERAL(41, 376, 2), // "lX"
+QT_MOC_LITERAL(42, 379, 2), // "lY"
+QT_MOC_LITERAL(43, 382, 5), // "angle"
+QT_MOC_LITERAL(44, 388, 11) // "changeFocus"
 
     },
     "arrowListModel\0cleared\0\0checkNodeCollision\0"
@@ -84,11 +85,11 @@ QT_MOC_LITERAL(43, 370, 11) // "changeFocus"
     "getArrowListWithNode\0QVector<Arrow*>\0"
     "nodeA\0getNode\0Node*\0index\0checkExisted\0"
     "checkExisting\0A\0B\0updateMatrix\0NodeA\0"
-    "NodeB\0Arrow*\0p_arrow\0getArrow\0createLoop\0"
-    "nodeIndex\0bindA\0bindB\0exist\0remove\0"
-    "arrowID\0animated\0removeCurrent\0"
-    "showArrowList\0kill\0moveTo\0lX\0lY\0angle\0"
-    "changeFocus"
+    "NodeB\0Arrow*\0p_arrow\0checkLoopExisting\0"
+    "getArrow\0createLoop\0nodeIndex\0bindA\0"
+    "bindB\0exist\0remove\0arrowID\0animated\0"
+    "removeCurrent\0showArrowList\0kill\0"
+    "moveTo\0lX\0lY\0angle\0changeFocus"
 };
 #undef QT_MOC_LITERAL
 
@@ -98,36 +99,37 @@ static const uint qt_meta_data_arrowListModel[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      20,   14, // methods
+      21,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-      10,       // signalCount
+      11,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  114,    2, 0x06 /* Public */,
-       3,    0,  115,    2, 0x06 /* Public */,
-       4,    0,  116,    2, 0x06 /* Public */,
-       5,    2,  117,    2, 0x06 /* Public */,
-       8,    3,  122,    2, 0x06 /* Public */,
-      12,    1,  129,    2, 0x06 /* Public */,
-      15,    2,  132,    2, 0x06 /* Public */,
-      19,    2,  137,    2, 0x06 /* Public */,
-      22,    3,  142,    2, 0x06 /* Public */,
-      27,    2,  149,    2, 0x06 /* Public */,
+       1,    0,  119,    2, 0x06 /* Public */,
+       3,    0,  120,    2, 0x06 /* Public */,
+       4,    0,  121,    2, 0x06 /* Public */,
+       5,    2,  122,    2, 0x06 /* Public */,
+       8,    3,  127,    2, 0x06 /* Public */,
+      12,    1,  134,    2, 0x06 /* Public */,
+      15,    2,  137,    2, 0x06 /* Public */,
+      19,    2,  142,    2, 0x06 /* Public */,
+      22,    3,  147,    2, 0x06 /* Public */,
+      27,    1,  154,    2, 0x06 /* Public */,
+      28,    2,  157,    2, 0x06 /* Public */,
 
  // methods: name, argc, parameters, tag, flags
-      28,    1,  154,    2, 0x02 /* Public */,
-      30,    1,  157,    2, 0x02 /* Public */,
-      31,    2,  160,    2, 0x02 /* Public */,
-      31,    1,  165,    2, 0x22 /* Public | MethodCloned */,
-      33,    2,  168,    2, 0x02 /* Public */,
-      36,    0,  173,    2, 0x02 /* Public */,
-      37,    0,  174,    2, 0x02 /* Public */,
-      38,    0,  175,    2, 0x02 /* Public */,
-      39,    4,  176,    2, 0x02 /* Public */,
-      43,    1,  185,    2, 0x02 /* Public */,
+      29,    1,  162,    2, 0x02 /* Public */,
+      31,    1,  165,    2, 0x02 /* Public */,
+      32,    2,  168,    2, 0x02 /* Public */,
+      32,    1,  173,    2, 0x22 /* Public | MethodCloned */,
+      34,    2,  176,    2, 0x02 /* Public */,
+      37,    0,  181,    2, 0x02 /* Public */,
+      38,    0,  182,    2, 0x02 /* Public */,
+      39,    0,  183,    2, 0x02 /* Public */,
+      40,    4,  184,    2, 0x02 /* Public */,
+      44,    1,  193,    2, 0x02 /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -139,19 +141,20 @@ static const uint qt_meta_data_arrowListModel[] = {
     0x80000000 | 16, QMetaType::Int, QMetaType::Bool,   17,   18,
     QMetaType::Int, QMetaType::Int, QMetaType::Int,   20,   21,
     QMetaType::Void, QMetaType::Int, QMetaType::Int, 0x80000000 | 25,   23,   24,   26,
+    QMetaType::Bool, QMetaType::Int,    6,
     0x80000000 | 25, QMetaType::Int, QMetaType::Int,   23,   24,
 
  // methods: parameters
-    QMetaType::Void, QMetaType::Int,   29,
-    QMetaType::Void, QMetaType::Int,   29,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   29,   32,
-    QMetaType::Void, QMetaType::Int,   29,
-    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   34,   35,
+    QMetaType::Void, QMetaType::Int,   30,
+    QMetaType::Void, QMetaType::Int,   30,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   30,   33,
+    QMetaType::Void, QMetaType::Int,   30,
+    QMetaType::Void, QMetaType::Int, QMetaType::Bool,   35,   36,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Float,   34,   40,   41,   42,
-    QMetaType::Void, QMetaType::Int,   34,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int, QMetaType::Int, QMetaType::Float,   35,   41,   42,   43,
+    QMetaType::Void, QMetaType::Int,   35,
 
        0        // eod
 };
@@ -174,18 +177,20 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 7: { int _r = _t->checkExisting((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
         case 8: _t->updateMatrix((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< Arrow*(*)>(_a[3]))); break;
-        case 9: { Arrow* _r = _t->getArrow((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
+        case 9: { bool _r = _t->checkLoopExisting((*reinterpret_cast< int(*)>(_a[1])));
+            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
+        case 10: { Arrow* _r = _t->getArrow((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])));
             if (_a[0]) *reinterpret_cast< Arrow**>(_a[0]) = std::move(_r); }  break;
-        case 10: _t->createLoop((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 11: _t->bindA((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 12: _t->bindB((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 13: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 14: _t->remove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
-        case 15: _t->removeCurrent(); break;
-        case 16: _t->showArrowList(); break;
-        case 17: _t->kill(); break;
-        case 18: _t->moveTo((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< float(*)>(_a[4]))); break;
-        case 19: _t->changeFocus((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 11: _t->createLoop((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 12: _t->bindA((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 13: _t->bindB((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 14: _t->bindB((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->remove((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 16: _t->removeCurrent(); break;
+        case 17: _t->showArrowList(); break;
+        case 18: _t->kill(); break;
+        case 19: _t->moveTo((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< float(*)>(_a[4]))); break;
+        case 20: _t->changeFocus((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -254,9 +259,16 @@ void arrowListModel::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
             }
         }
         {
+            using _t = bool (arrowListModel::*)(int );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&arrowListModel::checkLoopExisting)) {
+                *result = 9;
+                return;
+            }
+        }
+        {
             using _t = Arrow * (arrowListModel::*)(int , int );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&arrowListModel::getArrow)) {
-                *result = 9;
+                *result = 10;
                 return;
             }
         }
@@ -292,13 +304,13 @@ int arrowListModel::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 20)
+        if (_id < 21)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 20;
+        _id -= 21;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 20)
+        if (_id < 21)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 20;
+        _id -= 21;
     }
     return _id;
 }
@@ -370,11 +382,20 @@ void arrowListModel::updateMatrix(int _t1, int _t2, Arrow * _t3)
 }
 
 // SIGNAL 9
+bool arrowListModel::checkLoopExisting(int _t1)
+{
+    bool _t0{};
+    void *_a[] = { const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t0))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 9, _a);
+    return _t0;
+}
+
+// SIGNAL 10
 Arrow * arrowListModel::getArrow(int _t1, int _t2)
 {
     Arrow* _t0{};
     void *_a[] = { const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t0))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
-    QMetaObject::activate(this, &staticMetaObject, 9, _a);
+    QMetaObject::activate(this, &staticMetaObject, 10, _a);
     return _t0;
 }
 QT_WARNING_POP

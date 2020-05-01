@@ -41,7 +41,6 @@ Rectangle{
         MyMenu {
             id: contextMenu
             Action { text: "new Node"; onTriggered: {
-                    console.log(dragArea.mouseX, dragArea.mouseY,"  ",space.x,space.y)
                     node_model.addNode(dragArea.mouseX, dragArea.mouseY)
                 }
             }

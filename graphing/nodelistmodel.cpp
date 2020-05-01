@@ -205,14 +205,8 @@ void nodeListModel::addNode(int x, int y){
             column = item->xc/block_RangeX;
 
     item->lastBlock = block_Size*row + column;
-    qDebug() << "block №"<<item->lastBlock;
     map[item->lastBlock].append(item);
     nodeList.append(item);
-
-    qDebug() << "list";
-    for (auto &el : map[item->lastBlock]){
-        qDebug() << el->index;
-    }
 
     endInsertRows();
 }

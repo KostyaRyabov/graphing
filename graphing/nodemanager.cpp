@@ -16,6 +16,7 @@ NodeManager::NodeManager(QObject *parent) : QObject(parent)
     connect(&arrow_model, SIGNAL(updateNode(int,int,int)), &node_model, SLOT(update(int,int,int)));
     connect(&arrow_model, SIGNAL(selectNode(int,bool)), &node_model, SLOT(selectNode(int,bool)));
     connect(&arrow_model, SIGNAL(cleared()), this, SLOT(readFile()));
+    connect(&arrow_model, SIGNAL(checkLoopExisting(int)), this, SLOT(checkLoopExisting(int)));
 }
 
 NodeManager::~NodeManager(){
@@ -50,11 +51,9 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
     case aDir::Duplex:
         switch (arrowDiractionTo) {
         case aDir::Duplex:{
-            qDebug() << "[Duplex Duplex]";
             arrow_model.remove(matrix[FromID][i]->index,false);
             break;
         }case aDir::InSimplex:{
-            qDebug() << "[Duplex InSimplex]";
             arrow_model.remove(matrix[ToID][i]->index,false);
 
             auto *arrow = matrix[FromID][i];
@@ -64,7 +63,6 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
             matrix[i][ToID] = arrow;
             break;
         }case aDir::OutSimplex:{
-            qDebug() << "[Duplex OutSimplex]";
             arrow_model.remove(matrix[i][ToID]->index,false);
 
             auto *arrow = matrix[i][FromID];
@@ -74,7 +72,6 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
             matrix[i][ToID] = arrow;
             break;
         }default:{
-            qDebug() << "[Duplex NF]";
             auto *arrow = matrix[i][FromID];
             arrow->A = node_model.nodeList[ToID];
             arrow->B = node_model.nodeList[i];
@@ -87,16 +84,13 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
     case aDir::InSimplex:
         switch (arrowDiractionTo) {
         case aDir::Duplex:{
-            qDebug() << "[InSimplex Duplex]";
             arrow_model.remove(matrix[FromID][i]->index,false);
             break;
         }case aDir::InSimplex:{
-            qDebug() << "[InSimplex InSimplex]";
             Arrow* arrow = matrix[FromID][i];
             arrow_model.remove(arrow->index,false);
             break;
         }case aDir::OutSimplex:{
-            qDebug() << "[InSimplex OutSimplex]";
             arrow_model.remove(matrix[FromID][i]->index,false);
 
             Arrow* arrow = matrix[i][ToID];
@@ -107,7 +101,6 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
             emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
             break;
         }default:{
-            qDebug() << "[InSimplex NF]";
             Arrow* arrow = matrix[FromID][i];
             arrow->A = node_model.nodeList[ToID];
             matrix[ToID][i] = arrow;
@@ -118,11 +111,9 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
     case aDir::OutSimplex:
         switch (arrowDiractionTo) {
         case aDir::Duplex:{
-            qDebug() << "[OutSimplex Duplex]";
             arrow_model.remove(matrix[i][FromID]->index,false);
             break;
         }case aDir::InSimplex:{
-            qDebug() << "[OutSimplex InSimplex]";
             arrow_model.remove(matrix[i][FromID]->index,false);
 
             Arrow* arrow = matrix[ToID][i];
@@ -133,21 +124,16 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
             emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
             break;
         }case aDir::OutSimplex:{
-            qDebug() << "[OutSimplex OutSimplex]";
             Arrow* arrow = matrix[i][FromID];
             arrow_model.remove(arrow->index,false);
             break;
         }default:{
-            qDebug() << "[OS NF]";
             Arrow* arrow = matrix[i][FromID];
             arrow->B = node_model.nodeList[ToID];
             matrix[i][ToID] = arrow;
             break;
         }
         }
-        break;
-    default:
-        qDebug() << "[NF NF]";
         break;
     }
 }
@@ -164,10 +150,6 @@ void NodeManager::mergeNodes(Node* From, Node* To){
         arrow_model.remove(matrix[To->index][From->index]->index,false);
     }
 
-
-
-
-
     for (i = 0; i < From->index; i++) mergeArrows(From->index,To->index,i);
     for (i++ ; i < matrix.size(); i++) mergeArrows(From->index,To->index,i);
 
@@ -182,8 +164,6 @@ void NodeManager::mergeNodes(Node* From, Node* To){
         }
     }
 
-
-
     node_model.removeNode(From->index,false,false);
 
     showMatrix();
@@ -192,39 +172,30 @@ void NodeManager::mergeNodes(Node* From, Node* To){
 bool NodeManager::openFile(){
     file.setFileName(QFileDialog::getOpenFileName(0, "file path", "", "*.json"));
 
-    if (!file.open(QIODevice::ReadOnly)){
-        qWarning("Couldn't open file.");
-        return false;
-    }
+    if (!file.open(QIODevice::ReadOnly)) return false;
 
-    if (arrow_model.arrowList.size() == 0) readFile();
-    else{
+    if (arrow_model.arrowList.size() > 0) {
         arrow_model.checkSize = true;
         clear();
     }
+    else readFile();
     return true;
 }
 
 void NodeManager::readFile(){
     QByteArray data = file.readAll();
     QJsonDocument document(QJsonDocument::fromJson(data));
-    read(document.object());
+    if (!read(document.object()) && !matrix.isEmpty()) clear();
     file.close();
 }
 
 bool NodeManager::saveAsFile(){
     file.setFileName(QFileDialog::getSaveFileName(0, "file path", "", "*.json"));
-    if (file.fileName().isNull()) return false;
     return saveFile();
 }
 
 bool NodeManager::saveFile(){
-    // saving by prepared file path
-
-    if (!file.open(QIODevice::WriteOnly)){
-        qWarning("Couldn't create file.");
-        return false;
-    }
+    if (!file.open(QIODevice::WriteOnly)) return false;
 
     QJsonObject data;
     write(data);
@@ -235,20 +206,33 @@ bool NodeManager::saveFile(){
     return true;
 }
 
-void NodeManager::read(const QJsonObject &json){
-    int size = json["size"].toInt();
+bool NodeManager::read(const QJsonObject &json){
+    auto item = json["size"];
+    if (item.isUndefined()) {
+        debug("unsupported data");
+    }
 
-    // сначала строим точки, то есть создаем матрицу
+    int size = json["size"].toInt();
 
     for (int A = 0; A < size; A++) {
         auto alpha = qDegreesToRadians(360.0/size*A);
-        node_model.addNode(ws_Width/2+ws_Width/3*qCos(alpha),ws_Height/2+ws_Height/3*qSin(alpha));
+        node_model.addNode(ws_Width/2+(ws_Width-2*Node_Radius)/2*qCos(alpha),ws_Height/2+(ws_Height-2*Node_Radius)/2*qSin(alpha));
     }
 
     for (int A = 0; A < size; A++) {
-        QJsonArray bindedNodes = json[QString::number(A)].toArray();
+        auto item = json[QString::number(A)];
+
+        if (item.isUndefined()) {
+            debug("unsupported data");
+        }
+
+        QJsonArray bindedNodes = item.toArray();
 
         for (auto B : bindedNodes) {
+            if (B.isUndefined()) {
+                debug("unsupported data");
+            }
+
             if (A == B.toInt()) arrow_model.createLoop(A);
             else if (auto arrow = matrix[B.toInt()][A]){
                 arrow->bidirectional = true;
@@ -260,6 +244,8 @@ void NodeManager::read(const QJsonObject &json){
             }
         }
     }
+
+    return true;
 }
 
 void NodeManager::write(QJsonObject &json) const{
@@ -349,4 +335,8 @@ void NodeManager::removeBindings(int &nodeA){
             arrow_model.remove(matrix[nodeB][nodeA]->index,true);
         }
     }
+}
+
+bool NodeManager::checkLoopExisting(int nodeID){
+    return matrix[nodeID][nodeID] != nullptr;
 }

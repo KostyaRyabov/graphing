@@ -44,8 +44,8 @@ public:
 
     friend class NodeManager;
 private:
-    QVector<Node*> nodeList;        //view
-    QVector<Node*> map[block_Size*block_Size];     //for searching
+    QVector<Node*> nodeList;
+    QVector<Node*> map[block_Size*block_Size];
     QVector<Node*> selected;
 signals:
     void mergeNodes(Node* From, Node* To);

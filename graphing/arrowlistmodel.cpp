@@ -30,23 +30,20 @@ int arrowListModel::rowCount(const QModelIndex &parent) const{
 }
 
 QVariant arrowListModel::data(const QModelIndex &index, int role) const{
-    if (role == isMoving) qDebug() << "tr";
-
     if (!index.isValid()){
         return QVariant();
     }
-
 
     auto item = arrowList[index.row()];
 
     switch (role) {
     case xxx:
         if (item->isLooped) return QVariant(item->A->xc+0.95*Node_Radius);
-        if (item->A == item->B) return QVariant(item->B->xc+item->B->rx/2);         // new arrow
+        if (item->A == item->B) return QVariant(item->B->xc+item->B->rx/2);
         else return QVariant((item->B->xc+item->A->xc)/2);
     case yyy:
         if (item->isLooped) return QVariant(item->A->yc+1.5*Node_Radius);
-        if (item->A == item->B) return QVariant(item->B->yc+item->B->ry/2);         // new arrow
+        if (item->A == item->B) return QVariant(item->B->yc+item->B->ry/2);
         else return QVariant((item->B->yc+item->A->yc)/2);
     case alpha: {
         if (item->isLooped) return 0;
@@ -79,7 +76,6 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
         item->index = index.row();
         return QVariant(item->index);
     case isMoving:
-        qDebug() << "   val:" << (selectedID == item->index);
         return (selectedID == item->index);
     default:
         return QVariant();
@@ -87,56 +83,57 @@ QVariant arrowListModel::data(const QModelIndex &index, int role) const{
 }
 
 void arrowListModel::createLoop(int nodeIndex){
+    if (emit checkLoopExisting(nodeIndex)) return;
+
     auto *p_node = emit getNode(nodeIndex,false);
 
     auto index = arrowList.size();
-    beginInsertRows(QModelIndex(),index,index);         // создаем новое ребро
+    beginInsertRows(QModelIndex(),index,index);
 
-    Arrow* item = new Arrow();                                         // процесс инициализации ребра
+    Arrow* item = new Arrow();
     item->A = p_node;
     item->B = p_node;
     item->isLooped = true;
     item->bidirectional = false;
-    arrowList.append(item);                            // занесение ребра в матрицу инцидентности
+    arrowList.append(item);
 
     emit updateMatrix(nodeIndex,nodeIndex,item);
 
     endInsertRows();
 }
 
-void arrowListModel::bindA(int nodeIndex){              // привязка первого узла к ребру
-    auto *p_node = emit getNode(nodeIndex,false);             // получаем узел по его идентификатору
+void arrowListModel::bindA(int nodeIndex){
+    auto *p_node = emit getNode(nodeIndex,false);
 
     auto index = arrowList.size();
-    beginInsertRows(QModelIndex(),index,index);         // создаем новое ребро
+    beginInsertRows(QModelIndex(),index,index);
 
-    Arrow* item = new Arrow();                                         // процесс инициализации ребра
+    Arrow* item = new Arrow();
     item->A = p_node;
     item->B = p_node;
     item->isLooped = false;
     item->bidirectional = false;
     item->index = index;
-    arrowList.append(item);                            // занесение ребра в матрицу инцидентности
+    arrowList.append(item);
 
     adding = true;
 
     endInsertRows();
 }
 
-void arrowListModel::bindB(int nodeIndex, bool exist){              // привязка второго узла к ребру
-    auto *p_node = emit getNode(nodeIndex, exist);        // получаем узел по его идентификатору
+void arrowListModel::bindB(int nodeIndex, bool exist){
+    auto *p_node = emit getNode(nodeIndex, exist);
     auto currentArrow = arrowList.last();
 
     if (p_node != nullptr){
         switch (emit checkExisting(currentArrow->A->index,p_node->index)) {
             case aDir::OutSimplex: {
                 auto arrow = getArrow(p_node->index,currentArrow->A->index);
-                emit updateMatrix(currentArrow->A->index,p_node->index,arrow);     // устанавливается в матрице другое направление
+                emit updateMatrix(currentArrow->A->index,p_node->index,arrow);
 
                 remove(currentArrow->index,false);
                 auto i = index(arrow->index);
                 arrowList[arrow->index]->bidirectional = true;
-                qDebug() << "update dir:" << arrow->index;
                 emit dataChanged(i,i,{aRoles::bDir});
                 break;
             } case aDir::InSimplex:{
@@ -146,8 +143,8 @@ void arrowListModel::bindB(int nodeIndex, bool exist){              // прив�
                 remove(currentArrow->index,false);
                 break;
             } default:{
-                emit updateMatrix(currentArrow->A->index, p_node->index,currentArrow);      // обновляется матрица
-                currentArrow->B = p_node;                                 // добавляется карта
+                emit updateMatrix(currentArrow->A->index, p_node->index,currentArrow);
+                currentArrow->B = p_node;
                 auto i = index(arrowList.size()-1);
                 emit dataChanged(i,i,{xxx,yyy,len,alpha});
                 break;
@@ -163,8 +160,6 @@ int arrowListModel::getArrowID(int A, int B){
 }
 
 void arrowListModel::changeFocus(int arrowID){
-    qDebug() << "   CF:" << selectedID << arrowID;
-
     QModelIndex ix;
 
     ix = index(selectedID);
@@ -207,7 +202,10 @@ void arrowListModel::remove(int arrowID,bool animated){
 
         adding = false;
 
-        if (checkSize) emit cleared();
+        if (checkSize) {
+            emit cleared();
+            checkSize = false;
+        }
     }
 }
 

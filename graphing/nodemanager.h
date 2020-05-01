@@ -44,11 +44,10 @@ public:
     nodeListModel node_model;
     arrowListModel arrow_model;
 private:
-    void read(const QJsonObject &json);
+    bool read(const QJsonObject &json);
     void write(QJsonObject &json) const;
 
-    QVector<QVector<Arrow*>> matrix;   // матрица смежности
-
+    QVector<QVector<Arrow*>> matrix;
     QFile file;
     void mergeArrows(int &FromID, int &ToID, int &i);
 private slots:
@@ -61,6 +60,9 @@ private slots:
     int checkExisting(int A, int B);
     void updateMatrix(int NodeA, int NodeB, Arrow* p_arrow);
     Arrow* getArrow(int NodeA, int NodeB);
+    bool checkLoopExisting(int nodeID);
+signals:
+    void debug(QString text);
 };
 
 #endif // NODEMANAGER_H

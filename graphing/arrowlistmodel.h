@@ -76,6 +76,7 @@ signals:
     Node* getNode(int index, bool checkExisted);
     int checkExisting(int A, int B);
     void updateMatrix(int NodeA, int NodeB, Arrow* p_arrow);
+    bool checkLoopExisting(int nodeID);
     Arrow* getArrow(int NodeA, int NodeB);
 };
 

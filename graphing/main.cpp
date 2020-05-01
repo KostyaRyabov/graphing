@@ -37,6 +37,8 @@ int main(int argc, char *argv[])
     rootContext->setContextProperty("changeTime", changeTime);
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    //QObject::connect(&manager, SIGNAL(debug(QString)), obj, SLOT(message(QString)));
+
 
     if (engine.rootObjects().isEmpty()) return -1;
 

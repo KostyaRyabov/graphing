@@ -1,10 +1,11 @@
 import QtQuick 2.0
 
 Rectangle {
-    property string value: ""
+    property string message: ""
+
     function show(){
-        if (animateZoomBoxOpacity.running) animateZoomBoxOpacity.stop()
-        animateZoomBoxOpacity.start()
+        if (animateMsgBoxOpacity.running) animateMsgBoxOpacity.stop()
+        animateMsgBoxOpacity.start()
     }
 
     anchors.left: parent.left
@@ -16,7 +17,7 @@ Rectangle {
     radius: 5
 
     height: 50
-    width: value.length * 18
+    width: message.length * 18
 
     color: "#95a7ad"
     opacity: 0
@@ -26,13 +27,11 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         color: "#2c3238"
         font.pixelSize: 24
-        text: value
+        text: message
     }
 
-    PropertyAnimation {
-        id: animateZoomBoxOpacity;
-        target: zoomBox;
-        properties: "opacity";
+    PropertyAnimation on opacity {
+        id: animateMsgBoxOpacity;
         from: 0.8
         to: 0;
         easing.type: Easing.InOutQuint;
