@@ -26,6 +26,18 @@
 #include <arrowlistmodel.h>
 #include <nodelistmodel.h>
 
+struct iArrow{
+    int A, B;
+    bool bidirectional = false;
+};
+
+struct Buffer{
+    int cx, cy;                         // центральная точка
+
+    QList<QPair<int,int>> tmp_coord_list;        // хранятся координаты точек
+    QList<iArrow> tmp_arrow_list; // матрица инцидентности
+};
+
 class NodeManager : public QObject
 {
     Q_OBJECT
@@ -37,6 +49,8 @@ public:
     Q_INVOKABLE bool openFile();
     Q_INVOKABLE bool saveFile();
     Q_INVOKABLE bool saveAsFile();
+    Q_INVOKABLE void copy();
+    Q_INVOKABLE void paste(int mouseX, int mouseY);
 
     Q_INVOKABLE void showMatrix();
     Q_INVOKABLE void removeArrow(int arrowID);
@@ -47,6 +61,7 @@ private:
     bool read(const QJsonObject &json);
     void write(QJsonObject &json) const;
 
+    Buffer buffer;
     QVector<QVector<Arrow*>> matrix;
     QFile file;
     void mergeArrows(int &FromID, int &ToID, int &i);

@@ -1,6 +1,8 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
+#include <QVector>
+
 struct Node{
     int xc,yc,rx,ry,index,lastBlock;
     bool    isSelected = false,
@@ -16,8 +18,6 @@ struct Arrow{
             bidirectional = false,
             destroy = true;
 };
-
-
 
 enum aDir{
     NotFound = -1,

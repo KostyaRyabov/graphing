@@ -23,6 +23,85 @@ NodeManager::~NodeManager(){
 
 }
 
+void NodeManager::copy(){
+    buffer.tmp_coord_list.clear();
+    buffer.tmp_arrow_list.clear();
+
+    buffer.cx = 0;
+    buffer.cy = 0;
+
+    QHash<int,int> keys;
+    keys.reserve(node_model.selected.size()-1);
+    int counter = 0;
+
+    for (auto A : node_model.selected){
+        buffer.cx += A->xc;
+        buffer.cy += A->yc;
+
+        if (keys.find(A->index) == keys.end())
+            keys[A->index] = counter++;
+
+        buffer.tmp_coord_list.append({A->xc, A->yc});
+
+        for (auto B : node_model.selected){
+            int dir = checkExisting(A->index,B->index);
+
+            if (dir == aDir::InSimplex){
+                if (keys.find(B->index) == keys.end())
+                    keys[B->index] = counter++;
+
+                iArrow a;
+                a.A = keys[A->index];
+                a.B = keys[B->index];
+
+                a.bidirectional = false;
+                buffer.tmp_arrow_list.append(a);
+            }else if (dir == aDir::Duplex){
+                if (A->index <= B->index){
+                    if (keys.find(B->index) == keys.end())
+                        keys[B->index] = counter++;
+
+                    iArrow a;
+                    a.A = keys[A->index];
+                    a.B = keys[B->index];
+
+                    a.bidirectional = true;
+                    buffer.tmp_arrow_list.append(a);
+                }
+            }
+        }
+    }
+
+    buffer.cx /= node_model.selected.size();
+    buffer.cy /= node_model.selected.size();
+}
+
+void NodeManager::paste(int mouseX, int mouseY){
+    int offset = matrix.size();
+
+    for (auto node : buffer.tmp_coord_list){
+        node_model.addNode(node.first - buffer.cx + mouseX, node.second - buffer.cy + mouseY);
+    }
+
+    for (auto arrow : buffer.tmp_arrow_list){
+        if (arrow.A == arrow.B){
+            arrow_model.createLoop(arrow.A + offset);
+        }else{
+            arrow_model.bindA(arrow.A + offset);
+            arrow_model.bindB(arrow.B + offset, false);
+
+            if (arrow.bidirectional){
+                auto &arrow = arrow_model.arrowList.last();
+                arrow->bidirectional = true;
+                auto ix = arrow_model.index(arrow->index);
+                emit arrow_model.dataChanged(ix,ix,{aRoles::bDir});
+            }
+        }
+
+
+    }
+}
+
 void NodeManager::clear(){
     node_model.selected.clear();
     for (auto &node : node_model.nodeList){
@@ -133,6 +212,12 @@ void NodeManager::mergeArrows(int &FromID, int &ToID, int &i){
             matrix[i][ToID] = arrow;
             break;
         }
+        }
+        break;
+    default:
+        if (Arrow* arrow = matrix[FromID][FromID]){
+            qDebug() << "remove arrow :" << arrow->index;
+            arrow_model.remove(arrow->index,false);
         }
         break;
     }

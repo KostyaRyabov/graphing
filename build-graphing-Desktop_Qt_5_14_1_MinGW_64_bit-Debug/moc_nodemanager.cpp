@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_NodeManager_t {
-    QByteArrayData data[34];
-    char stringdata0[282];
+    QByteArrayData data[38];
+    char stringdata0[307];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -63,9 +63,13 @@ QT_MOC_LITERAL(27, 216, 5), // "clear"
 QT_MOC_LITERAL(28, 222, 8), // "openFile"
 QT_MOC_LITERAL(29, 231, 8), // "saveFile"
 QT_MOC_LITERAL(30, 240, 10), // "saveAsFile"
-QT_MOC_LITERAL(31, 251, 10), // "showMatrix"
-QT_MOC_LITERAL(32, 262, 11), // "removeArrow"
-QT_MOC_LITERAL(33, 274, 7) // "arrowID"
+QT_MOC_LITERAL(31, 251, 4), // "copy"
+QT_MOC_LITERAL(32, 256, 5), // "paste"
+QT_MOC_LITERAL(33, 262, 6), // "mouseX"
+QT_MOC_LITERAL(34, 269, 6), // "mouseY"
+QT_MOC_LITERAL(35, 276, 10), // "showMatrix"
+QT_MOC_LITERAL(36, 287, 11), // "removeArrow"
+QT_MOC_LITERAL(37, 299, 7) // "arrowID"
 
     },
     "NodeManager\0debug\0\0text\0readFile\0"
@@ -75,7 +79,8 @@ QT_MOC_LITERAL(33, 274, 7) // "arrowID"
     "updateMatrix\0NodeA\0NodeB\0Arrow*\0p_arrow\0"
     "getArrow\0checkLoopExisting\0nodeID\0"
     "clear\0openFile\0saveFile\0saveAsFile\0"
-    "showMatrix\0removeArrow\0arrowID"
+    "copy\0paste\0mouseX\0mouseY\0showMatrix\0"
+    "removeArrow\0arrowID"
 };
 #undef QT_MOC_LITERAL
 
@@ -85,7 +90,7 @@ static const uint qt_meta_data_NodeManager[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      17,   14, // methods
+      19,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -93,27 +98,29 @@ static const uint qt_meta_data_NodeManager[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   99,    2, 0x06 /* Public */,
+       1,    1,  109,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       4,    0,  102,    2, 0x08 /* Private */,
-       5,    2,  103,    2, 0x08 /* Private */,
-       9,    1,  108,    2, 0x08 /* Private */,
-      12,    1,  111,    2, 0x08 /* Private */,
-      13,    0,  114,    2, 0x08 /* Private */,
-      14,    1,  115,    2, 0x08 /* Private */,
-      16,    2,  118,    2, 0x08 /* Private */,
-      19,    3,  123,    2, 0x08 /* Private */,
-      24,    2,  130,    2, 0x08 /* Private */,
-      25,    1,  135,    2, 0x08 /* Private */,
+       4,    0,  112,    2, 0x08 /* Private */,
+       5,    2,  113,    2, 0x08 /* Private */,
+       9,    1,  118,    2, 0x08 /* Private */,
+      12,    1,  121,    2, 0x08 /* Private */,
+      13,    0,  124,    2, 0x08 /* Private */,
+      14,    1,  125,    2, 0x08 /* Private */,
+      16,    2,  128,    2, 0x08 /* Private */,
+      19,    3,  133,    2, 0x08 /* Private */,
+      24,    2,  140,    2, 0x08 /* Private */,
+      25,    1,  145,    2, 0x08 /* Private */,
 
  // methods: name, argc, parameters, tag, flags
-      27,    0,  138,    2, 0x02 /* Public */,
-      28,    0,  139,    2, 0x02 /* Public */,
-      29,    0,  140,    2, 0x02 /* Public */,
-      30,    0,  141,    2, 0x02 /* Public */,
-      31,    0,  142,    2, 0x02 /* Public */,
-      32,    1,  143,    2, 0x02 /* Public */,
+      27,    0,  148,    2, 0x02 /* Public */,
+      28,    0,  149,    2, 0x02 /* Public */,
+      29,    0,  150,    2, 0x02 /* Public */,
+      30,    0,  151,    2, 0x02 /* Public */,
+      31,    0,  152,    2, 0x02 /* Public */,
+      32,    2,  153,    2, 0x02 /* Public */,
+      35,    0,  158,    2, 0x02 /* Public */,
+      36,    1,  159,    2, 0x02 /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    3,
@@ -136,7 +143,9 @@ static const uint qt_meta_data_NodeManager[] = {
     QMetaType::Bool,
     QMetaType::Bool,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   33,
+    QMetaType::Void, QMetaType::Int, QMetaType::Int,   33,   34,
+    QMetaType::Void,
+    QMetaType::Void, QMetaType::Int,   37,
 
        0        // eod
 };
@@ -168,8 +177,10 @@ void NodeManager::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id,
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
         case 14: { bool _r = _t->saveAsFile();
             if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = std::move(_r); }  break;
-        case 15: _t->showMatrix(); break;
-        case 16: _t->removeArrow((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 15: _t->copy(); break;
+        case 16: _t->paste((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 17: _t->showMatrix(); break;
+        case 18: _t->removeArrow((*reinterpret_cast< int(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -213,13 +224,13 @@ int NodeManager::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 17)
+        if (_id < 19)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 17;
+        _id -= 19;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 17)
+        if (_id < 19)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 17;
+        _id -= 19;
     }
     return _id;
 }

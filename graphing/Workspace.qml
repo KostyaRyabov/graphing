@@ -40,11 +40,8 @@ Rectangle{
 
         MyMenu {
             id: contextMenu
-            Action { text: "new Node"; onTriggered: {
-                    node_model.addNode(dragArea.mouseX, dragArea.mouseY)
-                }
-            }
-            Action { text: "paste"; }
+            Action { text: "new Node"; onTriggered: node_model.addNode(dragArea.mouseX, dragArea.mouseY)}
+            Action { text: "paste"; onTriggered: manager.paste(dragArea.mouseX, dragArea.mouseY)}
         }
     }
 

@@ -84,7 +84,7 @@ Item {
 
             MyMenu {
                 id: contextMenu
-                Action { text: "copy"; }
+                Action { text: "copy"; onTriggered: manager.copy()}
                 Action { text: "remove"; onTriggered: node_model.remove() }
                 MenuSeparator { }
                 Action { text: "create loop"; onTriggered: arrow_model.createLoop(node.nIndex); }
