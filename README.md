@@ -1,4 +1,4 @@
-# graphing
+# graphing (Qt)
 
 Application for drawing oriented graphs.
 Developed by QT tools.
